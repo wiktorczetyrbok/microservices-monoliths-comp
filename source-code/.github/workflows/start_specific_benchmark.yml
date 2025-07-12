@@ -1,0 +1,63 @@
+name: Run Specific Benchmark
+on:
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Programming Language'
+        required: true
+        type: choice
+        options:
+          - csharp
+          - python
+          - go
+          - java
+          - jcg # Java, C#, Go
+      app_type:
+        description: 'Application Type'
+        required: true
+        type: choice
+        options:
+          - monolith
+          - microservices-grpc
+          - microservices-rest
+          - ALL
+      iterations:
+        description: 'Number of iterations'
+        required: true
+        default: '3'
+        type: string
+      start_users:
+        description: 'Starting number of users'
+        required: true
+        default: '5'
+        type: string
+      step_users:
+        description: 'Step increment of users'
+        required: true
+        default: '5'
+        type: string
+      end_users:
+        description: 'Ending number of users'
+        required: true
+        default: '130'
+        type: string
+
+jobs:
+  run-specific-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Start benchmark for specific implementation
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.LOAD_RUNNER_INSTANCE_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd app/
+            sudo openssl aes-256-cbc -d -in ssh-key.enc -out ssh_key -k ${{ secrets.SSH_KEY_PASSPHRASE }}
+            sudo chmod 600 ssh_key
+            sudo nohup bash /home/pkraciuk/app/run_specific_benchmark.sh ${{ github.event.inputs.language }} ${{ github.event.inputs.app_type }} ${{ github.event.inputs.iterations }} ${{ github.event.inputs.start_users }} ${{ github.event.inputs.step_users }} ${{ github.event.inputs.end_users }} > /dev/null 2>&1 &

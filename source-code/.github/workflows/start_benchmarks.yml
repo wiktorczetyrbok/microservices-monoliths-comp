@@ -1,0 +1,31 @@
+name: Start All Benchmarks
+on:
+  workflow_dispatch:
+  
+
+jobs:
+  run-benchmark-java-grpc:
+    name: Start all benchmarks
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      APP_INSTANCE_IP: ${{ secrets.APP_INSTANCE_IP }}
+      LOAD_RUNNER_INSTANCE_IP: ${{ secrets.LOAD_RUNNER_INSTANCE_IP }}
+      SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      MACHINE_TYPE: ${{secrets.MACHINE_TYPE}}
+      SSH_USERNAME: pkraciuk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Start benchmark
+        timeout-minutes: 120
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.LOAD_RUNNER_INSTANCE_IP }}
+          username: ${{ env.SSH_USERNAME }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            cd app/
+            sudo openssl aes-256-cbc -d -in ssh-key.enc -out ssh_key -k ${{ secrets.SSH_KEY_PASSPHRASE }}
+            sudo chmod 600 ssh_key
+            sudo nohup bash /home/pkraciuk/app/StartBenchmark.sh > /dev/null 2>&1 &

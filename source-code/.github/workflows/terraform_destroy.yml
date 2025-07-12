@@ -1,0 +1,34 @@
+name: 'Clean up Cloud Env'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+    outputs:
+      app_instance_public_ip: ${{ steps.terraform_output.outputs.app_instance_public_ip }}
+      load_runner_instance_public_ip: ${{ steps.terraform_output.outputs.load_runner_instance_public_ip }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+    
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: Auth gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ env.GOOGLE_CREDENTIALS }}
+    
+      - name: Terraform Init
+        run: terraform -chdir="./terraform" init
+
+      - name: Terraform Destroy
+        run: terraform -chdir="./terraform" destroy -auto-approve

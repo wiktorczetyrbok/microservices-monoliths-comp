@@ -1,0 +1,221 @@
+name: 'Prepare Cloud Env'
+
+on:
+  workflow_dispatch:
+    inputs:
+      machine_type:
+        description: 'Select the machine type'
+        required: true
+        type: choice
+        options:
+          - f1-micro
+          - c2d-standard-2
+          - c2d-standard-4
+          - c2d-standard-8
+        default: 'f1-micro'
+
+jobs:
+  terraform:
+    name: Apply Terraform
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      TF_VAR_ssh_public_key: ${{ secrets.SSH_PUBLIC_KEY }}
+      TF_VAR_project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+      TF_VAR_vm_machine_type: ${{ github.event.inputs.machine_type }}
+    outputs:
+      app_instance_public_ip: ${{ steps.terraform_output.outputs.app_instance_public_ip }}
+      load_runner_instance_public_ip: ${{ steps.terraform_output.outputs.load_runner_instance_public_ip }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+
+      - name: Auth gcloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ env.GOOGLE_CREDENTIALS }}
+
+      - name: Terraform Init
+        run: terraform -chdir="./terraform" init
+
+      - name: Terraform Plan
+        run: terraform -chdir="./terraform" plan
+  
+      - name: Terraform Apply
+        run: terraform -chdir="./terraform" apply -auto-approve -input=false
+
+      - name: Generate Terraform Output
+        id: terraform_output
+        run: |
+          output=$(terraform -chdir="./terraform" output -raw app_instance_public_ip)
+          echo "::set-output name=app_instance_public_ip::$output"
+          output2=$(terraform -chdir="./terraform" output -raw load_runner_instance_public_ip)
+          echo "::set-output name=load_runner_instance_public_ip::$output2"
+
+  update_secrets:
+    name: Update instances IP secrets
+    needs: terraform
+    runs-on: ubuntu-latest
+    env:
+      APP_INSTANCE_IP: ${{ needs.terraform.outputs.app_instance_public_ip }}
+      LOAD_RUNNER_INSTANCE_IP: ${{ needs.terraform.outputs.load_runner_instance_public_ip }}
+    steps:
+
+      - name: Update APP Instance IP Secret
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: APP_INSTANCE_IP
+          value: ${{ env.APP_INSTANCE_IP }}
+          pa_token: ${{ secrets.GH_API_TOKEN }}
+
+      - name: Update APP Instance IP Secret
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: LOAD_RUNNER_INSTANCE_IP
+          value: ${{ env.LOAD_RUNNER_INSTANCE_IP }}
+          pa_token: ${{ secrets.GH_API_TOKEN }}
+
+      - name: Update Machine Type Secret
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: MACHINE_TYPE
+          value: ${{ github.event.inputs.machine_type }}
+          pa_token: ${{ secrets.GH_API_TOKEN }}
+
+
+  prepare_app_instance:
+    name: Prepare App Instance and save swarm token
+    needs: terraform
+    runs-on: ubuntu-latest
+    env:
+      APP_INSTANCE_IP: ${{ needs.terraform.outputs.app_instance_public_ip }}
+      SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      SSH_USERNAME: pkraciuk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run startup script via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.APP_INSTANCE_IP }}
+          username: ${{ env.SSH_USERNAME }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg2
+            curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+            sudo apt-get install rsync
+            sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+            sudo apt install docker-compose -y
+            sudo groupadd docker  
+            sudo usermod -aG docker pkraciuk
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo docker swarm init --advertise-addr 10.0.0.2
+            sudo docker swarm join-token worker -q > /home/pkraciuk/swarm_token.txt
+            
+
+      - name: Install SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Fetch Environment Variable and Set Locally
+        run: |
+            SWARM_TOKEN=$(ssh -o StrictHostKeyChecking=no ${{ env.SSH_USERNAME }}@${{ env.APP_INSTANCE_IP }} "sudo cat /home/pkraciuk/swarm_token.txt")
+            echo "SWARM_TOKEN=$SWARM_TOKEN" >> $GITHUB_ENV    
+            echo "$SWARM_TOKEN"    
+            echo "${{ env.SWARM_TOKEN }}"
+    
+      - name: Update Swarm Token Secret
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: SWARM_WORKER_TOKEN
+          value: ${{ env.SWARM_TOKEN }}
+          pa_token: ${{ secrets.GH_API_TOKEN }}
+
+
+  prepare_load_runner_instance:
+    name: Prepare Load Runner Instance
+    needs: terraform
+    runs-on: ubuntu-latest
+    env:
+      LOAD_RUNNER_INSTANCE_IP: ${{ needs.terraform.outputs.load_runner_instance_public_ip }}
+      SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      SSH_USERNAME: pkraciuk
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run startup script via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.LOAD_RUNNER_INSTANCE_IP }}
+          username: ${{ env.SSH_USERNAME }}
+          key: ${{ env.SSH_PRIVATE_KEY }}
+          script: |
+            sudo apt-get update
+            sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg2
+            sudo apt-get install rsync
+            sudo apt-get install openjdk-11-jdk -y
+            sudo apt-get install wget unzip -y
+            sudo apt-get install apache2 -y
+            sudo systemctl start apache2
+            sudo systemctl enable apache2
+            sudo wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.tgz
+            sudo tar -xzf apache-jmeter-5.6.3.tgz
+            sudo rm apache-jmeter-5.6.3.tgz
+          
+
+
+
+  deploy_code_to_app_instance:
+    name: Deploy code to App Instance
+    needs: [terraform, prepare_app_instance]
+    runs-on: ubuntu-latest
+    env:
+      APP_INSTANCE_IP: ${{ needs.terraform.outputs.app_instance_public_ip }}
+      SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      SSH_USERNAME: pkraciuk
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy to app instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ env.APP_INSTANCE_IP }}
+          REMOTE_USER: ${{ env.SSH_USERNAME }}
+          TARGET: /home/pkraciuk/app
+          SOURCE: "./Repositories"
+          ARGS: "-avzr --delete --info=progress2"
+
+  deploy_code_to_load_runner_instance:
+    name: Deploy code to Load Runner Instance
+    needs: [terraform, prepare_load_runner_instance]
+    runs-on: ubuntu-latest
+    env:
+      LOAD_RUNNER_INSTANCE_IP: ${{ needs.terraform.outputs.load_runner_instance_public_ip }}
+      SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+      SSH_USERNAME: pkraciuk
+    steps:
+      - name: Checkout the files
+        uses: actions/checkout@v2
+
+      - name: Deploy to app instance
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ env.LOAD_RUNNER_INSTANCE_IP }}
+          REMOTE_USER: ${{ env.SSH_USERNAME }}
+          TARGET: /home/pkraciuk/app
+          SOURCE: JMeter/ Scripts/
+          ARGS: "-avzr --delete"
