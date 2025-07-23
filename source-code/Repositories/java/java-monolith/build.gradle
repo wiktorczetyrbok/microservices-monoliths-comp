@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.1.2'
+	id 'io.spring.dependency-management' version '1.1.2'
+}
+
+group = 'pb.java.microservices.monolith'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '20'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.projectlombok:lombok:1.18.28'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'commons-io:commons-io:2.11.0'
+	implementation 'com.google.code.gson:gson:2.8.9'
+	// Jackson core and databind
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.1'
+
+	// If you need annotations
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

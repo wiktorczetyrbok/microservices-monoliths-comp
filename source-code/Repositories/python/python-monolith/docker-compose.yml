@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  gateway:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/python-mono:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"

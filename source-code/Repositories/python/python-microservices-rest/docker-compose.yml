@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  gateway:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/python-gateway-rest:latest
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    ports:
+      - "5000:8080"
+    networks:
+      - microservices_network
+
+  search:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/python-search-rest:latest
+    build:
+      context: .
+      dockerfile: services/search/Dockerfile
+    networks:
+      - microservices_network
+
+  profile:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/python-profile-rest:latest
+    build:
+      context: .
+      dockerfile: services/profile/Dockerfile
+    networks:
+      - microservices_network
+
+  geo:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/python-geo-rest:latest
+    build:
+      context: .
+      dockerfile: services/geo/Dockerfile
+    networks:
+      - microservices_network
+
+  rate:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/python-rate-rest:latest
+    build:
+      context: .
+      dockerfile: services/rate/Dockerfile
+    networks:
+      - microservices_network
+
+networks:
+  microservices_network:

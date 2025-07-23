@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  gateway:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/java-gateway-rest:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway
+    ports:
+      - "5000:8080"
+    depends_on:
+      - search
+      - profile
+    environment:
+      - SEARCH_SERVICE_URL=http://search:8080/nearby
+      - PROFILE_SERVICE_URL=http://profile:8080/hotels
+    networks:
+      - app-network
+  search:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/java-search-rest:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./search
+    depends_on:
+      - geo
+      - rate
+    environment:
+      - GEO_SERVICE_URL=http://geo:8080/nearby
+      - RATE_SERVICE_URL=http://rate:8080/getRates
+    networks:
+      - app-network
+
+  profile:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/java-profile-rest:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./profile
+    networks:
+      - app-network
+  geo:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/java-geo-rest:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./geo
+    networks:
+      - app-network
+  rate:
+    image: ghcr.io/microservices-benchmarking-11-kiop-2023/java-rate-rest:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./rate
+    networks:
+      - app-network
+
+networks:
+  app-network:
