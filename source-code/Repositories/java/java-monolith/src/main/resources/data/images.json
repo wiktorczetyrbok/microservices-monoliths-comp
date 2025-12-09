@@ -1,0 +1,29 @@
+[
+  {
+    "id": "img001",
+    "name": "sunset.jpg",
+    "url": "https://cdn.example.com/images/sunset.jpg",
+    "tags": ["sunset", "nature"],
+    "default": true,
+    "lat": 54.37,
+    "lon": 18.61
+  },
+  {
+    "id": "img002",
+    "name": "city.jpg",
+    "url": "https://cdn.example.com/images/city.jpg",
+    "tags": ["city", "architecture"],
+    "default": false,
+    "lat": 54.39,
+    "lon": 18.60
+  },
+  {
+    "id": "img003",
+    "name": "forest.jpg",
+    "url": "https://cdn.example.com/images/forest.jpg",
+    "tags": ["trees", "nature"],
+    "default": false,
+    "lat": 54.38,
+    "lon": 18.58
+  }
+]

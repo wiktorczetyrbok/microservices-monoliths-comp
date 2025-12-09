@@ -6,7 +6,7 @@ plugins {
 
 group = 'pb.java.microservices.rest'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '20'
+sourceCompatibility = '21'
 
 repositories {
 	mavenCentral()

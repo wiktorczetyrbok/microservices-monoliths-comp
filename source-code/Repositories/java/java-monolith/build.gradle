@@ -8,7 +8,7 @@ group = 'pb.java.microservices.monolith'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '20'
+	sourceCompatibility = '21'
 }
 
 repositories {
@@ -22,6 +22,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'com.google.code.gson:gson:2.8.9'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+
 	// Jackson core and databind
 	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.3'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.1'

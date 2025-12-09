@@ -1,0 +1,28 @@
+[
+  {
+    "imageId": "img001",
+    "jobType": "grayscale",
+    "parameters": {}
+  },
+  {
+    "imageId": "img001",
+    "jobType": "resize",
+    "parameters": {
+      "width": 300,
+      "height": 200
+    }
+  },
+  {
+    "imageId": "img002",
+    "jobType": "resize",
+    "parameters": {
+      "width": 800,
+      "height": 600
+    }
+  },
+  {
+    "imageId": "img003",
+    "jobType": "invert",
+    "parameters": {}
+  }
+]
