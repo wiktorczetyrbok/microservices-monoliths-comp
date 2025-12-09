@@ -1,0 +1,52 @@
+\section*{Streszczenie}
+
+Celem pracy była analiza porównawcza architektury monolitycznej oraz
+architektury mikroserwisowej pod kątem ich wydajności, skalowalności
+oraz kosztów utrzymania w środowiskach chmurowych. W dobie rosnącej
+złożoności systemów informatycznych oraz dynamicznego przyrostu liczby
+użytkowników coraz większe znaczenie zyskują modele architektoniczne
+umożliwiające efektywne zarządzanie zasobami, elastyczność oraz
+niezawodność. W pracy zbadano, w jaki sposób wybór architektury wpływa
+na realne parametry działania aplikacji, a także jakie konsekwencje
+niesie dla organizacji pod względem operacyjnym i finansowym.
+
+Przeprowadzony przegląd literatury pozwolił zidentyfikować aktualne
+podejścia do pomiaru wydajności i skalowalności systemów rozproszonych
+oraz istniejące narzędzia benchmarkingowe. Jednak większość dostępnych
+badań analizuje architektury w oderwaniu od praktycznego kontekstu
+wdrożenia w chmurze, co wskazało na istnienie luki badawczej — brak
+kompleksowego porównania monolitu i mikroserwisów uruchomionych w
+porównywalnym środowisku, z zastosowaniem jednolitych metod obciążenia
+i identycznych scenariuszy testowych.
+
+W ramach pracy zaimplementowano aplikację benchmarkingową w dwóch
+wariantach architektonicznych — monolitycznym oraz mikroserwisowym —
+oraz wdrożono oba modele na platformie chmurowej. Zastosowano testy
+obciążeniowe generowane za pomocą dedykowanego narzędzia oraz
+przeprowadzono analizę skalowania pionowego i poziomego. Dodatkowo
+zbadano wpływ konfiguracji infrastruktury, mechanizmów komunikacji,
+wielowątkowości oraz sposobu zarządzania zasobami na ogólną
+efektywność aplikacji.
+
+Wyniki badań wskazują, że architektura monolityczna charakteryzuje się
+wyższą wydajnością przy niewielkim obciążeniu oraz niższymi kosztami
+utrzymania w prostych instalacjach, natomiast architektura
+mikroserwisowa oferuje znacząco lepszą skalowalność poziomą,
+niezależność komponentów oraz większą elastyczność w zakresie
+optymalizacji wybranych obszarów systemu. Jednocześnie mikroserwisy
+wprowadzają koszty związane z komunikacją między usługami,
+złożonością infrastruktury oraz większym nakładem na utrzymanie.
+
+Praca kończy się omówieniem ograniczeń badania, wkładu pracy w obszar
+inżynierii oprogramowania oraz propozycją kierunków dalszych badań,
+obejmujących m.in.\ analizę architektur hybrydowych,
+automatyczne skalowanie zasobów oraz wpływ technologii serverless na
+koszty operacyjne aplikacji.
+
+\vspace{0.5cm}
+
+\noindent \textbf{Słowa kluczowe:} Informatyka, Mikroserwisy, Monolit, Analiza kosztów, GCP, gRPC, Aplikacja webowa
+\vspace{0.5cm}
+
+\noindent \textbf{Dziedzina nauki i techniki, zgodnie z wymogami OECD:} Nauki o komputerach i informatyka
+\vspace{0.5cm}

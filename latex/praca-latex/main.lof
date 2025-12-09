@@ -1,0 +1,52 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Trends in the use of special diets among U.S. adults, 2007--2018 \blx@tocontentsinit {0}\cite {martin2020prescription}.}}{6}{figure.caption.3}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Motives not to eat meat vegans vs vegetarians \blx@tocontentsinit {0}\cite {2021Vegan}.}}{9}{figure.caption.4}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Differences between vegans and vegetarians approach\blx@tocontentsinit {0}\cite {2021Vegan}.}}{13}{figure.caption.9}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Leading reasons for software project failure \blx@tocontentsinit {0}\cite {FailuresStatisticaResearch}.}}{17}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Persona 1}}{18}{figure.caption.13}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Persona 2}}{19}{figure.caption.14}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Persona 3}}{19}{figure.caption.15}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Database schema.}}{26}{figure.caption.17}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Headers safely stored}}{27}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Extraction of fields from JSON response}}{28}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Fetching the primary keys of existing ingredients to make substitutes}}{28}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Connection to GCP PostgreSQL instance and execution of the query}}{29}{figure.5.5}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Constraints on ingredient table}}{30}{figure.5.6}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Four prototype screens arranged in a 2x2 layout.}}{31}{figure.caption.18}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Example of REST controller in culinary-user-service}}{32}{figure.6.2}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Model View Controller design pattern visualization (created by the Authors)}}{33}{figure.caption.19}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces OpenAPI Swagger interface for recipe-controller in culinary-user-service}}{34}{figure.caption.20}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Two-way data binding [source: stackoverflow.com/questions/13504906/what-is-two-way-binding]}}{35}{figure.caption.21}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Example of JPA Table}}{36}{figure.6.6}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces One-to-many JPA mapping}}{36}{figure.6.7}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces JPA repository interface}}{36}{figure.6.8}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Configuration class for Redis connections and sessions}}{37}{figure.6.9}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Session management configuration properties}}{38}{figure.6.10}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces In memory Redis database configuration}}{38}{figure.6.11}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Enabling Redis Repositories}}{39}{figure.6.12}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Docker compose file for setting up the databases}}{40}{figure.6.13}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Dockerfile for Angular frontend service}}{40}{figure.6.14}%
+\contentsline {figure}{\numberline {6.15}{\ignorespaces app.yaml file for GAE configuration}}{42}{figure.6.15}%
+\contentsline {figure}{\numberline {6.16}{\ignorespaces GAE monitoring dashboars (culinary-user-service).}}{42}{figure.caption.22}%
+\contentsline {figure}{\numberline {6.17}{\ignorespaces application.yaml for Cloud SQL connection}}{43}{figure.6.17}%
+\contentsline {figure}{\numberline {6.18}{\ignorespaces GAR repository for docker images.}}{44}{figure.caption.23}%
+\contentsline {figure}{\numberline {6.19}{\ignorespaces CI/CD with Github Actions (created by the Authors)}}{46}{figure.caption.24}%
+\contentsline {figure}{\numberline {6.20}{\ignorespaces Current cloud infrastructure (created by the Authors)}}{47}{figure.caption.25}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Unit tests scenarios for AuthService class.}}{49}{figure.7.1}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Jacoco test report of culinary-user-service}}{50}{figure.caption.26}%
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Login Page}}{51}{figure.caption.27}%
+\contentsline {figure}{\numberline {7.4}{\ignorespaces User profile}}{52}{figure.caption.28}%
+\contentsline {figure}{\numberline {7.5}{\ignorespaces Invalid Credentials}}{52}{figure.caption.29}%
+\contentsline {figure}{\numberline {7.6}{\ignorespaces Calories filter}}{53}{figure.caption.30}%
+\contentsline {figure}{\numberline {7.7}{\ignorespaces Sorted recipes - protein high to low}}{54}{figure.caption.31}%
+\contentsline {figure}{\numberline {7.8}{\ignorespaces Combined filters}}{54}{figure.caption.32}%
+\contentsline {figure}{\numberline {7.9}{\ignorespaces Saved Substitutions}}{55}{figure.caption.33}%
+\contentsline {figure}{\numberline {7.10}{\ignorespaces Ingredients without substitutes}}{56}{figure.caption.34}%
+\addvspace {10\p@ }
+\contentsfinish 

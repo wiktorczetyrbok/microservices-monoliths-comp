@@ -1,0 +1,203 @@
+\documentclass{szablonPG} 
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{eqnarray}
+\usepackage{multicol}
+\usepackage{minted}
+\usepackage{array}
+% \usepackage[a4paper, margin=1in]{geometry} % A4 page settings
+\usepackage{graphicx} % For resizebox
+\usepackage{array} % For p{width}
+\usepackage{longtable} % Optional: For tables that span multiple pages
+\usepackage[table]{xcolor}
+\usepackage{pdfpages} % Add this in the preamble
+
+\setlength\columnsep{20pt}
+% \usepackage[margin={1.5in,1.25in}]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage[none]{hyphenat}
+\usepackage{setspace}
+% \usepackage[usenames,dvipsnames]{color}
+%Bibliography setup
+%\usepackage[polish]{babel}
+
+\usepackage[backend=biber, sorting=none]{biblatex}
+\addbibresource{references.bib}
+\usepackage{import}
+\usepackage{makecell}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{changepage}
+\usepackage[thinlines]{easytable}
+\usepackage{svg}
+\usepackage{hyperref}
+\usepackage{caption}
+% \usepackage{subcaption}
+% \usepackage{xr}
+\usepackage[prependcaption,textsize=tiny]{todonotes}
+\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+% \usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+\usepackage{incgraph, tikz}
+\usepackage{pdfpages}
+\usepackage{blindtext}
+\usepackage{csquotes}
+% \usepackage[polish]{cleveref}
+
+% \renewcommand\polishtablename{Tabela.}
+\captionsetup[table]{name=Table}
+\captionsetup[figure]{name=Fig.}
+
+% \newcommand{\fix}{\marginpar{FIX}} \newcommand{\new}{\marginpar{NEW}}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{1em}
+
+% \nipsfinalcopy % Uncomment for camera-ready version
+
+\setcounter{secnumdepth}{5}
+
+% \makeatletter
+% \renewcommand{\paragraph}{\@startsection{paragraph}{4}{0ex}%
+%   {-3.25ex plus -1ex minus -0.2ex}%
+%   {1.5ex plus 0.2ex}%
+%   {\normalfont\normalsize\bfseries}}
+% \makeatother
+
+% \makeatletter
+% \renewcommand{\subparagraph}{\@startsection{subparagraph}{4}{0ex}%
+%   {-3.25ex plus -1ex minus -0.2ex}%
+%   {1.5ex plus 0.2ex}%
+%   {\normalfont\normalsize\bfseries}}
+% \makeatother
+
+% \makeatletter
+% \newcommand*{\addFileDependency}[1]{% argument=file name and extension
+%   \typeout{(#1)}
+%   \@addtofilelist{#1}
+%   \IfFileExists{#1}{}{\typeout{No file #1.}}
+% }
+% \makeatother
+
+% \newcommand*{\myexternaldocument}[1]{%
+%     \externaldocument{#1}%
+%     \addFileDependency{#1.tex}%
+%     \addFileDependency{#1.aux}%
+% }
+
+%\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+
+\makeatletter
+\newcommand{\chapterauthor}[1]{%
+  {\parindent1cm\vspace*{-20pt}%
+  \linespread{1.1}\small\scshape\textcolor{gray}{#1}%
+%   \par\nobreak\vspace*{20pt}
+  }
+  \@afterheading%
+}
+\makeatother
+
+
+\graphicspath{{./images}}
+
+
+
+\begin{document}
+\sloppy
+
+\includepdf{meta/StronaTytulowa_188695.pdf}
+% \includepdf{meta/Oswiadczenie.pdf}
+
+\let\cleardoublepage\clearpage
+\import{chapters/}{chapter0_streszczenie.tex}
+
+\import{chapters/}{chapter0_abstract.tex}
+\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents
+
+\chapter*{List of Abbreviations}
+\label{chapter:abbreviations}
+\addcontentsline{toc}{chapter}{\nameref{chapter:abbreviations}}  
+\import{chapters/}{list_of_abbreviations.tex}
+
+\let\cleardoublepage\clearpage
+\chapter{Introduction}
+\import{chapters/}{chapter1_intro.tex}
+
+% \let\cleardoublepage\clearpage
+\chapter{Research analysis}
+\label{chapter:research}
+\import{chapters/}{chapter2_research.tex}
+
+\let\cleardoublepage\clearpage
+\chapter{Requirements}
+\label{chapter:requirements}
+\import{chapters/}{chapter3_req.tex}
+
+\let\cleardoublepage\clearpage
+\chapter{Methodology}
+\label{chapter:methodology}
+\import{chapters/}{chapter4_methodology.tex}
+
+\let\cleardoublepage\clearpage
+\chapter{Data}
+\label{chapter:data}
+\import{chapters/}{chapter5_data.tex}
+
+ \let\cleardoublepage\clearpage
+\chapter{System design}
+\label{chapter:system_design}
+\import{chapters/}{chapter6_sys_design.tex}
+
+\let\cleardoublepage\clearpage
+\chapter{Testing (Evaluation, Verification)}
+\label{chapter:testing}
+\import{chapters/}{chapter7_testing.tex}
+
+% \let\cleardoublepage\clearpage
+\chapter{Summary}
+\import{chapters/}{summary.tex}
+\printbibliography[title={References}]
+\addcontentsline{toc}{chapter}{References}
+
+\renewcommand{\listfigurename}{List of drawings}
+\listoffigures
+\addcontentsline{toc}{chapter}{List of drawings}
+
+\renewcommand{\listtablename}{List of tables}
+\listoftables
+\addcontentsline{toc}{chapter}{List of tables}
+
+
+
+\label{chapter:appendixA}
+\addcontentsline{toc}{chapter}{Appendix A: Product Backlog}
+\includepdf[pages=1,scale=0.8,pagecommand={\centering{\LARGE \textbf{Product Backlog}}}]{meta/pdf_attachments/Jira.pdf}
+\includepdf[pages={2-},scale=0.8,pagecommand={}]{meta/pdf_attachments/Jira.pdf}
+
+
+\label{chapter:appendixB}
+\addcontentsline{toc}{chapter}{Appendix B: Data Dictionary}
+\includepdf[pages=1,scale=0.8,pagecommand={\centering{\LARGE \textbf{Data Dictionary}}}]{meta/data_dictionary.pdf}
+\includepdf[pages={2-},scale=0.8,pagecommand={}]{meta/data_dictionary.pdf}
+
+ %\let\cleardoublepage\clearpage
+% \chapter*{Appendix D: Prototype}
+% \label{chapter:appendixB}
+% \addcontentsline{toc}{chapter}{Appendix C: Prototype}
+% % Include the PDF
+% \includepdf[pages=-]{meta/prototype.pdf}  % 'pages=-' includes all pages of the PDF
+
+\nocite{*}
+
+\end{document}
