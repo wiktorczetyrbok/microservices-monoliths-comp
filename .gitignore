@@ -1,7 +1,10 @@
 
 /Repositories/java/java-monolith/build/
+# Node
+node_modules/
+**/node_modules/
 
-
+**/**/node_modules/
 
 # Covers JetBrains IDEs: IntelliJ, GoLand, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -90,3 +93,5 @@ http-client.private.env.json
 # Github Copilot persisted session migrations, see: https://github.com/microsoft/copilot-intellij-feedback/issues/712#issuecomment-3322062215
 .idea/**/copilot.data.migration.*.xml
 /.idea/
+/Repositories/js/js-monolith/node_modules/
+/Repositories/js/js-monolith/node_modules/
