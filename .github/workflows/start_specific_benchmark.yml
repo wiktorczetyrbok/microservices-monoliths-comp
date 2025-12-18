@@ -7,11 +7,10 @@ on:
         required: true
         type: choice
         options:
-          - csharp
+          - js
           - python
-          - go
           - java
-          - jcg # Java, C#, Go
+          - all_lang # Java, # Python , #JS
       app_type:
         description: 'Application Type'
         required: true
@@ -19,7 +18,6 @@ on:
         options:
           - monolith
           - microservices-grpc
-          - microservices-rest
           - ALL
       iterations:
         description: 'Number of iterations'
