@@ -25,11 +25,10 @@ Each architectural variant has been implemented using four programming languages
 ## Repository Structure
 
 In the Repositories folder, there are all prepared implementations. 
-They were implemented a part of the "Projekt Badawczy" program performed by students of Computer Science master degree studies at GUT. All code implemented as part of it can be found here - https://github.com/orgs/Microservices-Benchmarking-11-KIOP-2023/repositories
+They were implemented a part of the "Projekt Badawczy" program performed by students of Computer Science master degree studies at GUT. All code implemented as part of it can be found here - https://github.com/orgs/wiktorczetyrbok/microservices-monoliths-comp/repositories
 Each subfolder represents different programing language, and inside each there are 3 other subfolders:
 
 - `/monolith`: Contains the monolithic architecture implementation.
-- `/microservices-rest`: Contains the microservice implementation using REST API.
 - `/microservices-grpc`: Contains the microservice implementation using gRPC.
 
 ## Key Findings

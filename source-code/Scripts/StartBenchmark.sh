@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-languages=("csharp" "go" "java" "python")
-app_types=("monolith" "microservices-grpc" "microservices-rest")
+languages=("js"  "java" "python")
+app_types=("monolith" "microservices-grpc")
 
 for language in "${languages[@]}"; do
   for app_type in "${app_types[@]}"; do

@@ -7,14 +7,14 @@ start_users="$4"
 step_users="$5"
 end_users="$6"
 
-if [ "$language" == "jcg" ]; then
-  languages=("java" "csharp" "go")
+if [ "$language" == "all_lang" ]; then
+  languages=("java" "python" "js")
 else
   languages=("$language")
 fi
 
 if [ "$app_type" == "ALL" ]; then
-  app_types=("monolith" "microservices-grpc" "microservices-rest")
+  app_types=("monolith" "microservices-grpc" )
 else
   app_types=("$app_type")
 fi
