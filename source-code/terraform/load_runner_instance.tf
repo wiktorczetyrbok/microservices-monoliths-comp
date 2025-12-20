@@ -19,7 +19,7 @@ resource "google_compute_instance" "load_runner_instance" {
   }
 
   metadata = {
-    ssh-keys = "pkraciuk:${var.ssh_public_key}"
+    ssh-keys = "wczetyrbok:${var.ssh_public_key}"
   }
 }
 

@@ -19,7 +19,7 @@ resource "google_compute_instance" "swarm_worker_instance" {
   }
 
   metadata = {
-    ssh-keys = "pkraciuk:${var.ssh_public_key}"
+    ssh-keys = "wczetyrbok:${var.ssh_public_key}"
     startup-script = <<-EOT
       #!/bin/bash
       sudo apt-get update
@@ -30,7 +30,7 @@ resource "google_compute_instance" "swarm_worker_instance" {
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io
       sudo apt install docker-compose -y
       sudo groupadd docker
-      sudo usermod -aG docker pkraciuk
+      sudo usermod -aG docker wczetyrbok
       sudo systemctl start docker
       sudo systemctl enable docker
       sleep 10

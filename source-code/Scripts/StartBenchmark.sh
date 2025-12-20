@@ -8,7 +8,7 @@ for language in "${languages[@]}"; do
   for app_type in "${app_types[@]}"; do
     stack_name="${language}-${app_type}"
 
-    ssh -i ./ssh_key -o StrictHostKeyChecking=no pkraciuk@10.0.0.2 "
+    ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker stack deploy -c app/Repositories/$language/$language-$app_type/docker-compose.yml $stack_name --with-registry-auth
     "
     sleep 30
@@ -19,7 +19,7 @@ for language in "${languages[@]}"; do
       service_names=('gateway' 'search' 'profile' 'geo' 'rate')
     fi
     for service in "${service_names[@]}"; do
-      ssh -i ./ssh_key -o StrictHostKeyChecking=no pkraciuk@10.0.0.2 "
+      ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
         sudo docker service scale ${stack_name}_${service}=5
       "
     done
@@ -28,7 +28,7 @@ for language in "${languages[@]}"; do
     sleep 10
 
 
-    url="http://10.0.0.2:5000/hotels?inDate=2023-06-17&outDate=2023-06-21&lat=53.9639&lon=18.5269"
+    url="http://10.0.0.2:5000/hotels?inDate=2023-06-07&outDate=2023-06-12&lat=54.29&lon=18.55"
     while true; do
         status=$(curl -s -o /dev/null -w "%{http_code}" "$url")
         if [ "$status" -eq 200 ]; then
@@ -56,7 +56,7 @@ for language in "${languages[@]}"; do
     sudo mkdir -p $language-$app_type
     sudo mv csv $language-$app_type/
 
-    ssh -i ./ssh_key -o StrictHostKeyChecking=no pkraciuk@10.0.0.2 "
+    ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker service ls -q | xargs -r docker service rm
     "
     sleep 30

@@ -95,7 +95,7 @@ jobs:
     env:
       APP_INSTANCE_IP: ${{ needs.terraform.outputs.app_instance_public_ip }}
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-      SSH_USERNAME: pkraciuk
+      SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -115,11 +115,11 @@ jobs:
             sudo apt-get install -y docker-ce docker-ce-cli containerd.io
             sudo apt install docker-compose -y
             sudo groupadd docker  
-            sudo usermod -aG docker pkraciuk
+            sudo usermod -aG docker wczetyrbok
             sudo systemctl start docker
             sudo systemctl enable docker
             sudo docker swarm init --advertise-addr 10.0.0.2
-            sudo docker swarm join-token worker -q > /home/pkraciuk/swarm_token.txt
+            sudo docker swarm join-token worker -q > /home/wczetyrbok/swarm_token.txt
             
 
       - name: Install SSH Key
@@ -129,7 +129,7 @@ jobs:
 
       - name: Fetch Environment Variable and Set Locally
         run: |
-            SWARM_TOKEN=$(ssh -o StrictHostKeyChecking=no ${{ env.SSH_USERNAME }}@${{ env.APP_INSTANCE_IP }} "sudo cat /home/pkraciuk/swarm_token.txt")
+            SWARM_TOKEN=$(ssh -o StrictHostKeyChecking=no ${{ env.SSH_USERNAME }}@${{ env.APP_INSTANCE_IP }} "sudo cat /home/wczetyrbok/swarm_token.txt")
             echo "SWARM_TOKEN=$SWARM_TOKEN" >> $GITHUB_ENV    
             echo "$SWARM_TOKEN"    
             echo "${{ env.SWARM_TOKEN }}"
@@ -149,7 +149,7 @@ jobs:
     env:
       LOAD_RUNNER_INSTANCE_IP: ${{ needs.terraform.outputs.load_runner_instance_public_ip }}
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-      SSH_USERNAME: pkraciuk
+      SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -183,7 +183,7 @@ jobs:
     env:
       APP_INSTANCE_IP: ${{ needs.terraform.outputs.app_instance_public_ip }}
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-      SSH_USERNAME: pkraciuk
+      SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
@@ -194,7 +194,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ env.APP_INSTANCE_IP }}
           REMOTE_USER: ${{ env.SSH_USERNAME }}
-          TARGET: /home/pkraciuk/app
+          TARGET: /home/wczetyrbok/app
           SOURCE: "./Repositories"
           ARGS: "-avzr --delete --info=progress2"
 
@@ -205,7 +205,7 @@ jobs:
     env:
       LOAD_RUNNER_INSTANCE_IP: ${{ needs.terraform.outputs.load_runner_instance_public_ip }}
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
-      SSH_USERNAME: pkraciuk
+      SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
@@ -216,6 +216,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ env.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ env.LOAD_RUNNER_INSTANCE_IP }}
           REMOTE_USER: ${{ env.SSH_USERNAME }}
-          TARGET: /home/pkraciuk/app
+          TARGET: /home/wczetyrbok/app
           SOURCE: JMeter/ Scripts/
           ARGS: "-avzr --delete"

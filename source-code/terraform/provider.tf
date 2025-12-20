@@ -5,7 +5,7 @@ provider "google" {
 
 terraform {
   backend "gcs" {
-    bucket = "terraform-state-cicd-pkraciuk"
+    bucket = "terraform-state-cicd-wczetyrbok"
     prefix = "state"
   }
 }

@@ -24,11 +24,11 @@ for lang in "${languages[@]}"; do
   for app in "${app_types[@]}"; do
     echo "Starting benchmark for $lang in $app configuration"
 
-    ssh -i ./ssh_key -o StrictHostKeyChecking=no pkraciuk@10.0.0.2 "
+    ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker stack deploy -c app/Repositories/$lang/$lang-$app/docker-compose.yml $lang-$app
     "
 
-    url="http://10.0.0.2:5000/hotels?inDate=2023-06-17&outDate=2023-06-21&lat=53.9639&lon=18.5269"
+    url="http://10.0.0.2:5000/hotels?inDate=2023-06-07&outDate=2023-06-12&lat=54.29&lon=18.55"
     while true; do
         status=$(curl -s -o /dev/null -w "%{http_code}" "$url")
         if [ "$status" -eq 200 ]; then
@@ -46,7 +46,7 @@ for lang in "${languages[@]}"; do
     sudo mkdir -p app/$lang-$app
     sudo mv csv app/$lang-$app/
 
-    ssh -i ./ssh_key -o StrictHostKeyChecking=no pkraciuk@10.0.0.2 "
+    ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker service ls -q | xargs -r docker service rm
     "
     sleep 10

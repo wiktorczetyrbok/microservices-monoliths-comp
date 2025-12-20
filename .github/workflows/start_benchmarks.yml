@@ -13,7 +13,7 @@ jobs:
       LOAD_RUNNER_INSTANCE_IP: ${{ secrets.LOAD_RUNNER_INSTANCE_IP }}
       SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
       MACHINE_TYPE: ${{secrets.MACHINE_TYPE}}
-      SSH_USERNAME: pkraciuk
+      SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -28,4 +28,4 @@ jobs:
             cd app/
             sudo openssl aes-256-cbc -d -in ssh-key.enc -out ssh_key -k ${{ secrets.SSH_KEY_PASSPHRASE }}
             sudo chmod 600 ssh_key
-            sudo nohup bash /home/pkraciuk/app/StartBenchmark.sh > /dev/null 2>&1 &
+            sudo nohup bash /home/wczetyrbok/app/StartBenchmark.sh > /dev/null 2>&1 &
