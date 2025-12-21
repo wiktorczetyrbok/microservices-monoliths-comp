@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-languages=("js"  "java" "python")
+languages=("java" "js" "python")
 app_types=("monolith" "microservices-grpc")
 
 for language in "${languages[@]}"; do
