@@ -52,7 +52,7 @@ for lang in "${languages[@]}"; do
     done
 
     echo "[DEBUG] Starting JMeter: iterations=$iterations users=$start_users->$end_users step=$step_users"
-    bash run_Jmeter.sh $iterations $start_users $step_users $end_users $language $app_type > /dev/null 2>&1
+    bash run_Jmeter.sh $iterations $start_users $step_users $end_users $language $app_type
     echo "[DEBUG] JMeter finished for $lang $app"
 
     echo "[DEBUG] Removing docker services"
