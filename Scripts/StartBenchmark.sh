@@ -60,6 +60,7 @@ for language in "${languages[@]}"; do
       sudo docker service ls -q | xargs -r docker service rm
     "
     sleep 30
+    echo "[$(date)] 🚀 COMPLETED scenario: $language / $app_type"
 
   done
 done
