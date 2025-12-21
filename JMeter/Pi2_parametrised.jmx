@@ -172,7 +172,7 @@
             </value>
           </objProp>
           <stringProp name="TestPlan.comments">Parametrised with number of users</stringProp>
-          <stringProp name="filename">./csv/${iteration}/users_${number_of_users}.csv</stringProp>
+          <stringProp name="filename">./csv/${language}-${app_type}/${iteration}/users_${number_of_users}.csv</stringProp>
         </ResultCollector>
         <hashTree/>
         <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
@@ -189,6 +189,16 @@
               <stringProp name="Argument.desc">The ID of the iteration.</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
+			    <elementProp name="language" elementType="Argument">
+				  <stringProp name="Argument.name">language</stringProp>
+				  <stringProp name="Argument.value">${__P(language, unknown)}</stringProp>
+				  <stringProp name="Argument.metadata">=</stringProp>
+				</elementProp>
+				<elementProp name="app_type" elementType="Argument">
+				  <stringProp name="Argument.name">app_type</stringProp>
+				  <stringProp name="Argument.value">${__P(app_type, unknown)}</stringProp>
+				  <stringProp name="Argument.metadata">=</stringProp>
+				</elementProp>
           </collectionProp>
         </Arguments>
         <hashTree/>

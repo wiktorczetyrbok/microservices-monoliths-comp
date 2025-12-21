@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 language="$1"
 app_type="$2"
@@ -40,16 +41,12 @@ for lang in "${languages[@]}"; do
         fi
     done
 
-    bash run_Jmeter.sh $iterations $start_users $step_users $end_users > /dev/null 2>&1
-
-    mkdir app
-    sudo mkdir -p app/$lang-$app
-    sudo mv csv app/$lang-$app/
+    bash run_Jmeter.sh $iterations $start_users $step_users $end_users $language $app_type > /dev/null 2>&1
 
     ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker service ls -q | xargs -r docker service rm
     "
     sleep 10
-
+    echo "[$(date)] 🚀 COMPLETED scenario: $language / $app_type"
   done
 done

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -e
 
 languages=("java" "js" "python")
 app_types=("monolith" "microservices-grpc")
@@ -41,20 +41,17 @@ for language in "${languages[@]}"; do
     done
 
     if [ "$language" == "python" ]; then
-      bash run_Jmeter.sh 3 1 1 100 > /dev/null 2>&1
+      bash run_Jmeter.sh 3 1 1 100 $language $app_type > /dev/null 2>&1
     elif [ "$app_type" == "monolith" ]; then
-      bash run_Jmeter.sh 5 5 5 5 > /dev/null 2>&1
-      bash run_Jmeter.sh 5 10 10 1250 > /dev/null 2>&1
+      bash run_Jmeter.sh 5 5 5 5 $language $app_type > /dev/null 2>&1
+      bash run_Jmeter.sh 5 10 10 1250 $language $app_type > /dev/null 2>&1
     elif [ "$app_type" == "microservices-grpc" ]; then
-      bash run_Jmeter.sh 5 5 5 5 > /dev/null 2>&1
-      bash run_Jmeter.sh 5 10 10 600 > /dev/null 2>&1
+      bash run_Jmeter.sh 5 5 5 5 $language $app_type > /dev/null 2>&1
+      bash run_Jmeter.sh 5 10 10 600 $language $app_type > /dev/null 2>&1
     else
-      bash run_Jmeter.sh 5 5 5 5 > /dev/null 2>&1
-      bash run_Jmeter.sh 5 10 10 350 > /dev/null 2>&1
+      bash run_Jmeter.sh 5 5 5 5 $language $app_type > /dev/null 2>&1
+      bash run_Jmeter.sh 5 10 10 350 $language $app_type > /dev/null 2>&1
     fi
-
-    sudo mkdir -p $language-$app_type
-    sudo mv csv $language-$app_type/
 
     ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker service ls -q | xargs -r docker service rm

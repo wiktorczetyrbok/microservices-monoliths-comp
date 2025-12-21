@@ -4,14 +4,16 @@ on:
   workflow_dispatch:
     inputs:
       swarm_workers_count:
-        description: 'Number of swarm workers (1 or 3)'
+        description: 'Number of swarm workers'
         required: true
         default: '1'
         type: choice
         options:
           - '1'
+          - '2'
           - '3'
-
+          - '4'
+          - '5'
 jobs:
   terraform:
     runs-on: ubuntu-latest
