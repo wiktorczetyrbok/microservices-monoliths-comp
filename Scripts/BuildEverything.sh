@@ -4,7 +4,7 @@ set -e
 GH_USER="wiktorczetyrbok"
 TOKEN_FILE="$HOME/.ghcr_token"
 
-BASE_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 echo "🔐 Logging in to GHCR..."
 cat "$TOKEN_FILE" | docker login ghcr.io -u "$GH_USER" --password-stdin
