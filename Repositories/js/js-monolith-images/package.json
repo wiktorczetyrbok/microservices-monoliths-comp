@@ -1,0 +1,19 @@
+{
+  "name": "js-monolith",
+  "version": "1.0.0",
+  "description": "Node.js monolith equivalent of Python Flask monolith",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "nodemon main.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
+  "author": "",
+  "license": "ISC"
+}
