@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package similarity;
+
+service Similarity {
+  rpc Find (SimilarityRequest) returns (SimilarityResponse);
+}
+
+message SimilarityRequest {
+  repeated float queryVector = 1;
+  float threshold = 2;
+}
+
+message SimilarityResponse {
+  repeated string imageIds = 1;
+}

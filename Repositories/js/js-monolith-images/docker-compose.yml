@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   gateway:
-    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp/js-mono-images
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-image/js-mono:latest
     build:
       dockerfile: Dockerfile
       context: .

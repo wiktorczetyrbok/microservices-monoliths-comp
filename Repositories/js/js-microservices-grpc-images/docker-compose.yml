@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  gateway:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-image/js-gateway-grpc-img:latest
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - search
+      - metadata
+    networks:
+      - app-network
+
+  search:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-image/js-search-grpc:latest
+    build:
+      context: ./search
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  metadata:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-image/js-metadata-grpc:latest
+    build:
+      context: ./metadata
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  feature:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-image/js-feature-grpc:latest
+    build:
+      context: ./feature
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  similarity:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-image/js-similarity-grpc:latest
+    build:
+      context: ./similarity
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+networks:
+  app-network:

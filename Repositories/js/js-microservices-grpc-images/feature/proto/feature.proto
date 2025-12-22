@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package feature;
+
+service Feature {
+  rpc Extract (FeatureRequest) returns (FeatureResponse);
+}
+
+message FeatureRequest {
+  string imageId = 1;
+  int32 kernel = 2;
+}
+
+message FeatureResponse {
+  repeated float vector = 1;
+}
