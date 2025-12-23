@@ -8,7 +8,7 @@ WORKDIR /home/gradle/project
 COPY . .
 
 # Run the Gradle build
-RUN gradle clean build --no-daemon  -x test
+RUN gradle clean build --no-daemon
 
 # Use the official OpenJDK base image for the final image
 FROM eclipse-temurin:21-jre

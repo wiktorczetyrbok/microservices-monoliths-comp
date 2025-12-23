@@ -2,6 +2,7 @@ package pb.java.microservices.grpc.feature.service;
 
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import pb.java.microservices.grpc.feature.generatedProto.FeatureGrpc;
 import pb.java.microservices.grpc.feature.generatedProto.FeatureRequest;
 import pb.java.microservices.grpc.feature.generatedProto.FeatureResponse;
@@ -19,7 +20,7 @@ public class FeatureServiceImpl extends FeatureGrpc.FeatureImplBase {
     private final Map<String, byte[]> imageBuffers = new HashMap<>();
 
     public FeatureServiceImpl(ResourceLoader resourceLoader) throws IOException {
-        loadImages(resourceLoader);
+        loadImages();
     }
 
     @Override
@@ -49,13 +50,26 @@ public class FeatureServiceImpl extends FeatureGrpc.FeatureImplBase {
         responseObserver.onCompleted();
     }
 
-    private void loadImages(ResourceLoader resourceLoader) throws IOException {
-        Resource dir = resourceLoader.getResource("classpath:data/images");
-        for (File file : Objects.requireNonNull(dir.getFile().listFiles())) {
-            String name = file.getName();
-            String id = name.substring(0, name.lastIndexOf('.'));
-            imageBuffers.put(id, Files.readAllBytes(file.toPath()));
+    private void loadImages() throws IOException {
+
+        var resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = resolver.getResources("classpath:data/images/*");
+
+        for (Resource resource : resources) {
+            if (!resource.isReadable()) continue;
+
+            String filename = resource.getFilename();
+            if (filename == null) continue;
+
+            String id = filename;
+            int dot = id.lastIndexOf('.');
+            if (dot > 0) {
+                id = id.substring(0, dot);
+            }
+
+            imageBuffers.put(id, resource.getInputStream().readAllBytes());
         }
+        System.out.println("Loaded " + imageBuffers.size() + " images");
     }
 
     private List<Float> extractFeatures(byte[] image, int kernelSize) {

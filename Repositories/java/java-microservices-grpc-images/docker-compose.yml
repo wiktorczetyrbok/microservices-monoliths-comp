@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  gateway:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/java-gateway-grpc:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./gateway
+    ports:
+      - "5000:8080"
+    depends_on:
+      - search
+      - metadata
+    networks:
+      - app-network
+  search:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/java-search-grpc:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./search
+    depends_on:
+      - feature
+      - similarity
+    networks:
+      - app-network
+
+  metadata:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/java-metadata-grpc:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./metadata
+    networks:
+      - app-network
+  feature:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/java-feature-grpc:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./feature
+    networks:
+      - app-network
+  similarity:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/java-similarity-grpc:latest
+    build:
+      dockerfile: Dockerfile
+      context: ./similarity
+    networks:
+      - app-network
+
+networks:
+  app-network:
