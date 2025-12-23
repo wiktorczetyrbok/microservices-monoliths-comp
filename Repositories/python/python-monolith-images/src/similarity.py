@@ -11,7 +11,6 @@ def find_similar_images(query_vector, threshold):
 
     for image_id, ref_vector in feature_index.items():
         distance = euclidean(query_vector, ref_vector)
-        print(f"[SIMILARITY] {image_id} distance={distance:.4f}")
         if distance <= threshold:
             matches.append(image_id)
 

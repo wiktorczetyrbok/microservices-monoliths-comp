@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package search;
+
+service Search {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}
+
+message SearchRequest {
+  int32 kernel = 1;
+  float threshold = 2;
+}
+
+message SearchResponse {
+  repeated string imageIds = 1;
+}

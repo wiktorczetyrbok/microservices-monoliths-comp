@@ -1,0 +1,46 @@
+version: '3.8'
+services:
+  gateway:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/python-gateway-grpc:latest
+    build:
+      context: .
+      dockerfile: services/gateway/Dockerfile
+    ports:
+      - "5000:8080"
+    networks:
+      - microservices_network
+
+  search:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/python-search-grpc:latest
+    build:
+      context: .
+      dockerfile: services/search/Dockerfile
+    networks:
+      - microservices_network
+
+  metadata:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/python-metadata-grpc:latest
+    build:
+      context: .
+      dockerfile: services/metadata/Dockerfile
+    networks:
+      - microservices_network
+
+  feature:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/python-feature-grpc:latest
+    build:
+      context: .
+      dockerfile: services/feature/Dockerfile
+    networks:
+      - microservices_network
+
+  similarity:
+    image: ghcr.io/wiktorczetyrbok/microservices-monoliths-comp-images/python-similarity-grpc:latest
+    build:
+      context: .
+      dockerfile: services/similarity/Dockerfile
+    networks:
+      - microservices_network
+
+networks:
+  microservices_network:
