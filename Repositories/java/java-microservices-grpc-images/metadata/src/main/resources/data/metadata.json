@@ -1,0 +1,27 @@
+[
+    {
+        "id": "img001",
+        "name": "Horizontal Gradient",
+        "tags": ["gradient", "horizontal", "low-frequency"]
+    },
+    {
+        "id": "img002",
+        "name": "Vertical Gradient",
+        "tags": ["gradient", "vertical", "low-frequency"]
+    },
+    {
+        "id": "img003",
+        "name": "Checkerboard Pattern",
+        "tags": ["pattern", "high-frequency", "edges"]
+    },
+    {
+        "id": "img004",
+        "name": "Uniform Gray",
+        "tags": ["baseline", "uniform", "control"]
+    },
+    {
+        "id": "img005",
+        "name": "Random Noise",
+        "tags": ["noise", "stress-test", "high-entropy"]
+    }
+]
