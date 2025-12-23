@@ -3,6 +3,10 @@ package pb.java.microservices.grpc.gateway.service;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.stereotype.Service;
+import com.google.protobuf.util.JsonFormat;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
+import java.util.Map;
 import pb.java.microservices.grpc.search.generatedProto.SearchGrpc;
 import pb.java.microservices.grpc.search.generatedProto.SearchRequest;
 import pb.java.microservices.grpc.search.generatedProto.SearchResponse;
@@ -38,12 +42,12 @@ public class GatewayService {
                 searchClient.search(
                         SearchRequest.newBuilder()
                                 .setKernel(kernel)
-                                .setThreshold((float)threshold)
+                                .setThreshold((float) threshold)
                                 .build()
                 );
 
         if (searchRes.getImageIdsList().isEmpty()) {
-            return new Object[0];
+            return List.of();
         }
 
         MetadataResponse metaRes =
@@ -53,6 +57,22 @@ public class GatewayService {
                                 .build()
                 );
 
-        return metaRes.getImagesList();
+        try {
+            // 1. protobuf → JSON string (NO unknownFields)
+            String json =
+                    JsonFormat.printer()
+                            .omittingInsignificantWhitespace()
+                            .print(metaRes);
+
+            // 2. JSON string → plain Java Map/List
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> parsed = mapper.readValue(json, Map.class);
+
+            // 3. return ONLY images (matches JS behavior)
+            return parsed.get("images");
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
