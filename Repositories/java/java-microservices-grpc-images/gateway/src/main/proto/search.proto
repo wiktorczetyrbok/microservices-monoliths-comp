@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package search;
+option java_multiple_files = true;
+option java_package = "pb.java.microservices.grpc.search.generatedProto";
+
+service Search {
+  rpc Search (SearchRequest) returns (SearchResponse);
+}
+
+message SearchRequest {
+  int32 kernel = 1;
+  float threshold = 2;
+}
+
+message SearchResponse {
+  repeated string imageIds = 1;
+}

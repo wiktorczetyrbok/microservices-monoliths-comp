@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "pb.java.microservices.grpc.metadata.generatedProto";
+package metadata;
+
+service Metadata {
+  rpc Get (MetadataRequest) returns (MetadataResponse);
+}
+
+message MetadataRequest {
+  repeated string imageIds = 1;
+}
+
+message ImageMeta {
+  string id = 1;
+  string name = 2;
+  repeated string tags = 3;
+}
+
+message MetadataResponse {
+  repeated ImageMeta images = 1;
+}
