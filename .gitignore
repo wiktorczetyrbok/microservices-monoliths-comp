@@ -110,3 +110,4 @@ http-client.private.env.json
 *.synctex.gz
 *.toc
 *.xdv
+/Repositories/java/java-monolith-images/.gradle/
