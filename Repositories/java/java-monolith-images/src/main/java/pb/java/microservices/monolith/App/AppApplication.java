@@ -159,7 +159,12 @@ public class AppApplication {
 	private static List<String> findSimilarImages(double[] queryVector, double threshold) {
 		return featureIndex.entrySet()
 				.stream()
-				.filter(e -> euclidean(queryVector, e.getValue()) <= threshold)
+				.filter(e -> {
+					double distance = euclidean(queryVector, e.getValue());
+					System.out.printf("[SIM] %s dist=%.4f%n", e.getKey(), distance);
+
+					return distance <= threshold;
+				})
 				.map(Map.Entry::getKey)
 				.collect(Collectors.toList());
 	}
