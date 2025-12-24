@@ -15,9 +15,10 @@ export function findSimilarImages(queryVector, threshold) {
         .filter(([id, ref]) => {
             const distance = euclidean(queryVector, ref);
 
+            console.log(`[SIM] ${id} dist=${distance.toFixed(4)}`);
+
             return distance <= threshold;
         })
         .map(([id]) => id);
 }
-
 
