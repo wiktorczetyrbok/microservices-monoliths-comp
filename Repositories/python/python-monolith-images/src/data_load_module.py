@@ -11,7 +11,7 @@ metadata_index = {}
 
 
 def load_json(filename):
-    with open(os.path.join(data_dir, filename), "r") as f:
+    with open(os.path.join(data_dir, filename), "r", encoding="utf-8") as f:
         return json.load(f)
 
 

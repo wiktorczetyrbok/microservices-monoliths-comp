@@ -1,35 +1,36 @@
 import math
 
 
-def extract_features(image_bytes: bytes, kernel_size: int = 3):
-    pixels = list(image_bytes)
-    size = int(math.sqrt(len(pixels)))
-    width = height = size
+def extract_features(image_buffer: bytes, kernel_size: int = 3):
+    pixels = list(image_buffer)
 
-    # Grayscale normalization
+    width = int(math.sqrt(len(pixels)))
+    height = width
+    # Grayscale
     gray = [p / 255.0 for p in pixels]
 
-    # Mean convolution kernel
-    k = kernel_size
-    half = k // 2
-    kernel = [1 / (k * k)] * (k * k)
+    kernel_value = 1.0 / (kernel_size * kernel_size)
+    kernel = [kernel_value] * (kernel_size * kernel_size)
 
     output = [0.0] * len(gray)
+    half = kernel_size // 2
 
     for y in range(half, height - half):
         for x in range(half, width - half):
-            acc = 0.0
+            s = 0.0
             for ky in range(-half, half + 1):
                 for kx in range(-half, half + 1):
                     px = (y + ky) * width + (x + kx)
-                    acc += gray[px]
-            output[y * width + x] = acc / (k * k)
+                    s += gray[px] * kernel[
+                        (ky + half) * kernel_size + (kx + half)
+                        ]
+            output[y * width + x] = s
 
     # Histogram features
     bins = 16
     hist = [0] * bins
     for v in output:
-        idx = min(bins - 1, int(v * bins))
+        idx = min(bins - 1, int(math.floor(v * bins)))
         hist[idx] += 1
 
     # Normalize

@@ -12,8 +12,8 @@ app = Flask(__name__)
 @app.route("/images/search", methods=["GET"])
 def search_images():
     try:
-        kernel = int(request.args.get("kernel", 3))
-        threshold = float(request.args.get("threshold", 0.9))
+        kernel = int(request.args.get("kernel"))
+        threshold = float(request.args.get("threshold"))
 
         # Fixed reference image (like geo center)
         image_id = next(iter(image_buffers))
@@ -28,7 +28,7 @@ def search_images():
         return jsonify(get_image_metadata(matches))
 
     except Exception as e:
-        logging.error(e)
+        logging.exception(e)
         return jsonify({"error": "Internal Server Error"}), 500
 
 
