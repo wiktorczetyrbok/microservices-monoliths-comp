@@ -2,6 +2,13 @@ name: Run Specific Benchmark
 on:
   workflow_dispatch:
     inputs:
+      geo_or_images:
+        description: 'Geo benchmark or images processing'
+        required: true
+        type: choice
+        options:
+          - images
+          - geo
       language:
         description: 'Programming Language'
         required: true
@@ -66,6 +73,7 @@ jobs:
               ${{ github.event.inputs.start_users }} \
               ${{ github.event.inputs.step_users }} \
               ${{ github.event.inputs.end_users }} \
+              ${{ github.event.inputs.geo_or_images }} \
               > benchmark.log 2>&1 &
             
             echo "Benchmark started in background"

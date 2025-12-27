@@ -15,8 +15,16 @@ iterations="$3"
 start_users="$4"
 step_users="$5"
 end_users="$6"
+geo_or_images="$7"
 
-echo "[DEBUG] Args: language=$language app_type=$app_type iterations=$iterations start_users=$start_users step_users=$step_users end_users=$end_users"
+echo "[DEBUG] Args:"
+echo "  language=$language"
+echo "  app_type=$app_type"
+echo "  iterations=$iterations"
+echo "  start_users=$start_users"
+echo "  step_users=$step_users"
+echo "  end_users=$end_users"
+echo "  geo_or_images=$geo_or_images"
 
 if [ "$language" == "all_lang" ]; then
   languages=("java" "python" "js")
@@ -30,11 +38,12 @@ else
   app_types=("$app_type")
 fi
 
-echo "[DEBUG] Languages resolved: ${languages[@]}"
-echo "[DEBUG] App types resolved: ${app_types[@]}"
-
 TOTAL_SCENARIOS=$((${#languages[@]} * ${#app_types[@]}))
 CURRENT_SCENARIO=0
+
+echo "[DEBUG] Languages: ${languages[*]}"
+echo "[DEBUG] App types: ${app_types[*]}"
+echo "[DEBUG] Total scenarios: $TOTAL_SCENARIOS"
 
 for lang in "${languages[@]}"; do
   for app in "${app_types[@]}"; do
@@ -46,54 +55,75 @@ for lang in "${languages[@]}"; do
   "total": $TOTAL_SCENARIOS,
   "language": "$lang",
   "app_type": "$app",
+  "mode": "$geo_or_images",
   "phase": "deploying",
   "timestamp": "$(date -Is)"
 }
 EOF
 
-    echo "[DEBUG] Loop start: lang=$lang app=$app"
-    echo "Starting benchmark for $lang in $app configuration"
+    echo "[INFO] 🚀 Starting scenario $CURRENT_SCENARIO/$TOTAL_SCENARIOS: $lang / $app / $geo_or_images"
 
-    echo "[DEBUG] Deploying docker stack $lang-$app"
+    # -------- DEPLOY --------
+    if [ "$geo_or_images" == "geo" ]; then
+      STACK_NAME="$lang-$app"
+      COMPOSE_PATH="app/Repositories/$lang/$lang-$app/docker-compose.yml"
+    else
+      STACK_NAME="$lang-$app-images"
+      COMPOSE_PATH="app/Repositories/$lang/$lang-$app-images/docker-compose.yml"
+    fi
+
+    echo "[DEBUG] Deploying stack: $STACK_NAME"
     ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
-      sudo docker stack deploy -c app/Repositories/$lang/$lang-$app/docker-compose.yml $lang-$app
+      sudo docker stack deploy -c $COMPOSE_PATH $STACK_NAME
     "
 
-    url="http://10.0.0.2:5000/hotels?inDate=2023-06-07&outDate=2023-06-12&lat=54.29&lon=18.55"
+    # -------- HEALTHCHECK --------
+    if [ "$geo_or_images" == "geo" ]; then
+      url="http://10.0.0.2:5000/hotels?inDate=2023-06-07&outDate=2023-06-12&lat=54.29&lon=18.55"
+    else
+      url="http://10.0.0.2:5000/images/search?threshold=1.0&kernel=3"
+    fi
+
     echo "[DEBUG] Healthcheck URL: $url"
-    while true; do
-        status=$(curl -s -o /dev/null -w "%{http_code}" "$url")
-        echo "[DEBUG] HTTP status=$status"
-        if [ "$status" -eq 200 ]; then
-            echo "$lang $app Service ready"
-            break
-        else
-            echo "$lang $app Service not running"
-            sleep 5
-        fi
+
+    until [ "$(curl -s -o /dev/null -w "%{http_code}" "$url")" -eq 200 ]; do
+      echo "[DEBUG] Service not ready, waiting..."
+      sleep 5
     done
 
+    echo "[INFO] ✅ Service ready"
     cat <<EOF > "$PROGRESS_FILE"
 {
   "current": $CURRENT_SCENARIO,
   "total": $TOTAL_SCENARIOS,
   "language": "$lang",
   "app_type": "$app",
+  "mode": "$geo_or_images",
   "phase": "jmeter_running",
   "timestamp": "$(date -Is)"
 }
 EOF
 
-    echo "[DEBUG] Starting JMeter: iterations=$iterations users=$start_users->$end_users step=$step_users"
-    bash run_Jmeter.sh $iterations $start_users $step_users $end_users $lang $app
-    echo "[DEBUG] JMeter finished for $lang $app"
+    echo "[DEBUG] Starting JMeter"
 
+    if [ "$geo_or_images" == "geo" ]; then
+      bash run_Jmeter.sh \
+        "$iterations" "$start_users" "$step_users" "$end_users" "$lang" "$app"
+    else
+      bash run_Jmeter_images.sh \
+        "$iterations" "$start_users" "$step_users" "$end_users" "$lang" "$app"
+    fi
+
+    echo "[INFO] 📊 JMeter finished"
+
+    # -------- CLEANUP --------
     cat <<EOF > "$PROGRESS_FILE"
 {
   "current": $CURRENT_SCENARIO,
   "total": $TOTAL_SCENARIOS,
   "language": "$lang",
   "app_type": "$app",
+  "mode": "$geo_or_images",
   "phase": "cleanup",
   "timestamp": "$(date -Is)"
 }
@@ -104,7 +134,7 @@ EOF
       sudo docker service ls -q | xargs -r docker service rm
     "
     sleep 10
-    echo "[$(date)] 🚀 COMPLETED scenario: $language / $app_type"
+    echo "[INFO] ✅ COMPLETED: $lang / $app / $geo_or_images"
   done
 done
 

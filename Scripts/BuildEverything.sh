@@ -26,38 +26,38 @@ build_and_push_compose () {
 # ==================================================
 # PYTHON — MICROSERVICES (gRPC)
 # ==================================================
-build_and_push_compose "python-microservices-grpc" \
-  "$BASE_DIR/Repositories/python/python-microservices-grpc/docker-compose.yml"
+build_and_push_compose "python-microservices-grpc-images" \
+  "$BASE_DIR/Repositories/python/python-microservices-grpc-images/docker-compose.yml"
 
 # ==================================================
 # PYTHON — MONOLITH
 # ==================================================
-build_and_push_compose "python-monolith" \
-  "$BASE_DIR/Repositories/python/python-monolith/docker-compose.yml"
+build_and_push_compose "python-monolith-images" \
+  "$BASE_DIR/Repositories/python/python-monolith-images/docker-compose.yml"
 
 # ==================================================
 # JAVA — MICROSERVICES (gRPC)
 # ==================================================
-build_and_push_compose "java-microservices-grpc" \
-  "$BASE_DIR/Repositories/java/java-microservices-grpc/docker-compose.yml"
+build_and_push_compose "java-microservices-grpc-images" \
+  "$BASE_DIR/Repositories/java/java-microservices-grpc-images/docker-compose.yml"
 
 # ==================================================
 # JAVA — MONOLITH
 # ==================================================
-build_and_push_compose "java-monolith" \
-  "$BASE_DIR/Repositories/java/java-monolith/docker-compose.yml"
+build_and_push_compose "java-monolith-images" \
+  "$BASE_DIR/Repositories/java/java-monolith-images/docker-compose.yml"
 
 # ==================================================
 # JS — MICROSERVICES (gRPC)
 # ==================================================
-build_and_push_compose "js-microservices-grpc" \
-  "$BASE_DIR/Repositories/js/js-microservices-grpc/docker-compose.yml"
+build_and_push_compose "js-microservices-grpc-images" \
+  "$BASE_DIR/Repositories/js/js-microservices-grpc-images/docker-compose.yml"
 
 # ==================================================
 # JS — MONOLITH
 # ==================================================
-build_and_push_compose "js-monolith" \
-  "$BASE_DIR/Repositories/js/js-monolith/docker-compose.yml"
+build_and_push_compose "js-monolith-images" \
+  "$BASE_DIR/Repositories/js/js-monolith-images/docker-compose.yml"
 
 echo
 echo "✅ALL IMAGES BUILT AND PUSHED USING DOCKER COMPOSE"
