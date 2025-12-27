@@ -4,7 +4,6 @@ from concurrent import futures
 import grpc
 from data.data_load_module import (
     load_data,
-    build_metadata_index,
     metadata_index,
 )
 from proto import metadata_pb2, metadata_pb2_grpc
@@ -12,28 +11,19 @@ from proto import metadata_pb2, metadata_pb2_grpc
 METADATA_SERVICE_ADDRESS = "[::]:8080"
 
 
-def build_metadata_proto_response(matching_metadata):
-    result = metadata_pb2.MetadataResponse()
-    for meta in matching_metadata:
-        image = result.images.add()
-        image.id = meta["id"]
-        image.name = meta["name"]
-        image.tags.extend(meta["tags"])
-    return result
-
-
 class MetadataServicer(metadata_pb2_grpc.MetadataServicer):
+
     def Get(self, request, context):
-        matching_metadata = [
-            metadata_index.get(image_id)
-            for image_id in request.imageIds
-            if image_id in metadata_index
-        ]
+        response = metadata_pb2.MetadataResponse()
+        for image_id in request.imageIds:
+            meta = metadata_index.get(image_id)
+            if meta:
+                image = response.images.add()
+                image.id = meta["id"]
+                image.name = meta["name"]
+                image.tags.extend(meta["tags"])
 
-        if not matching_metadata:
-            return metadata_pb2.MetadataResponse()
-
-        return build_metadata_proto_response(matching_metadata)
+        return response
 
 
 def serve():
@@ -43,8 +33,10 @@ def serve():
     )
     server.add_insecure_port(METADATA_SERVICE_ADDRESS)
     load_data()
-    build_metadata_index()
+
     server.start()
+    print("Metadata service running on 8080")
+
     try:
         while True:
             time.sleep(86400)

@@ -1,8 +1,9 @@
 import math
 
 
-def extract_features(image_bytes: bytes, kernel_size: int):
+def extract_features(image_bytes: bytes, kernel_size: int = 3):
     pixels = list(image_bytes)
+
     size = int(math.sqrt(len(pixels)))
     width = height = size
 
@@ -10,7 +11,6 @@ def extract_features(image_bytes: bytes, kernel_size: int):
 
     k = kernel_size
     half = k // 2
-
     output = [0.0] * len(gray)
 
     for y in range(half, height - half):
