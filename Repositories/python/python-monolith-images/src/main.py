@@ -16,7 +16,8 @@ def search_images():
         threshold = float(request.args.get("threshold"))
 
         # Fixed reference image (like geo center)
-        image_id = next(iter(image_buffers))
+        image_id = "img001"
+
         query_image = image_buffers[image_id]
 
         query_vector = extract_features(query_image, kernel)

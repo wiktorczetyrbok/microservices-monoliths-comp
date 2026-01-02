@@ -11,13 +11,10 @@ def euclidean(a, b):
 
 
 def find_similar_images(query_vector, threshold):
-    return [
-        image_id
-        for image_id, ref in feature_index.items()
-        if (
-                (lambda dist: (
-                        print(f"[SIM] {image_id} dist={dist:.4f}") or True
-                ))(euclidean(query_vector, ref))
-                and euclidean(query_vector, ref) <= threshold
-        )
-    ]
+    result = []
+    for image_id, ref in feature_index.items():
+        dist = euclidean(query_vector, ref)
+        print(f"[SIM] {image_id} dist={dist:.4f}")
+        if dist <= threshold:
+            result.append(image_id)
+    return result
