@@ -37,12 +37,10 @@ for language in "${languages[@]}"; do
         bash run_Jmeter_images.sh 3 1 1 20 python microservices-grpc
 
       elif [ "$language" == "java" ] && [ "$app_type" == "monolith" ]; then
-        #bash run_Jmeter_images.sh 3 10 5 150 java monolith
-        :
+        bash run_Jmeter_images.sh 3 10 5 150 java monolith
 
       elif [ "$language" == "java" ] && [ "$app_type" == "microservices-grpc" ]; then
-        #bash run_Jmeter_images.sh 3 10 5 120 java microservices-grpc
-        :
+        bash run_Jmeter_images.sh 3 10 5 120 java microservices-grpc
 
       elif [ "$language" == "js" ] && [ "$app_type" == "monolith" ]; then
         bash run_Jmeter_images.sh 3 5 5 130 js monolith
