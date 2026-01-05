@@ -1,34 +1,22 @@
 #!/bin/bash
 set -e
+machine="$1"
 
 languages=("java" "js" "python")
 app_types=("monolith" "microservices-grpc")
 
 for language in "${languages[@]}"; do
   for app_type in "${app_types[@]}"; do
-    stack_name="${language}-${app_type}"
+    stack_name="${language}-${app_type}-images"
 
     ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
-      sudo docker stack deploy -c app/Repositories/$language/$language-$app_type/docker-compose.yml $stack_name --with-registry-auth
+      sudo docker stack deploy -c app/Repositories/$language/$language-$app_type-images/docker-compose.yml $stack_name
     "
     sleep 30
-    
-    if [ "$app_type" == "monolith" ]; then
-      service_names=('gateway')
-    else
-      service_names=('gateway' 'search' 'profile' 'geo' 'rate')
-    fi
-    for service in "${service_names[@]}"; do
-      ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
-        sudo docker service scale ${stack_name}_${service}=5
-      "
-    done
-    
-      
-    sleep 10
 
 
-    url="http://10.0.0.2:5000/hotels?inDate=2023-06-07&outDate=2023-06-12&lat=54.29&lon=18.55"
+
+    url="http://10.0.0.2:5000/images/search?threshold=1.0&kernel=3"
     while true; do
         status=$(curl -s -o /dev/null -w "%{http_code}" "$url")
         if [ "$status" -eq 200 ]; then
@@ -40,18 +28,84 @@ for language in "${languages[@]}"; do
         fi
     done
 
-    if [ "$language" == "python" ]; then
-      bash run_Jmeter.sh 3 1 1 100 $language $app_type > /dev/null 2>&1
-    elif [ "$app_type" == "monolith" ]; then
-      bash run_Jmeter.sh 5 5 5 5 $language $app_type > /dev/null 2>&1
-      bash run_Jmeter.sh 5 10 10 1250 $language $app_type > /dev/null 2>&1
-    elif [ "$app_type" == "microservices-grpc" ]; then
-      bash run_Jmeter.sh 5 5 5 5 $language $app_type > /dev/null 2>&1
-      bash run_Jmeter.sh 5 10 10 600 $language $app_type > /dev/null 2>&1
+    if [ "$machine" == "c2d-2" ]; then
+
+      if [ "$language" == "python" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 2 2 30 python monolith
+
+      elif [ "$language" == "python" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 1 1 20 python microservices-grpc
+
+      elif [ "$language" == "java" ] && [ "$app_type" == "monolith" ]; then
+        #bash run_Jmeter_images.sh 3 10 5 150 java monolith
+        :
+
+      elif [ "$language" == "java" ] && [ "$app_type" == "microservices-grpc" ]; then
+        #bash run_Jmeter_images.sh 3 10 5 120 java microservices-grpc
+        :
+
+      elif [ "$language" == "js" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 5 5 130 js monolith
+
+      elif [ "$language" == "js" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 5 5 120 js microservices-grpc
+
+      else
+        exit 1
+      fi
+
+    elif [ "$machine" == "c2d-4" ]; then
+
+      if [ "$language" == "python" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 2 4 50 python monolith
+
+      elif [ "$language" == "python" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 2 2 30 python microservices-grpc
+
+      elif [ "$language" == "java" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 10 10 300 java monolith
+
+      elif [ "$language" == "java" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 20 10 250 java microservices-grpc
+
+      elif [ "$language" == "js" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 10 10 250 js monolith
+
+      elif [ "$language" == "js" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 10 10 200 js microservices-grpc
+
+      else
+        exit 1
+      fi
+
+    elif [ "$machine" == "c2d-8" ]; then
+
+      if [ "$language" == "python" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 2 8 100 python monolith
+
+      elif [ "$language" == "python" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 2 4 60 python microservices-grpc
+
+      elif [ "$language" == "java" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 20 20 600 java monolith
+
+      elif [ "$language" == "java" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 20 20 500 java microservices-grpc
+
+      elif [ "$language" == "js" ] && [ "$app_type" == "monolith" ]; then
+        bash run_Jmeter_images.sh 3 20 20 500 js monolith
+
+      elif [ "$language" == "js" ] && [ "$app_type" == "microservices-grpc" ]; then
+        bash run_Jmeter_images.sh 3 10 15 450 js microservices-grpc
+
+      else
+        exit 1
+      fi
+
     else
-      bash run_Jmeter.sh 5 5 5 5 $language $app_type > /dev/null 2>&1
-      bash run_Jmeter.sh 5 10 10 350 $language $app_type > /dev/null 2>&1
+      exit 1
     fi
+
 
     ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker service ls -q | xargs -r docker service rm

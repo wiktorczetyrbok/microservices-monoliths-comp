@@ -1,7 +1,15 @@
 name: Start All Benchmarks
 on:
   workflow_dispatch:
-  
+    inputs:
+      machine:
+        description: 'Select the machine type'
+        required: true
+        type: choice
+        options:
+          - c2d-2
+          - c2d-4
+          - c2d-8
 
 jobs:
   run-benchmark-java-grpc:
@@ -25,7 +33,10 @@ jobs:
           username: ${{ env.SSH_USERNAME }}
           key: ${{ env.SSH_PRIVATE_KEY }}
           script: |
-            cd app/
+            cd /home/wczetyrbok/app
             sudo openssl aes-256-cbc -d -in ssh-key.enc -out ssh_key -k ${{ secrets.SSH_KEY_PASSPHRASE }}
             sudo chmod 600 ssh_key
-            sudo nohup bash /home/wczetyrbok/app/StartBenchmark.sh > /dev/null 2>&1 &
+    
+            nohup sudo bash StartBenchmark.sh \
+              ${{ github.event.inputs.machine }} \
+              > benchmark.log 2>&1 &

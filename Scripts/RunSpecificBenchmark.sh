@@ -3,7 +3,6 @@
 echo "[DEBUG] Script started at $(date)"
 
 BASE_DIR="/home/wczetyrbok/app"
-LOG_FILE="$BASE_DIR/benchmark.log"
 PROGRESS_FILE="$BASE_DIR/progress.json"
 STATUS_FILE="$BASE_DIR/status.txt"
 
