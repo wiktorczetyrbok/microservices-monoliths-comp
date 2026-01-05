@@ -1,4 +1,4 @@
-name: 'Prepare Cloud Env'
+name: 'Cloud Env - Set Up'
 
 on:
   workflow_dispatch:

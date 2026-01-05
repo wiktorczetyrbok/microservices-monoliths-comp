@@ -1,4 +1,4 @@
-name: Start All Benchmarks
+name: Run All Benchmarks
 on:
   workflow_dispatch:
     inputs:

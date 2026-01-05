@@ -1,4 +1,4 @@
-name: 'Clean up Cloud Env'
+name: 'Cloud Env - Clean up '
 
 on:
   workflow_dispatch:

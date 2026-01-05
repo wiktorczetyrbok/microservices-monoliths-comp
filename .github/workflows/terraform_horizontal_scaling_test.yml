@@ -1,4 +1,4 @@
-name: 'Add swarm workers - horizontal scaling'
+name: 'Cloud Env - Horizontal Scaling'
 
 on:
   workflow_dispatch:
