@@ -11,6 +11,14 @@ for language in "${languages[@]}"; do
 
     ssh -i ./ssh_key -o StrictHostKeyChecking=no wczetyrbok@10.0.0.2 "
       sudo docker stack deploy -c app/Repositories/$language/$language-$app_type-images/docker-compose.yml $stack_name
+
+      WORKERS=\$(docker node ls --filter role=worker --format '{{.ID}}' | wc -l)
+
+      echo \"Scaling services in stack $stack_name to \$WORKERS replicas\"
+
+      for svc in \$(docker stack services $stack_name --format '{{.Name}}'); do
+        docker service scale \$svc=\$WORKERS
+      done
     "
     sleep 30
 
