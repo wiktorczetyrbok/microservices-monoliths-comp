@@ -1,147 +1,131 @@
-import os
 import re
+from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from pathlib import Path
 
-# ======================
-# CONFIG
-# ======================
+# ================= CONFIG =================
 BASE_DIR = Path("csv")
-OUTPUT_DIR = Path("plots")
-OUTPUT_DIR.mkdir(exist_ok=True)
+OUT_DIR = Path("plots_svg")
+OUT_DIR.mkdir(exist_ok=True)
 
-DELTA_SEC = 4
-TOTAL_TIME_SEC = 5
+DELTA = 4
+TOTAL_TIME = 5
 MAX_LATENCY = 200
 
-# ======================
-# HELPERS
-# ======================
-def get_benchmark_df(df, delta, total_time):
+COLORS = [
+    "#386cb0",  # blue
+    "#fdb462",  # orange
+    "#7fc97f",  # green
+    "#ef3b2c",
+    "#662506"
+]
+
+# ================= HELPERS =================
+def extract_users(fname):
+    return int(re.search(r"users_(\d+)", fname).group(1))
+
+def get_benchmark_df(df):
     df = df.copy()
     df["response_end"] = df["timeStamp"] + df["elapsed"]
+    start_est = df["timeStamp"].min() + DELTA * 1000
+    start = df[df["response_end"] > start_est]["response_end"].min()
+    end = start + TOTAL_TIME * 1000
+    return df[(df["response_end"] >= start) & (df["response_end"] <= end)]
 
-    estimated_start = df["timeStamp"].min() + delta * 1000
-    benchmark_start = df[df["response_end"] > estimated_start]["response_end"].min()
-    benchmark_end = benchmark_start + total_time * 1000
-
-    return df[
-        (df["response_end"] >= benchmark_start) &
-        (df["response_end"] <= benchmark_end)
-        ]
-
-
-def compute_stats(df, total_time):
-    all_requests = len(df)
-
+def compute_throughput(df):
+    all_req = len(df)
     df = df[df["responseCode"] == 200]
-    successful = len(df)
-
-    error_rate = (all_requests - successful) / all_requests if all_requests else 0
-    median_latency = df["Latency"].median()
-    q90_latency = df["Latency"].quantile(0.9)
-
     df = df[df["Latency"] <= MAX_LATENCY]
-    throughput = len(df) / total_time
+    return len(df) / TOTAL_TIME if all_req else 0
 
-    return throughput, median_latency, q90_latency, error_rate
+# ================= LOAD DATA =================
+rows = []
 
-
-def extract_users(filename):
-    return int(re.search(r"users_(\d+)", filename).group(1))
-
-
-# ======================
-# LOAD DATA
-# ======================
-records = []
-
-for impl_dir in BASE_DIR.iterdir():
-    if not impl_dir.is_dir():
+for impl in BASE_DIR.iterdir():
+    if not impl.is_dir():
         continue
 
-    for iteration_dir in impl_dir.iterdir():
-        if not iteration_dir.is_dir():
+    for iteration in impl.iterdir():
+        if not iteration.is_dir():
             continue
 
-        for csv_file in iteration_dir.glob("users_*.csv"):
-            df = pd.read_csv(csv_file)
-
+        for csv in iteration.glob("users_*.csv"):
+            df = pd.read_csv(csv)
             df["timeStamp"] -= df["timeStamp"].min()
-            bench = get_benchmark_df(df, DELTA_SEC, TOTAL_TIME_SEC)
 
-            throughput, med, q90, err = compute_stats(bench, TOTAL_TIME_SEC)
+            bench = get_benchmark_df(df)
+            thr = compute_throughput(bench)
 
-            records.append({
-                "implementation": impl_dir.name,
-                "iteration": iteration_dir.name,
-                "users": extract_users(csv_file.name),
-                "throughput": throughput,
-                "median_latency": med,
-                "q90_latency": q90,
-                "error_rate": err
+            rows.append({
+                "implementation": impl.name,
+                "users": extract_users(csv.name),
+                "throughput": thr
             })
 
-data = pd.DataFrame(records)
+df = pd.DataFrame(rows)
 
-# ======================
-# AGGREGATION
-# ======================
+# ================= AGGREGATION =================
 agg = (
-    data
-    .groupby(["implementation", "users"])
-    .median(numeric_only=True)
-    .reset_index()
+    df.groupby(["implementation", "users"])
+      .median()
+      .reset_index()
 )
 
-# ======================
-# PLOT: THROUGHPUT
-# ======================
-plt.figure(figsize=(12, 7))
+# ================= CUT AFTER 90% DROP =================
+def trim_after_drop(group):
+    group = group.sort_values("users")
+    max_thr = group["throughput"].max()
+    max_idx = group["throughput"].idxmax()
 
-for impl, df_impl in agg.groupby("implementation"):
-    df_impl = df_impl.sort_values("users")
+    after_max = group.loc[group.index > max_idx]
+    drop = after_max[after_max["throughput"] < 0.9 * max_thr]
+
+    if len(drop) > 0:
+        cut_idx = drop.index[0]
+        return group.loc[group.index <= cut_idx]
+    return group
+
+trimmed = (
+    agg.groupby("implementation", group_keys=False)
+       .apply(trim_after_drop)
+)
+
+# ================= PLOTTING =================
+plt.rcParams.update({
+    "font.size": 12,
+    "axes.edgecolor": "black",
+    "axes.linewidth": 1,
+})
+
+for impl, data in trimmed.groupby("implementation"):
+    data = data.sort_values("users")
+    color = COLORS[hash(impl) % len(COLORS)]
+
+    plt.figure(figsize=(8, 5))
     plt.plot(
-        df_impl["users"],
-        df_impl["throughput"],
+        data["users"],
+        data["throughput"],
         marker="o",
-        label=impl
+        linewidth=2,
+        color=color
     )
 
-plt.xlabel("Liczba użytkowników")
-plt.ylabel("Przepustowość (req/s)")
-plt.title("Skalowanie – przepustowość")
-plt.legend()
-plt.grid(alpha=0.3)
+    # mark max
+    idx = data["throughput"].idxmax()
+    x = data.loc[idx, "users"]
+    y = data.loc[idx, "throughput"]
 
-plt.tight_layout()
-plt.savefig(OUTPUT_DIR / "throughput_scaling.png", dpi=300)
-plt.close()
+    plt.scatter(x, y, color="black", marker="^", s=80, zorder=5)
+    plt.text(x, y * 1.02, f"{y:.1f}", ha="center", fontsize=11)
 
-# ======================
-# PLOT: LATENCY
-# ======================
-plt.figure(figsize=(12, 7))
+    plt.title(impl)
+    plt.xlabel("Liczba użytkowników")
+    plt.ylabel("Przepustowość [req/s]")
+    plt.grid(alpha=0.3)
 
-for impl, df_impl in agg.groupby("implementation"):
-    df_impl = df_impl.sort_values("users")
-    plt.plot(
-        df_impl["users"],
-        df_impl["median_latency"],
-        marker="o",
-        label=impl
-    )
+    plt.tight_layout()
+    plt.savefig(OUT_DIR / f"{impl}_vertical_scaling.svg", format="svg")
+    plt.close()
 
-plt.xlabel("Liczba użytkowników")
-plt.ylabel("Mediana latencji [ms]")
-plt.title("Skalowanie – latencja")
-plt.legend()
-plt.grid(alpha=0.3)
-
-plt.tight_layout()
-plt.savefig(OUTPUT_DIR / "latency_scaling.png", dpi=300)
-plt.close()
-
-print("✅ Wykresy zapisane w katalogu plots/")
+print("✅ SVG zapisane w plots_svg/")

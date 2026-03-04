@@ -41,11 +41,8 @@
 \usepackage{svg}
 \usepackage{hyperref}
 \usepackage{caption}
-% \usepackage{subcaption}
-% \usepackage{xr}
 \usepackage[prependcaption,textsize=tiny]{todonotes}
 \usepackage{xargs}                      % Use more than one optional parameter in a new commands
-% \usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc.
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{pdflscape}
@@ -53,55 +50,21 @@
 \usepackage{pdfpages}
 \usepackage{blindtext}
 \usepackage{csquotes}
-% \usepackage[polish]{cleveref}
 
-% \renewcommand\polishtablename{Tabela.}
 \captionsetup[table]{name=Table}
 \captionsetup[figure]{name=Fig.}
 
-% \newcommand{\fix}{\marginpar{FIX}} \newcommand{\new}{\marginpar{NEW}}
 \setlength{\parindent}{1.25cm}
 \setlength{\parskip}{1em}
 
-% \nipsfinalcopy % Uncomment for camera-ready version
 
 \setcounter{secnumdepth}{5}
 
-% \makeatletter
-% \renewcommand{\paragraph}{\@startsection{paragraph}{4}{0ex}%
-%   {-3.25ex plus -1ex minus -0.2ex}%
-%   {1.5ex plus 0.2ex}%
-%   {\normalfont\normalsize\bfseries}}
-% \makeatother
-
-% \makeatletter
-% \renewcommand{\subparagraph}{\@startsection{subparagraph}{4}{0ex}%
-%   {-3.25ex plus -1ex minus -0.2ex}%
-%   {1.5ex plus 0.2ex}%
-%   {\normalfont\normalsize\bfseries}}
-% \makeatother
-
-% \makeatletter
-% \newcommand*{\addFileDependency}[1]{% argument=file name and extension
-%   \typeout{(#1)}
-%   \@addtofilelist{#1}
-%   \IfFileExists{#1}{}{\typeout{No file #1.}}
-% }
-% \makeatother
-
-% \newcommand*{\myexternaldocument}[1]{%
-%     \externaldocument{#1}%
-%     \addFileDependency{#1.tex}%
-%     \addFileDependency{#1.aux}%
-% }
-
-%\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 
 \makeatletter
 \newcommand{\chapterauthor}[1]{%
   {\parindent1cm\vspace*{-20pt}%
   \linespread{1.1}\small\scshape\textcolor{gray}{#1}%
-%   \par\nobreak\vspace*{20pt}
   }
   \@afterheading%
 }
@@ -116,7 +79,6 @@
 \sloppy
 
 \includepdf{meta/StronaTytulowa_188695.pdf}
-% \includepdf{meta/Oswiadczenie.pdf}
 
 \let\cleardoublepage\clearpage
 \import{chapters/}{chapter0_streszczenie.tex}
@@ -134,7 +96,6 @@
 \chapter{Introduction}
 \import{chapters/}{chapter1_intro.tex}
 
-% \let\cleardoublepage\clearpage
 \chapter{Research analysis}
 \label{chapter:research}
 \import{chapters/}{chapter2_research.tex}
@@ -190,13 +151,6 @@
 \addcontentsline{toc}{chapter}{Appendix B: Data Dictionary}
 \includepdf[pages=1,scale=0.8,pagecommand={\centering{\LARGE \textbf{Data Dictionary}}}]{meta/data_dictionary.pdf}
 \includepdf[pages={2-},scale=0.8,pagecommand={}]{meta/data_dictionary.pdf}
-
- %\let\cleardoublepage\clearpage
-% \chapter*{Appendix D: Prototype}
-% \label{chapter:appendixB}
-% \addcontentsline{toc}{chapter}{Appendix C: Prototype}
-% % Include the PDF
-% \includepdf[pages=-]{meta/prototype.pdf}  % 'pages=-' includes all pages of the PDF
 
 \nocite{*}
 

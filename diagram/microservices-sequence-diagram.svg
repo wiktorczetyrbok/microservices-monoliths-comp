@@ -1,0 +1,305 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css"
+     data-diagram-type="SEQUENCE" height="540px" preserveAspectRatio="none"
+     style="width:897px;height:540px;background:#FFFFFF;" version="1.1" viewBox="0 0 897 540" width="897px"
+     zoomAndPan="magnify">
+    <title>Diagram sekwencji - wyszukiwanie podobnych obraz&#243;w</title>
+    <defs/>
+    <g>
+        <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+              textLength="437.0488" x="229.3877" y="27.9951">Diagram sekwencji - wyszukiwanie podobnych obraz&#243;w
+        </text>
+        <g>
+            <title>Gateway</title>
+            <rect fill="#FFFFFF" height="277.3281" style="stroke:#181818;stroke-width:1;" width="10" x="149.2256"
+                  y="164.8594"/>
+        </g>
+        <g>
+            <title>Search Service</title>
+            <rect fill="#FFFFFF" height="145.6641" style="stroke:#181818;stroke-width:1;" width="10" x="310.6631"
+                  y="193.9922"/>
+        </g>
+        <g>
+            <title>Feature Service</title>
+            <rect fill="#FFFFFF" height="29.1328" style="stroke:#181818;stroke-width:1;" width="10" x="531.8701"
+                  y="223.125"/>
+        </g>
+        <g>
+            <title>Similarity Service</title>
+            <rect fill="#FFFFFF" height="29.1328" style="stroke:#181818;stroke-width:1;" width="10" x="672.146"
+                  y="281.3906"/>
+        </g>
+        <g>
+            <title>Metadata Service</title>
+            <rect fill="#FFFFFF" height="29.1328" style="stroke:#181818;stroke-width:1;" width="10" x="818.5811"
+                  y="368.7891"/>
+        </g>
+        <g>
+            <title>Client</title>
+            <rect fill="#000000" fill-opacity="0.00000" height="341.5938" width="8" x="24.2651" y="118.5938"/>
+            <line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="28" x2="28" y1="118.5938"
+                  y2="460.1875"/>
+        </g>
+        <g>
+            <title>Gateway</title>
+            <rect fill="#000000" fill-opacity="0.00000" height="341.5938" width="8" x="150.2256" y="118.5938"/>
+            <line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="153.3032" x2="153.3032"
+                  y1="118.5938" y2="460.1875"/>
+        </g>
+        <g>
+            <title>Search Service</title>
+            <rect fill="#000000" fill-opacity="0.00000" height="341.5938" width="8" x="311.6631" y="118.5938"/>
+            <line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="315.3647" x2="315.3647"
+                  y1="118.5938" y2="460.1875"/>
+        </g>
+        <g>
+            <title>Feature Service</title>
+            <rect fill="#000000" fill-opacity="0.00000" height="341.5938" width="8" x="532.8701" y="118.5938"/>
+            <line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="536.7861" x2="536.7861"
+                  y1="118.5938" y2="460.1875"/>
+        </g>
+        <g>
+            <title>Similarity Service</title>
+            <rect fill="#000000" fill-opacity="0.00000" height="341.5938" width="8" x="673.146" y="118.5938"/>
+            <line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="676.9541" x2="676.9541"
+                  y1="118.5938" y2="460.1875"/>
+        </g>
+        <g>
+            <title>Metadata Service</title>
+            <rect fill="#000000" fill-opacity="0.00000" height="341.5938" width="8" x="819.5811" y="118.5938"/>
+            <line style="stroke:#181818;stroke-width:0.5;stroke-dasharray:5,5;" x1="823.3379" x2="823.3379"
+                  y1="118.5938" y2="460.1875"/>
+        </g>
+        <g class="participant participant-head" data-participant="Client">
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40.5303"
+                  x="5" y="115.292">Client
+            </text>
+            <ellipse cx="28.2651" cy="50.7969" fill="#E2E2F0" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M28.2651,58.7969 L28.2651,85.7969 M15.2651,66.7969 L41.2651,66.7969 M28.2651,85.7969 L15.2651,100.7969 M28.2651,85.7969 L41.2651,100.7969"
+                  fill="none" style="stroke:#181818;stroke-width:0.5;"/>
+        </g>
+        <g class="participant participant-tail" data-participant="Client">
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="40.5303"
+                  x="5" y="472.1826">Client
+            </text>
+            <ellipse cx="28.2651" cy="483.9844" fill="#E2E2F0" rx="8" ry="8" style="stroke:#181818;stroke-width:0.5;"/>
+            <path d="M28.2651,491.9844 L28.2651,518.9844 M15.2651,499.9844 L41.2651,499.9844 M28.2651,518.9844 L15.2651,533.9844 M28.2651,518.9844 L41.2651,533.9844"
+                  fill="none" style="stroke:#181818;stroke-width:0.5;"/>
+        </g>
+        <g class="participant participant-head" data-participant="Gateway">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="75.8447" x="116.3032" y="71"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61.8447"
+                  x="123.3032" y="90.9951">Gateway
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="46.9971"
+                  x="130.7271" y="107.292">(HTTP)
+            </text>
+        </g>
+        <g class="participant participant-tail" data-participant="Gateway">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="75.8447" x="116.3032" y="459.1875"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="61.8447"
+                  x="123.3032" y="479.1826">Gateway
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="46.9971"
+                  x="130.7271" y="495.4795">(HTTP)
+            </text>
+        </g>
+        <g class="participant participant-head" data-participant="Search">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="118.5967" x="256.3647" y="71"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="104.5967"
+                  x="263.3647" y="90.9951">Search Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="291.7852" y="107.292">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-tail" data-participant="Search">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="118.5967" x="256.3647" y="459.1875"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="104.5967"
+                  x="263.3647" y="479.1826">Search Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="291.7852" y="495.4795">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-head" data-participant="Feature">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="124.168" x="474.7861" y="71"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110.168"
+                  x="481.7861" y="90.9951">Feature Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="512.9922" y="107.292">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-tail" data-participant="Feature">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="124.168" x="474.7861" y="459.1875"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="110.168"
+                  x="481.7861" y="479.1826">Feature Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="512.9922" y="495.4795">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-head" data-participant="Similarity">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="136.3838" x="608.9541" y="71"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122.3838"
+                  x="615.9541" y="90.9951">Similarity Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="653.2681" y="107.292">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-tail" data-participant="Similarity">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="136.3838" x="608.9541" y="459.1875"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122.3838"
+                  x="615.9541" y="479.1826">Similarity Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="653.2681" y="495.4795">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-head" data-participant="Metadata">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="136.4863" x="755.3379" y="71"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122.4863"
+                  x="762.3379" y="90.9951">Metadata Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="799.7031" y="107.292">(gRPC)
+            </text>
+        </g>
+        <g class="participant participant-tail" data-participant="Metadata">
+            <rect fill="#E2E2F0" height="46.5938" rx="2.5" ry="2.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="136.4863" x="755.3379" y="459.1875"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="122.4863"
+                  x="762.3379" y="479.1826">Metadata Service
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="47.7559"
+                  x="799.7031" y="495.4795">(gRPC)
+            </text>
+        </g>
+        <g>
+            <title>Gateway</title>
+            <rect fill="#FFFFFF" height="277.3281" style="stroke:#181818;stroke-width:1;" width="10" x="149.2256"
+                  y="164.8594"/>
+        </g>
+        <g>
+            <title>Search Service</title>
+            <rect fill="#FFFFFF" height="145.6641" style="stroke:#181818;stroke-width:1;" width="10" x="310.6631"
+                  y="193.9922"/>
+        </g>
+        <g>
+            <title>Feature Service</title>
+            <rect fill="#FFFFFF" height="29.1328" style="stroke:#181818;stroke-width:1;" width="10" x="531.8701"
+                  y="223.125"/>
+        </g>
+        <g>
+            <title>Similarity Service</title>
+            <rect fill="#FFFFFF" height="29.1328" style="stroke:#181818;stroke-width:1;" width="10" x="672.146"
+                  y="281.3906"/>
+        </g>
+        <g>
+            <title>Metadata Service</title>
+            <rect fill="#FFFFFF" height="29.1328" style="stroke:#181818;stroke-width:1;" width="10" x="818.5811"
+                  y="368.7891"/>
+        </g>
+        <g class="message" data-participant-1="Client" data-participant-2="Gateway">
+            <polygon fill="#181818" points="137.2256,160.8594,147.2256,164.8594,137.2256,168.8594,141.2256,164.8594"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;" x1="28.2651" x2="143.2256" y1="164.8594" y2="164.8594"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="87.3311"
+                  x="35.2651" y="144.6606">HTTP request
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="98.2363"
+                  x="35.2651" y="159.7935">(search image)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Gateway" data-participant-2="Search">
+            <polygon fill="#181818" points="298.6631,189.9922,308.6631,193.9922,298.6631,197.9922,302.6631,193.9922"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;" x1="159.2256" x2="304.6631" y1="193.9922" y2="193.9922"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="132.4375"
+                  x="166.2256" y="188.9263">gRPC search(image)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Search" data-participant-2="Feature">
+            <polygon fill="#181818" points="519.8701,219.125,529.8701,223.125,519.8701,227.125,523.8701,223.125"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;" x1="320.6631" x2="525.8701" y1="223.125" y2="223.125"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="192.207"
+                  x="327.6631" y="218.0591">gRPC extractFeatures(image)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Feature" data-participant-2="Search">
+            <polygon fill="#181818" points="331.6631,248.2578,321.6631,252.2578,331.6631,256.2578,327.6631,252.2578"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="325.6631" x2="535.8701" y1="252.2578"
+                  y2="252.2578"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="89.6543"
+                  x="337.6631" y="247.1919">featureVector
+            </text>
+        </g>
+        <g class="message" data-participant-1="Search" data-participant-2="Similarity">
+            <polygon fill="#181818" points="660.146,277.3906,670.146,281.3906,660.146,285.3906,664.146,281.3906"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;" x1="320.6631" x2="666.146" y1="281.3906" y2="281.3906"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="207.873"
+                  x="327.6631" y="276.3247">gRPC findSimilar(featureVector)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Similarity" data-participant-2="Search">
+            <polygon fill="#181818" points="331.6631,306.5234,321.6631,310.5234,331.6631,314.5234,327.6631,310.5234"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="325.6631" x2="676.146" y1="310.5234"
+                  y2="310.5234"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="179.1309"
+                  x="337.6631" y="305.4575">imageIds (above threshold)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Search" data-participant-2="Gateway">
+            <polygon fill="#181818" points="170.2256,335.6563,160.2256,339.6563,170.2256,343.6563,166.2256,339.6563"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="164.2256" x2="314.6631" y1="339.6563"
+                  y2="339.6563"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="59.3506"
+                  x="176.2256" y="334.5903">imageIds
+            </text>
+        </g>
+        <g class="message" data-participant-1="Gateway" data-participant-2="Metadata">
+            <polygon fill="#181818" points="806.5811,364.7891,816.5811,368.7891,806.5811,372.7891,810.5811,368.7891"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;" x1="159.2256" x2="812.5811" y1="368.7891" y2="368.7891"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="190.7344"
+                  x="166.2256" y="363.7231">gRPC getMetadata(imageIds)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Metadata" data-participant-2="Gateway">
+            <polygon fill="#181818" points="170.2256,393.9219,160.2256,397.9219,170.2256,401.9219,166.2256,397.9219"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="164.2256" x2="822.5811" y1="397.9219"
+                  y2="397.9219"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="151.271"
+                  x="176.2256" y="392.856">metadata (JSON-ready)
+            </text>
+        </g>
+        <g class="message" data-participant-1="Gateway" data-participant-2="Client">
+            <polygon fill="#181818" points="39.2651,438.1875,29.2651,442.1875,39.2651,446.1875,35.2651,442.1875"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <line style="stroke:#181818;stroke-width:1;stroke-dasharray:2,2;" x1="33.2651" x2="153.2256" y1="442.1875"
+                  y2="442.1875"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="96.9604"
+                  x="45.2651" y="421.9888">HTTP response
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42.1865"
+                  x="45.2651" y="437.1216">(JSON)
+            </text>
+        </g><!--SRC=[RLBBSi8m3BpxApISmY4_mA4NEdtDj6KAqrCl8X719R5Jsv26t-edzCVgDBQnWQkqkrgjPBYf2MuvLWeRqBJhI1IV77BeUdtSxtY7WXEqifHhqHTRa6k5nz-VZZ4iZ5Gmhpa9mrYBol22joWCJExHK8VzXyWULgl5T0AemTLIu99GMT4bgGCloEAhjyLyn8-j57v7QFQAhk9TxqoVDxn6nKr_VKPefxHdCbYYmQiatsHit1to6xySp61O61HzxKaRIzFZWhp1YgP3PFnWeI4CvebMmsKnWs4KZCJidEXIOGviQJuJnwDleopQLVM5W8_9q_9uycOiljDmMbRI1IkQ6qNhHc-uA5qrIvHY_wV48u74nB_Znr93Xcjv831RkyTMrkKqTXG91LF98RnCGdBfHQc7KxibAZA-b7c9o7yuVk2bKnjVpfwMho-v8YpxnFVfUu89A-0-ARoFRgNGmziDAWdViVu0]-->
+    </g>
+</svg>
