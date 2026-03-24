@@ -1,0 +1,81 @@
+\section{Architektura monolityczna}
+
+Architektura monolityczna jest jednym z najstarszych i najdłużej stosowanych sposobów projektowania systemów informatycznych. W tym podejściu cała aplikacja tworzona jest jako jeden spójny system, który obejmuje interfejs użytkownika, logikę biznesową, warstwę dostępu do danych oraz mechanizmy integracyjne. Poszczególne elementy systemu mogą być wewnętrznie rozdzielone na moduły, jednak z perspektywy wdrożeniowej i uruchomieniowej stanowią jeden artefakt aplikacyjny.
+\par
+Model monolityczny przez wiele lat dominował w projektowaniu aplikacji biznesowych, ponieważ pozwalał na względnie szybkie tworzenie i wdrażanie systemów o małej lub średniej skali. Jednolita struktura aplikacji upraszcza zarządzanie środowiskiem uruchomieniowym, proces wdrażania oraz kontrolę nad przepływem danych wewnątrz systemu. W takim podejściu komunikacja pomiędzy poszczególnymi modułami odbywa się zwykle w obrębie jednego procesu, co ogranicza narzut komunikacyjny i może pozytywnie wpływać na opóźnienia oraz wydajność.
+
+\subsection{Cechy charakterystyczne architektury monolitycznej}
+
+Podstawową cechą architektury monolitycznej jest zwarta struktura aplikacji. Oznacza to, że wszystkie kluczowe funkcje systemu są rozwijane, testowane i wdrażane jako jedna całość. Taka organizacja powoduje, że aplikacja zwykle korzysta z jednego procesu uruchomieniowego, jednego mechanizmu wdrażania oraz często jednej wspólnej bazy danych.
+\par
+Architektura monolityczna charakteryzuje się również silnym powiązaniem poszczególnych komponentów. Z jednej strony ułatwia to wywoływanie funkcji pomiędzy modułami i ogranicza potrzebę stosowania rozbudowanych mechanizmów komunikacji sieciowej. Z drugiej strony zwiększa zależności pomiędzy elementami systemu, co może utrudniać niezależny rozwój, testowanie oraz skalowanie wybranych części aplikacji.
+\par
+W praktyce oznacza to, że nawet niewielka zmiana w jednym fragmencie systemu może wymagać ponownego zbudowania i wdrożenia całej aplikacji. W przypadku małych projektów nie stanowi to zwykle istotnego problemu, jednak wraz ze wzrostem złożoności systemu może prowadzić do ograniczenia elastyczności rozwoju oraz wzrostu ryzyka błędów wdrożeniowych.
+
+\subsection{Zalety i wady architektury monolitycznej}
+
+Do najważniejszych zalet architektury monolitycznej należy prostota implementacyjna i operacyjna. Jednolity sposób budowania oraz wdrażania aplikacji upraszcza konfigurację środowiska, monitorowanie działania systemu oraz zarządzanie artefaktami wdrożeniowymi. Istotną zaletą jest również niska złożoność komunikacyjna, ponieważ wywołania pomiędzy modułami realizowane są w ramach jednego procesu, bez konieczności używania protokołów sieciowych.
+\par
+Architektura monolityczna może być także korzystna z punktu widzenia wydajności dla aplikacji o umiarkowanej skali, zwłaszcza wtedy, gdy głównym wymaganiem jest niski czas odpowiedzi i ograniczenie narzutu infrastrukturalnego. Mniejsza liczba komponentów uruchomieniowych oznacza również prostsze zarządzanie kosztami środowiska.
+\par
+Jednocześnie rozwiązanie to posiada istotne ograniczenia. Wraz ze wzrostem rozmiaru systemu monolit staje się trudniejszy w rozwijaniu i utrzymaniu, ponieważ silne zależności pomiędzy modułami utrudniają izolowanie zmian. Problemem może być także skalowanie, które zwykle obejmuje całą aplikację, nawet jeśli zwiększone obciążenie dotyczy tylko jednej jej części. Prowadzi to do nieefektywnego wykorzystania zasobów obliczeniowych i może zwiększać koszty działania systemu w środowisku chmurowym.
+
+\section{Architektura mikroserwisowa}
+
+Architektura mikroserwisowa stanowi odmienne podejście do projektowania systemów informatycznych, w którym aplikacja dzielona jest na zestaw mniejszych, względnie niezależnych usług. Każda z nich realizuje określoną odpowiedzialność biznesową i może być rozwijana, wdrażana oraz skalowana niezależnie od pozostałych komponentów systemu.
+\par
+Podejście mikroserwisowe zyskało dużą popularność wraz z rozwojem systemów chmurowych, konteneryzacji oraz narzędzi orkiestracyjnych. Jego główną ideą jest zwiększenie elastyczności architektury i umożliwienie lepszego dopasowania struktury systemu do złożonych procesów biznesowych. Dzięki temu możliwe staje się niezależne zarządzanie cyklem życia poszczególnych usług, co może przyspieszać rozwój systemu oraz ułatwiać pracę zespołów projektowych.
+
+\subsection{Cechy charakterystyczne architektury mikroserwisowej}
+
+Najważniejszą cechą architektury mikroserwisowej jest dekompozycja systemu na autonomiczne usługi. Każda usługa realizuje wyodrębnioną funkcję i komunikuje się z innymi usługami za pomocą zdefiniowanych interfejsów. W praktyce oznacza to, że logika aplikacji nie jest już wykonywana w jednym procesie, lecz rozproszona pomiędzy wiele niezależnych komponentów.
+\par
+Mikroserwisy często posiadają własne zasoby danych lub przynajmniej własną warstwę odpowiedzialności za przetwarzanie określonego fragmentu informacji. Takie podejście zwiększa niezależność usług, ale jednocześnie komplikuje spójność danych, monitorowanie oraz obsługę błędów.
+\par
+Istotnym elementem architektury mikroserwisowej jest także wysoki poziom rozproszenia. Wymusza on stosowanie mechanizmów komunikacji między usługami, rejestrowania instancji, równoważenia obciążenia, centralnego logowania, monitorowania oraz obsługi awarii. Z tego względu mikroserwisy zapewniają większą elastyczność, ale kosztem większej złożoności systemowej i operacyjnej.
+
+\subsection{Zalety i wady architektury mikroserwisowej}
+
+Do najczęściej wskazywanych zalet architektury mikroserwisowej należy możliwość niezależnego rozwijania i wdrażania poszczególnych usług. Pozwala to ograniczyć wpływ zmian w jednym obszarze systemu na pozostałe komponenty oraz przyspiesza iteracyjny rozwój aplikacji. Istotną korzyścią jest również możliwość selektywnego skalowania tylko tych usług, które rzeczywiście stanowią wąskie gardło systemu.
+\par
+Architektura mikroserwisowa dobrze współgra z środowiskami chmurowymi, ponieważ umożliwia wykorzystanie konteneryzacji, automatycznego skalowania oraz podejścia Infrastructure as Code. Dzięki temu może być szczególnie korzystna w dużych systemach o zmiennym obciążeniu i rozproszonych zespołach programistycznych.
+\par
+Jednocześnie architektura ta posiada liczne wady. Rozproszenie usług powoduje wzrost narzutu komunikacyjnego, a komunikacja sieciowa pomiędzy komponentami generuje dodatkowe opóźnienia i zwiększa podatność systemu na awarie częściowe. Większa liczba elementów infrastruktury oznacza także bardziej złożone wdrażanie, monitorowanie i diagnozowanie problemów. W praktyce mikroserwisy mogą zatem prowadzić do wzrostu kosztów operacyjnych, zwłaszcza w przypadku systemów, dla których poziom złożoności biznesowej nie uzasadnia takiego modelu architektonicznego.
+
+\subsection{Metody komunikacji między mikroserwisami}
+
+Komunikacja pomiędzy mikroserwisami może być realizowana na różne sposoby, zależnie od wymagań funkcjonalnych i niefunkcjonalnych systemu. Najczęściej stosowane są dwa główne podejścia: komunikacja synchroniczna oraz asynchroniczna.
+\par
+Komunikacja synchroniczna polega na bezpośrednim wywołaniu jednej usługi przez drugą, najczęściej przy użyciu protokołów takich jak HTTP/REST lub gRPC. Podejście to jest intuicyjne i stosunkowo proste w implementacji, jednak zwiększa zależność czasową pomiędzy usługami. Oznacza to, że niedostępność jednej usługi może bezpośrednio wpływać na działanie pozostałych komponentów systemu.
+\par
+Komunikacja asynchroniczna opiera się zwykle na wykorzystaniu brokerów wiadomości i zdarzeń, takich jak kolejki komunikatów lub systemy publikacji-subskrypcji. Takie podejście zwiększa odporność systemu na chwilowe awarie i pozwala lepiej rozdzielić odpowiedzialność usług, lecz jednocześnie komplikuje śledzenie przepływu danych, debugowanie oraz zapewnienie spójności stanu.
+\par
+Wybór mechanizmu komunikacji ma bezpośredni wpływ na wydajność, niezawodność i złożoność systemu. W systemach mikroserwisowych jest to jeden z kluczowych czynników wpływających na końcowe właściwości architektury.
+
+\section{Skalowalność i wydajność systemów rozproszonych}
+
+Wydajność systemu informatycznego jest zwykle rozumiana jako zdolność do sprawnego przetwarzania żądań przy zachowaniu akceptowalnych czasów odpowiedzi i odpowiedniego poziomu wykorzystania zasobów. W praktyce ocena wydajności obejmuje najczęściej takie metryki jak przepustowość, latencja, czas odpowiedzi, wykorzystanie procesora, pamięci operacyjnej oraz przepustowość sieci.
+\par
+Skalowalność odnosi się natomiast do zdolności systemu do obsługi rosnącego obciążenia poprzez zwiększenie dostępnych zasobów. W środowiskach chmurowych wyróżnia się przede wszystkim dwa podstawowe modele skalowania: wertykalne i horyzontalne.
+\par
+Skalowanie wertykalne polega na zwiększaniu zasobów pojedynczej instancji systemu, na przykład przez przydzielenie większej liczby rdzeni procesora lub większej ilości pamięci operacyjnej. Podejście to jest stosunkowo proste we wdrożeniu, lecz posiada naturalne ograniczenia wynikające z maksymalnych parametrów pojedynczej maszyny.
+\par
+Skalowanie horyzontalne polega na zwiększaniu liczby instancji aplikacji lub jej poszczególnych komponentów. Jest ono szczególnie istotne w systemach rozproszonych i architekturze mikroserwisowej, gdzie wybrane usługi mogą być replikowane niezależnie od innych części systemu. Takie podejście pozwala lepiej dopasować zasoby do charakteru obciążenia, ale wymaga stosowania dodatkowych mechanizmów równoważenia obciążenia, koordynacji oraz monitorowania.
+\par
+W kontekście porównania architektury monolitycznej i mikroserwisowej istotne jest, że oba style architektoniczne reagują na skalowanie w odmienny sposób. Monolit może osiągać dobre wyniki przy prostszej konfiguracji i mniejszym narzucie komunikacyjnym, natomiast mikroserwisy mogą oferować większą elastyczność skalowania, ale kosztem wzrostu złożoności i narzutu infrastrukturalnego.
+
+\section{Koszty utrzymania aplikacji w środowiskach chmurowych}
+
+Jednym z kluczowych aspektów oceny nowoczesnych architektur systemowych są koszty utrzymania aplikacji, szczególnie w środowiskach chmurowych, gdzie zasoby rozliczane są na podstawie rzeczywistego wykorzystania. Koszty te obejmują nie tylko zasoby obliczeniowe, takie jak procesor, pamięć i przestrzeń dyskowa, lecz także koszty transferu danych, równoważenia obciążenia, monitorowania, przechowywania logów oraz zarządzania infrastrukturą.
+\par
+W przypadku architektury monolitycznej model kosztowy bywa prostszy, ponieważ aplikacja jest zwykle wdrażana jako mniejsza liczba instancji i wymaga mniej złożonego środowiska operacyjnego. Jednocześnie skalowanie całego monolitu może prowadzić do nadmiarowego przydzielania zasobów, gdy zwiększone obciążenie dotyczy jedynie wybranej części funkcjonalnej systemu.
+\par
+Architektura mikroserwisowa umożliwia bardziej precyzyjne skalowanie poszczególnych usług, co w pewnych scenariuszach może prowadzić do efektywniejszego wykorzystania zasobów. Z drugiej strony większa liczba usług, kontenerów, komponentów sieciowych i mechanizmów zarządzających zwiększa koszty stałe oraz operacyjne. Oznacza to, że mikroserwisy nie zawsze są rozwiązaniem tańszym, nawet jeśli oferują większą elastyczność.
+\par
+Analiza kosztów utrzymania powinna zatem uwzględniać zarówno koszty bezpośrednie infrastruktury, jak i koszty pośrednie wynikające ze złożoności utrzymania, wdrażania oraz monitorowania systemu. Właśnie dlatego porównanie architektury monolitycznej i mikroserwisowej wymaga jednoczesnej oceny wydajności, skalowalności oraz kosztów operacyjnych.
+
+\section{Podsumowanie}
+
+Architektura monolityczna oraz architektura mikroserwisowa reprezentują dwa odmienne podejścia do projektowania i wdrażania systemów informatycznych. Monolit charakteryzuje się prostszą strukturą, niższym narzutem komunikacyjnym oraz łatwiejszym zarządzaniem środowiskiem, jednak może napotykać ograniczenia w zakresie elastycznego rozwoju i skalowania. Mikroserwisy oferują większą modularność i możliwość niezależnego skalowania komponentów, ale jednocześnie zwiększają złożoność systemu oraz koszty operacyjne.
+\par
+W środowiskach chmurowych różnice pomiędzy tymi podejściami stają się szczególnie istotne, ponieważ wpływają nie tylko na wydajność aplikacji, lecz także na sposób wykorzystania zasobów i całkowity koszt utrzymania systemu. Z tego względu porównanie obu architektur powinno być prowadzone w oparciu o mierzalne kryteria i kontrolowane warunki eksperymentalne. Stanowi to punkt wyjścia do dalszych rozważań przedstawionych w kolejnych rozdziałach pracy.

@@ -1,5 +1,5 @@
 add_cus_dep( 'tex', 'aux', 0, 'makeexternaldocument' );
-
+$pdflatex = 'pdflatex --shell-escape';
 sub makeexternaldocument {
     if (!($root_filename eq $_[0]))
     {

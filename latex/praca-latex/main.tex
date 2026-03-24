@@ -1,5 +1,9 @@
-\documentclass{szablonPG} 
+\documentclass{szablonPG}
+
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{svg}
+
 \usepackage{mathptmx}
 \usepackage{hyperref}
 \usepackage{url}
@@ -12,54 +16,37 @@
 \usepackage{multicol}
 \usepackage{minted}
 \usepackage{array}
-% \usepackage[a4paper, margin=1in]{geometry} % A4 page settings
-\usepackage{graphicx} % For resizebox
-\usepackage{array} % For p{width}
-\usepackage{longtable} % Optional: For tables that span multiple pages
+\usepackage{longtable}
 \usepackage[table]{xcolor}
-\usepackage{pdfpages} % Add this in the preamble
-
-\setlength\columnsep{20pt}
-% \usepackage[margin={1.5in,1.25in}]{geometry}
-
-\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
 \usepackage{indentfirst}
 \usepackage[none]{hyphenat}
 \usepackage{setspace}
-% \usepackage[usenames,dvipsnames]{color}
-%Bibliography setup
-%\usepackage[polish]{babel}
-
 \usepackage[backend=biber, sorting=none]{biblatex}
-\addbibresource{references.bib}
 \usepackage{import}
 \usepackage{makecell}
 \usepackage{textcomp}
 \usepackage{gensymb}
 \usepackage{changepage}
 \usepackage[thinlines]{easytable}
-\usepackage{svg}
-\usepackage{hyperref}
 \usepackage{caption}
 \usepackage[prependcaption,textsize=tiny]{todonotes}
-\usepackage{xargs}                      % Use more than one optional parameter in a new commands
+\usepackage{xargs}
 \usepackage{multirow}
-\usepackage{graphicx}
 \usepackage{pdflscape}
 \usepackage{incgraph, tikz}
-\usepackage{pdfpages}
 \usepackage{blindtext}
 \usepackage{csquotes}
 
-\captionsetup[table]{name=Table}
-\captionsetup[figure]{name=Fig.}
+\addbibresource{references.bib}
 
+\setlength\columnsep{20pt}
 \setlength{\parindent}{1.25cm}
 \setlength{\parskip}{1em}
-
-
 \setcounter{secnumdepth}{5}
 
+\captionsetup[table]{name=Tabela}
+\captionsetup[figure]{name=Rys.}
 
 \makeatletter
 \newcommand{\chapterauthor}[1]{%
@@ -70,10 +57,7 @@
 }
 \makeatother
 
-
-\graphicspath{{./images}}
-
-
+\graphicspath{{./images/}}
 
 \begin{document}
 \sloppy
@@ -81,76 +65,104 @@
 \includepdf{meta/StronaTytulowa_188695.pdf}
 
 \let\cleardoublepage\clearpage
-\import{chapters/}{chapter0_streszczenie.tex}
 
-\import{chapters/}{chapter0_abstract.tex}
-\renewcommand{\contentsname}{Table of Contents}
+% STRESZCZENIE
+\import{chapters/}{chapter-0-streszczenie.tex}
+
+% ABSTRACT
+\import{chapters/}{chapter-0-abstract.tex}
+
+% SPIS TREŚCI
+\renewcommand{\contentsname}{SPIS TREŚCI}
+\begingroup
+\setlength{\parskip}{0pt}
+\small
 \tableofcontents
+\endgroup
 
-\chapter*{List of Abbreviations}
+% WYKAZ WAŻNIEJSZYCH OZNACZEŃ I SKRÓTÓW
+\chapter*{WYKAZ WAŻNIEJSZYCH OZNACZEŃ I SKRÓTÓW}
 \label{chapter:abbreviations}
-\addcontentsline{toc}{chapter}{\nameref{chapter:abbreviations}}  
+\addcontentsline{toc}{chapter}{WYKAZ WAŻNIEJSZYCH OZNACZEŃ I SKRÓTÓW}
 \import{chapters/}{list_of_abbreviations.tex}
 
 \let\cleardoublepage\clearpage
-\chapter{Introduction}
-\import{chapters/}{chapter1_intro.tex}
 
-\chapter{Research analysis}
-\label{chapter:research}
-\import{chapters/}{chapter2_research.tex}
-
-\let\cleardoublepage\clearpage
-\chapter{Requirements}
-\label{chapter:requirements}
-\import{chapters/}{chapter3_req.tex}
+% 1. WSTĘP
+\chapter{WSTĘP}
+\label{chapter:intro}
+\import{chapters/}{chapter-1-intro.tex}
 
 \let\cleardoublepage\clearpage
-\chapter{Methodology}
-\label{chapter:methodology}
-\import{chapters/}{chapter4_methodology.tex}
+
+% 2. PODSTAWY TEORETYCZNE ARCHITEKTUR SYSTEMÓW
+\chapter{PODSTAWY TEORETYCZNE ARCHITEKTUR SYSTEMÓW}
+\label{chapter:archo}
+\import{chapters/}{chapter-2-archo.tex}
 
 \let\cleardoublepage\clearpage
-\chapter{Data}
-\label{chapter:data}
-\import{chapters/}{chapter5_data.tex}
 
- \let\cleardoublepage\clearpage
-\chapter{System design}
-\label{chapter:system_design}
-\import{chapters/}{chapter6_sys_design.tex}
+% 3. PRZEGLĄD LITERATURY I ISTNIEJĄCYCH PODEJŚĆ BADAWCZYCH
+\chapter{PRZEGLĄD LITERATURY I ISTNIEJĄCYCH PODEJŚĆ BADAWCZYCH}
+\label{chapter:slr}
+\import{chapters/}{chapter-3-slr.tex}
 
 \let\cleardoublepage\clearpage
-\chapter{Testing (Evaluation, Verification)}
-\label{chapter:testing}
-\import{chapters/}{chapter7_testing.tex}
 
-% \let\cleardoublepage\clearpage
-\chapter{Summary}
-\import{chapters/}{summary.tex}
-\printbibliography[title={References}]
-\addcontentsline{toc}{chapter}{References}
+% 4. PROJEKT I IMPLEMENTACJA ŚRODOWISKA BADAWCZEGO
+\chapter{PROJEKT I IMPLEMENTACJA ŚRODOWISKA BADAWCZEGO}
+\label{chapter:implementation}
+\import{chapters/}{chapter-4-implementation.tex}
 
-\renewcommand{\listfigurename}{List of drawings}
+\let\cleardoublepage\clearpage
+
+% 5. METODYKA BADAŃ EKSPERYMENTALNYCH
+\chapter{METODYKA BADAŃ EKSPERYMENTALNYCH}
+\label{chapter:experiment_methodology}
+\import{chapters/}{chapter-5-experiment-methodology.tex}
+
+\let\cleardoublepage\clearpage
+
+% 6. WYNIKI BADAŃ I ICH ANALIZA
+\chapter{WYNIKI BADAŃ I ICH ANALIZA}
+\label{chapter:results}
+\import{chapters/}{chapter-6-results.tex}
+
+\let\cleardoublepage\clearpage
+
+% 7. ZAGROŻENIA DLA RZETELNOŚCI WYNIKÓW
+\chapter{ZAGROŻENIA DLA RZETELNOŚCI WYNIKÓW}
+\label{chapter:dangers}
+\import{chapters/}{chapter-7-dangers.tex}
+
+\let\cleardoublepage\clearpage
+
+% 8. PODSUMOWANIE I WNIOSKI
+\chapter{PODSUMOWANIE I WNIOSKI}
+\label{chapter:summary}
+\import{chapters/}{chapter-8-summary.tex}
+
+\let\cleardoublepage\clearpage
+
+% WYKAZ LITERATURY
+\printbibliography[title={WYKAZ LITERATURY}]
+\addcontentsline{toc}{chapter}{WYKAZ LITERATURY}
+
+% WYKAZ RYSUNKÓW
+\renewcommand{\listfigurename}{WYKAZ RYSUNKÓW}
 \listoffigures
-\addcontentsline{toc}{chapter}{List of drawings}
+\addcontentsline{toc}{chapter}{WYKAZ RYSUNKÓW}
 
-\renewcommand{\listtablename}{List of tables}
+% WYKAZ TABEL
+\renewcommand{\listtablename}{WYKAZ TABEL}
 \listoftables
-\addcontentsline{toc}{chapter}{List of tables}
+\addcontentsline{toc}{chapter}{WYKAZ TABEL}
 
-
-
-\label{chapter:appendixA}
-\addcontentsline{toc}{chapter}{Appendix A: Product Backlog}
-\includepdf[pages=1,scale=0.8,pagecommand={\centering{\LARGE \textbf{Product Backlog}}}]{meta/pdf_attachments/Jira.pdf}
-\includepdf[pages={2-},scale=0.8,pagecommand={}]{meta/pdf_attachments/Jira.pdf}
-
-
-\label{chapter:appendixB}
-\addcontentsline{toc}{chapter}{Appendix B: Data Dictionary}
-\includepdf[pages=1,scale=0.8,pagecommand={\centering{\LARGE \textbf{Data Dictionary}}}]{meta/data_dictionary.pdf}
-\includepdf[pages={2-},scale=0.8,pagecommand={}]{meta/data_dictionary.pdf}
+% WYKAZ LISTINGÓW
+\renewcommand{\listingscaption}{Listing}
+\renewcommand{\listoflistingscaption}{WYKAZ LISTINGÓW}
+\listoflistings
+\addcontentsline{toc}{chapter}{WYKAZ LISTINGÓW}
 
 \nocite{*}
 

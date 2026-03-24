@@ -1,0 +1,54 @@
+\section{Odpowiedzi na pytania badawcze}
+\chapterauthor{[Twoje imię i nazwisko]}
+
+Głównym celem niniejszej pracy było przeprowadzenie analizy porównawczej wydajności, skalowalności oraz kosztów utrzymania architektury monolitycznej i architektury opartej na mikroserwisach w środowiskach chmurowych. W pracy przyjęto, że odpowiedź na główne pytanie badawcze wymaga nie tylko zestawienia wyników wydajnościowych, lecz także uwzględnienia konsekwencji infrastrukturalnych i ekonomicznych związanych z wyborem danego stylu architektonicznego.
+\par
+Na podstawie przeprowadzonych badań można stwierdzić, że wpływ architektury na zachowanie aplikacji wdrożonej w chmurze nie jest jednoznaczny i zależy od analizowanego aspektu. Architektura monolityczna może zapewniać korzystniejsze właściwości w warunkach bazowych, szczególnie pod względem prostoty przetwarzania i ograniczonego narzutu komunikacyjnego. Z kolei architektura mikroserwisowa wykazuje potencjalną przewagę w sytuacjach, w których kluczowe znaczenie ma elastyczne skalowanie wybranych komponentów systemu.
+\par
+Odpowiedź na główne pytanie badawcze wskazuje zatem, że wybór między architekturą monolityczną a mikroserwisową powinien być uzależniony od charakterystyki systemu, oczekiwanego modelu obciążenia, wymagań skalowalnościowych oraz akceptowalnego poziomu złożoności operacyjnej i kosztów utrzymania. Żadne z badanych podejść nie stanowi rozwiązania uniwersalnie najlepszego we wszystkich scenariuszach.
+\par
+W odniesieniu do pytań pomocniczych można wskazać, że obie architektury różnią się zarówno pod względem zachowania przy wzroście obciążenia, jak i efektywności wykorzystania zasobów. Różnice te stają się szczególnie widoczne po uwzględnieniu mechanizmów skalowania oraz kosztów działania środowiska chmurowego.
+
+\section{Najważniejsze wnioski dotyczące wydajności}
+
+Pierwsza grupa wniosków dotyczy wydajności badanych architektur. Uzyskane wyniki wskazują, że architektura monolityczna może osiągać korzystne parametry pracy w warunkach bazowych, szczególnie wtedy, gdy istotne znaczenie ma ograniczenie narzutu komunikacyjnego. Wynika to z faktu, że logika systemu realizowana jest w obrębie jednej aplikacji, bez konieczności wywołań sieciowych pomiędzy usługami.
+\par
+Architektura mikroserwisowa, mimo dodatkowej elastyczności, może generować większe opóźnienia związane z komunikacją pomiędzy komponentami oraz z bardziej złożonym przepływem przetwarzania. Nie oznacza to jednak, że rozwiązanie to zawsze wypada gorzej wydajnościowo. W określonych warunkach, zwłaszcza przy możliwości izolowania najbardziej obciążonych funkcji, mikroserwisy mogą osiągać satysfakcjonujące lub konkurencyjne wyniki.
+\par
+Najważniejszy wniosek w obszarze wydajności jest taki, że architektura wpływa nie tylko na wartości samych metryk, lecz także na sposób, w jaki system reaguje na rosnące obciążenie. Z punktu widzenia praktycznego oznacza to, że ocena wydajności nie może opierać się wyłącznie na deklarowanych zaletach danego stylu architektonicznego, lecz musi wynikać z analizy konkretnego przypadku.
+
+\section{Najważniejsze wnioski dotyczące skalowalności}
+
+Druga grupa wniosków odnosi się do skalowalności obu badanych wariantów aplikacji. Uzyskane wyniki potwierdzają, że architektura mikroserwisowa lepiej wpisuje się w model elastycznego skalowania charakterystyczny dla środowisk chmurowych. Możliwość niezależnego zwiększania liczby instancji wybranych usług pozwala bardziej precyzyjnie reagować na lokalne przeciążenia i lepiej dopasowywać zasoby do charakterystyki ruchu.
+\par
+W przypadku architektury monolitycznej skalowanie jest zwykle mniej selektywne, ponieważ dotyczy całej aplikacji. Może to prowadzić do sytuacji, w której wzrost obciążenia jednego fragmentu systemu wymusza zwiększenie zasobów całego rozwiązania. Z drugiej strony prostsza struktura monolitu może oznaczać mniejszy narzut operacyjny i łatwiejsze zarządzanie środowiskiem.
+\par
+Najważniejszy wniosek dotyczący skalowalności jest taki, że mikroserwisy oferują większą elastyczność, lecz korzyść ta nie jest darmowa. Wiąże się ona ze wzrostem złożoności systemu i wymaga dobrze przygotowanego środowiska uruchomieniowego, obejmującego mechanizmy orkiestracji, monitorowania i automatyzacji.
+
+\section{Najważniejsze wnioski dotyczące kosztów utrzymania}
+
+Trzecia grupa wniosków dotyczy kosztów utrzymania systemu w środowisku chmurowym. Przeprowadzona analiza wskazuje, że koszt nie powinien być rozumiany jedynie jako cena zasobów infrastrukturalnych, lecz jako szersza kategoria obejmująca również konsekwencje złożoności architektury, sposobu wdrożenia oraz utrzymania środowiska.
+\par
+Architektura monolityczna może okazać się korzystniejsza kosztowo w przypadku systemów o umiarkowanej złożoności lub tam, gdzie nie występuje potrzeba niezależnego skalowania wielu komponentów. Prostota wdrożenia i mniejsza liczba elementów środowiska przekładają się w takim przypadku na niższy koszt operacyjny.
+\par
+Architektura mikroserwisowa może natomiast oferować lepszą efektywność kosztową w scenariuszach, w których selektywne skalowanie rzeczywiście pozwala ograniczyć nadmiarowe zużycie zasobów. Jednocześnie większa liczba usług, kontenerów i mechanizmów zarządzających może powodować wzrost kosztów stałych i operacyjnych.
+\par
+Najważniejszy wniosek w tym obszarze jest taki, że mikroserwisy nie są automatycznie rozwiązaniem tańszym, a ich opłacalność zależy od rzeczywistego charakteru obciążenia oraz poziomu wykorzystania elastyczności, jaką oferuje to podejście.
+
+\section{Ograniczenia pracy}
+
+Pomimo przyjęcia uporządkowanej metodyki badawczej niniejsza praca posiada pewne ograniczenia. Najważniejszym z nich jest fakt, że analiza została przeprowadzona na jednej konkretnej aplikacji, co ogranicza możliwość pełnego uogólnienia wyników na wszystkie klasy systemów informatycznych.
+\par
+Kolejne ograniczenie dotyczy środowiska uruchomieniowego. Wyniki eksperymentu zostały uzyskane w określonej konfiguracji infrastruktury chmurowej, a zmiana dostawcy chmury, rodzaju instancji, parametrów sieci lub modelu rozliczania mogłaby wpłynąć na otrzymane rezultaty.
+\par
+Ograniczeniem jest również zakres scenariuszy testowych, które obejmowały wybrany punkt końcowy aplikacji i określony model obciążenia. Inne scenariusze użycia lub inna struktura ruchu mogłyby prowadzić do częściowo odmiennych obserwacji. Mimo to przyjęte podejście pozwala sformułować użyteczne i dobrze uzasadnione wnioski odnoszące się do badanego przypadku.
+
+\section{Możliwe kierunki dalszych badań}
+
+Przeprowadzone badania mogą stanowić punkt wyjścia do dalszych analiz rozwijających temat porównania architektury monolitycznej i mikroserwisowej. Jednym z naturalnych kierunków dalszych badań jest rozszerzenie eksperymentu na większą liczbę aplikacji o odmiennym charakterze biznesowym, co pozwoliłoby zwiększyć możliwość uogólnienia wyników.
+\par
+Kolejnym kierunkiem może być analiza większej liczby scenariuszy obciążeniowych, obejmujących różne typy ruchu, zmienność intensywności żądań w czasie oraz bardziej złożone przepływy komunikacji pomiędzy usługami. Pozwoliłoby to lepiej ocenić zachowanie badanych architektur w warunkach bliższych rzeczywistym systemom produkcyjnym.
+\par
+Warto również rozszerzyć analizę kosztów o dodatkowe elementy, takie jak koszt utrzymania operacyjnego, złożoność monitorowania, czas wdrożeń, niezawodność oraz odporność na awarie częściowe. Szczególnie interesujące może być także porównanie badanych architektur w różnych środowiskach chmurowych lub przy użyciu innych narzędzi orkiestracyjnych.
+\par
+Dalsze badania mogłyby również objąć analizę wpływu innych czynników technologicznych, takich jak wybór języka programowania, model komunikacji między usługami czy zastosowanie różnych mechanizmów przechowywania danych. Pozwoliłoby to jeszcze pełniej zrozumieć, od czego w praktyce zależy opłacalność i skuteczność danego stylu architektonicznego.

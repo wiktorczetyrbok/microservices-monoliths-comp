@@ -1,0 +1,103 @@
+\section{Założenia eksperymentu badawczego}
+
+Celem przygotowanego eksperymentu badawczego jest przeprowadzenie porównania dwóch wariantów architektonicznych tej samej aplikacji: wariantu monolitycznego oraz wariantu mikroserwisowego. Założeniem badania jest zachowanie porównywalności funkcjonalnej obu implementacji, tak aby możliwe było przypisanie obserwowanych różnic przede wszystkim do przyjętego stylu architektonicznego, a nie do odmienności logiki biznesowej.
+\par
+W eksperymencie przyjęto, że obie wersje aplikacji realizują ten sam zestaw funkcji biznesowych oraz operują na porównywalnych danych wejściowych. Różnice pomiędzy nimi dotyczą przede wszystkim sposobu organizacji komponentów systemu, modelu komunikacji oraz sposobu wdrożenia w środowisku chmurowym. Takie podejście umożliwia analizę wpływu architektury na wydajność, skalowalność oraz koszty utrzymania.
+\par
+Istotnym założeniem eksperymentu jest także wykorzystanie powtarzalnego środowiska uruchomieniowego. W tym celu wdrożenie aplikacji, konfiguracja infrastruktury oraz wykonywanie testów zostały zautomatyzowane. Pozwala to ograniczyć wpływ czynników losowych oraz zwiększa wiarygodność otrzymanych wyników.
+
+\section{Opis analizowanej aplikacji}
+
+Analizowana aplikacja stanowi system przetwarzania danych, przygotowany w dwóch wariantach architektonicznych: monolitycznym i mikroserwisowym. Oba warianty zostały zaprojektowane w taki sposób, aby realizować ten sam proces biznesowy i udostępniać porównywalny punkt końcowy wykorzystywany w badaniach wydajnościowych.
+\par
+Aplikacja została dobrana tak, aby jej logika nie była trywialna, a jednocześnie umożliwiała wyraźne rozdzielenie funkcji biznesowych pomiędzy komponenty w wariancie mikroserwisowym. Dzięki temu możliwe jest zaobserwowanie wpływu rozproszenia logiki, komunikacji pomiędzy usługami oraz sposobu skalowania na końcowe właściwości systemu.
+\par
+W obu implementacjach zachowano zgodność funkcjonalną, natomiast różnice dotyczą struktury wdrożeniowej i organizacyjnej systemu. Wariant monolityczny realizuje cały proces w obrębie jednej aplikacji, natomiast wariant mikroserwisowy dzieli ten sam proces na zestaw współpracujących usług.
+
+\subsection{Wymagania funkcjonalne aplikacji}
+
+Z punktu widzenia niniejszej pracy kluczowe znaczenie mają wymagania funkcjonalne, które muszą być spełnione przez oba warianty aplikacji. System powinien przyjmować żądania wejściowe, przetwarzać dane zgodnie z ustaloną logiką biznesową, integrować wyniki pośrednie oraz zwracać wynik końcowy do klienta.
+\par
+Wymagania funkcjonalne zostały zdefiniowane w sposób umożliwiający zachowanie pełnej porównywalności obu architektur. Oznacza to, że zarówno wariant monolityczny, jak i mikroserwisowy muszą realizować ten sam zakres operacji, przetwarzać te same typy danych oraz generować równoważne odpowiedzi.
+\par
+Takie podejście pozwala ograniczyć wpływ różnic funkcjonalnych na wyniki pomiarów i skupić analizę na właściwościach architektonicznych systemu.
+
+\subsection{Logika działania i przepływ przetwarzania}
+
+Proces realizowany przez aplikację składa się z sekwencji kroków przetwarzania, które w wariancie monolitycznym wykonywane są wewnątrz jednego procesu aplikacyjnego, natomiast w wariancie mikroserwisowym są rozdzielone pomiędzy niezależne usługi. Przepływ przetwarzania rozpoczyna się od przyjęcia żądania przez warstwę wejściową systemu, następnie wykonywane są kolejne operacje biznesowe, po czym zwracany jest wynik końcowy.
+\par
+W wariancie monolitycznym przepływ ten odbywa się wewnętrznie, bez konieczności komunikacji sieciowej pomiędzy komponentami. W wariancie mikroserwisowym część kroków realizowana jest przez odrębne usługi, które wymieniają dane za pośrednictwem zdefiniowanych interfejsów komunikacyjnych. Taki podział pozwala lepiej analizować wpływ komunikacji między usługami oraz rozproszenia systemu na opóźnienia i wykorzystanie zasobów.
+\par
+Schemat przepływu danych w obu wariantach jest logicznie równoważny, jednak techniczna realizacja kolejnych etapów przetwarzania różni się istotnie, co stanowi podstawę dalszej analizy eksperymentalnej.
+
+\subsection{Punkt końcowy wykorzystany w badaniach}
+
+W badaniach wykorzystano wybrany punkt końcowy aplikacji, który reprezentuje kompletny przepływ przetwarzania danych i angażuje wszystkie istotne komponenty systemu. Jego wybór został dokonany w taki sposób, aby testowany scenariusz był reprezentatywny dla rzeczywistego działania aplikacji oraz umożliwiał porównanie obu wariantów architektonicznych w tych samych warunkach.
+\par
+Punkt końcowy przyjmuje zestaw parametrów wejściowych, uruchamia logikę biznesową oraz zwraca odpowiedź końcową do klienta. W wariancie mikroserwisowym jego obsługa obejmuje dodatkowo komunikację pomiędzy usługami, co pozwala ocenić wpływ narzutu komunikacyjnego na wyniki wydajnościowe.
+\par
+Wybór jednego, reprezentatywnego punktu końcowego upraszcza interpretację wyników i umożliwia skoncentrowanie się na najbardziej istotnych różnicach pomiędzy badanymi architekturami.
+
+\section{Implementacja wariantu monolitycznego}
+
+Wariant monolityczny został zaimplementowany jako pojedyncza aplikacja zawierająca wszystkie elementy logiki biznesowej oraz mechanizmy obsługi żądań. Poszczególne funkcje systemu zostały zorganizowane w formie modułów wewnętrznych, jednak z perspektywy uruchomieniowej i wdrożeniowej aplikacja stanowi jeden artefakt.
+\par
+Takie podejście upraszcza zarówno budowanie systemu, jak i jego wdrożenie. Komunikacja pomiędzy modułami odbywa się w pamięci jednego procesu, bez konieczności użycia zewnętrznych protokołów sieciowych. Ogranicza to narzut komunikacyjny i upraszcza diagnostykę działania aplikacji.
+\par
+Monolityczny wariant badanej aplikacji został przygotowany tak, aby realizować dokładnie ten sam proces biznesowy co wariant mikroserwisowy. Dzięki temu możliwe jest wykorzystanie go jako punktu odniesienia w analizie różnic wydajnościowych, skalowalnościowych i kosztowych.
+
+\section{Implementacja wariantu mikroserwisowego}
+
+Wariant mikroserwisowy został zbudowany jako zbiór niezależnych usług realizujących wyodrębnione części procesu przetwarzania. Poszczególne mikroserwisy komunikują się ze sobą przy użyciu zdefiniowanych interfejsów, a całość tworzy logicznie spójny system odpowiadający funkcjonalnie wariantowi monolitycznemu.
+\par
+Podział aplikacji na usługi umożliwia niezależne rozwijanie, wdrażanie i skalowanie wybranych komponentów. Jednocześnie wprowadza dodatkowy poziom złożoności wynikający z konieczności komunikacji pomiędzy usługami, zarządzania ich dostępnością oraz monitorowania całego środowiska.
+\par
+Implementacja wariantu mikroserwisowego została przygotowana z uwzględnieniem zasad charakterystycznych dla systemów rozproszonych, tak aby możliwe było zbadanie rzeczywistych konsekwencji zastosowania tego podejścia w środowisku chmurowym.
+
+\section{Przygotowanie danych testowych}
+
+Rzetelna analiza porównawcza wymaga zastosowania spójnych danych testowych dla obu wariantów aplikacji. W tym celu przygotowano zestaw danych wejściowych wykorzystywanych podczas testów wydajnościowych i skalowalnościowych. Dane te zostały dobrane tak, aby odzwierciedlały realistyczne scenariusze użycia systemu oraz umożliwiały wielokrotne, powtarzalne wykonywanie pomiarów.
+\par
+Przygotowanie danych obejmowało ich wygenerowanie, uporządkowanie oraz zapewnienie zgodności pomiędzy obiema implementacjami. Istotne było również ograniczenie wpływu czynników zewnętrznych, takich jak różnice w stanie początkowym aplikacji czy zmienność odpowiedzi wynikająca z niejednakowych danych wejściowych.
+\par
+Zastosowanie kontrolowanych danych testowych umożliwia przeprowadzenie porównania w sposób możliwie obiektywny i stanowi warunek konieczny dla poprawnej interpretacji wyników eksperymentu.
+
+\section{Środowisko uruchomieniowe i infrastruktura chmurowa}
+
+Oba warianty aplikacji zostały uruchomione w środowisku chmurowym, co umożliwia analizę zachowania systemu w warunkach zbliżonych do rzeczywistych wdrożeń nowoczesnych aplikacji. Wybór chmury obliczeniowej pozwala również na wykorzystanie mechanizmów skalowania, automatyzacji oraz monitorowania, które odgrywają istotną rolę w ocenie architektury systemu.
+\par
+Środowisko badawcze obejmuje zarówno zasoby obliczeniowe wykorzystywane do uruchomienia aplikacji, jak i komponenty wspierające proces wdrażania, testowania oraz zbierania wyników. Infrastruktura została przygotowana w sposób umożliwiający zachowanie porównywalnych warunków dla obu badanych wariantów.
+\par
+Dzięki zastosowaniu środowiska chmurowego możliwe jest również przeprowadzenie eksperymentów związanych ze skalowaniem pionowym i poziomym oraz oszacowanie kosztów utrzymania obu rozwiązań.
+
+\subsection{Konteneryzacja aplikacji}
+
+W celu zapewnienia przenośności i spójności środowiska uruchomieniowego badane aplikacje zostały skonteneryzowane. Konteneryzacja umożliwia zamknięcie aplikacji wraz z jej zależnościami w izolowanym środowisku wykonywania, co ogranicza wpływ różnic konfiguracyjnych pomiędzy środowiskami.
+\par
+Podejście to ma szczególne znaczenie w przypadku porównania dwóch wariantów architektonicznych, ponieważ pozwala zapewnić większą powtarzalność wdrożeń i testów. Kontenery stanowią również naturalny sposób pakowania usług w architekturze mikroserwisowej, ale mogą być z powodzeniem stosowane także dla aplikacji monolitycznych.
+
+\subsection{Orkiestracja i sposób wdrożenia}
+
+Zarządzanie uruchamianiem oraz skalowaniem komponentów systemu wymaga zastosowania mechanizmów orkiestracji. W badanym środowisku wykorzystano podejście umożliwiające automatyczne rozmieszczanie komponentów aplikacji, zarządzanie ich cyklem życia oraz kontrolę nad konfiguracją wdrożenia.
+\par
+Wariant monolityczny i mikroserwisowy zostały wdrożone zgodnie z tym samym ogólnym modelem operacyjnym, przy zachowaniu różnic wynikających z liczby i charakteru komponentów. Dzięki temu możliwe było ograniczenie wpływu odmiennych metod wdrożeniowych na wyniki eksperymentu.
+
+\subsection{Automatyzacja infrastruktury}
+
+W celu zapewnienia powtarzalności oraz uproszczenia przygotowania środowiska badawczego zastosowano automatyzację infrastruktury. Podejście to pozwala deklaratywnie definiować parametry środowiska chmurowego, a następnie odtwarzać je w sposób spójny przy kolejnych uruchomieniach eksperymentu.
+\par
+Automatyzacja infrastruktury ogranicza ryzyko błędów konfiguracyjnych oraz zwiększa przejrzystość procesu przygotowania środowiska. Ma to istotne znaczenie w pracy badawczej, w której porównywalność warunków eksperymentalnych wpływa bezpośrednio na wiarygodność wyników.
+
+\subsection{Automatyzacja procesu wdrażania i testów}
+
+Oprócz automatyzacji samej infrastruktury istotnym elementem środowiska badawczego była automatyzacja procesu wdrażania aplikacji oraz uruchamiania testów. Pozwoliło to ograniczyć udział działań manualnych i zwiększyć powtarzalność procedury badawczej.
+\par
+Automatyzacja obejmuje przygotowanie artefaktów aplikacyjnych, wdrożenie odpowiedniego wariantu systemu, uruchomienie scenariuszy testowych oraz zebranie wyników do dalszej analizy. Dzięki temu możliwe jest sprawne wykonywanie kolejnych serii eksperymentów dla różnych konfiguracji środowiska i różnych wariantów architektonicznych.
+
+\section{Podsumowanie}
+
+W rozdziale przedstawiono projekt i implementację środowiska badawczego wykorzystanego do porównania architektury monolitycznej i mikroserwisowej. Omówiono założenia eksperymentu, charakterystykę analizowanej aplikacji, oba warianty implementacyjne, przygotowanie danych testowych oraz elementy środowiska uruchomieniowego w chmurze.
+\par
+Przyjęte rozwiązania projektowe miały na celu zapewnienie możliwie wysokiej porównywalności warunków badawczych. Jest to szczególnie istotne z punktu widzenia dalszych analiz, ponieważ pozwala traktować uzyskane różnice jako wynik przyjętego stylu architektonicznego, a nie efekt odmiennych założeń funkcjonalnych lub środowiskowych.
+\par
+W kolejnym rozdziale przedstawiono metodykę badań eksperymentalnych, obejmującą dobór metryk, scenariuszy testowych oraz sposobu gromadzenia i przetwarzania wyników.

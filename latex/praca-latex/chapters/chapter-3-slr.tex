@@ -1,0 +1,202 @@
+\chapter{Systematyczny przegląd literatury}
+\label{chap:slr}
+
+\section{Cel i zakres przeglądu}
+
+Systematyczny przegląd literatury przeprowadzono w celu uporządkowania aktualnego stanu wiedzy dotyczącego porównania architektury monolitycznej i mikroserwisowej w środowiskach chmurowych. Przegląd miał na celu identyfikację publikacji naukowych analizujących wpływ stylu architektonicznego na wydajność, skalowalność oraz koszty utrzymania systemów. Istotnym założeniem było również rozpoznanie czynników kontekstowych, takich jak konteneryzacja, orkiestracja, obserwowalność czy sposób komunikacji między usługami, które mogą modyfikować wyniki porównań.
+
+Przegląd literatury pełni w niniejszej pracy podwójną funkcję. Po pierwsze, pozwala określić, jakie podejścia badawcze dominują w dotychczasowych opracowaniach i jakie metryki są najczęściej wykorzystywane do oceny obu architektur. Po drugie, umożliwia wskazanie luk badawczych, które uzasadniają przeprowadzenie własnego eksperymentu porównawczego na funkcjonalnie równoważnych implementacjach tej samej aplikacji.
+
+\section{Pytania badawcze}
+
+Na potrzeby przeglądu sformułowano główne pytanie badawcze:
+
+\begin{quote}
+\textbf{RQ:} Jakie są różnice w wydajności, skalowalności i kosztach utrzymania pomiędzy architekturą monolityczną a mikroserwisową w środowiskach chmurowych oraz jakie czynniki kontekstowe najbardziej wpływają na obserwowane wyniki?
+\end{quote}
+
+W celu uporządkowania analizy główne pytanie badawcze rozbito na cztery pytania szczegółowe:
+
+\begin{itemize}
+    \item \textbf{RQ1:} Jak architektura monolityczna i mikroserwisowa wypadają w porównaniu pod względem wydajności, mierzonej za pomocą takich wskaźników jak czas odpowiedzi, latencja, przepustowość oraz dostępność?
+    \item \textbf{RQ2:} Jakie różnice występują pomiędzy obiema architekturami w zakresie skalowalności pionowej i poziomej oraz zachowania systemu przy rosnącym obciążeniu?
+    \item \textbf{RQ3:} Jakie koszty utrzymania i koszty operacyjne są raportowane dla architektury monolitycznej i mikroserwisowej, w szczególności w odniesieniu do infrastruktury, utrzymania, obserwowalności oraz procesów DevOps?
+    \item \textbf{RQ4:} W jakich warunkach technologicznych i środowiskowych, takich jak rodzaj aplikacji, użyty stos technologiczny, środowisko chmurowe czy wykorzystanie kontenerów i orkiestracji, wyniki porównań ulegają zmianie?
+\end{itemize}
+
+\section{Metodyka przeglądu}
+
+Przegląd przeprowadzono zgodnie z podejściem systematycznym, obejmującym zdefiniowanie pytania badawczego, opracowanie strategii wyszukiwania, wybór źródeł, zastosowanie kryteriów włączenia i wykluczenia, a następnie ekstrakcję oraz syntezę danych. Jako ramę konceptualną przyjęto model PICO, który dobrze odpowiada charakterowi porównawczemu niniejszego badania:
+
+\begin{itemize}
+    \item \textbf{P (Population/Problem):} systemy i aplikacje wdrażane w środowiskach chmurowych lub cloud-native,
+    \item \textbf{I (Intervention):} architektura mikroserwisowa,
+    \item \textbf{C (Comparison):} architektura monolityczna,
+    \item \textbf{O (Outcome):} wydajność, skalowalność, koszty utrzymania, operacyjność i utrzymywalność.
+\end{itemize}
+
+Takie ujęcie umożliwiło zachowanie spójności pomiędzy strategią wyszukiwania a późniejszą syntezą wyników.
+
+\section{Strategia wyszukiwania}
+
+Strategia wyszukiwania została oparta na czterech grupach pojęć logicznie związanych z tematem pracy: (1) style architektoniczne, (2) środowiska chmurowe i uruchomieniowe, (3) metryki techniczne oraz (4) koszty i utrzymanie. Wewnątrz każdej grupy stosowano operator logiczny \texttt{OR}, natomiast pomiędzy grupami operator \texttt{AND}. Dzięki temu możliwe było jednoczesne zawężenie wyników do publikacji rzeczywiście odnoszących się do porównania monolitu i mikroserwisów w kontekście chmurowym.
+
+W praktyce wykorzystano następujące grupy słów kluczowych:
+
+\begin{itemize}
+    \item \textbf{Architektura:} \texttt{microservice*}, \texttt{"micro-service*"}, \texttt{"microservices architecture"}, \texttt{"microservice architecture"}, \texttt{"service-oriented architecture"}, \texttt{monolith*}, \texttt{"monolithic architecture"}, \texttt{"monolithic application"},
+    \item \textbf{Chmura i runtime:} \texttt{cloud}, \texttt{"cloud computing"}, \texttt{"public cloud"}, \texttt{"cloud-native"}, \texttt{kubernetes}, \texttt{container*}, \texttt{docker}, \texttt{orchestration},
+    \item \textbf{Metryki techniczne:} \texttt{performance}, \texttt{benchmark*}, \texttt{throughput}, \texttt{latency}, \texttt{"response time"}, \texttt{scalab*}, \texttt{autoscal*}, \texttt{elasticity},
+    \item \textbf{Koszty i utrzymanie:} \texttt{cost}, \texttt{"operational cost"}, \texttt{"infrastructure cost"}, \texttt{TCO}, \texttt{"total cost of ownership"}, \texttt{maintenance}, \texttt{maintainability}, \texttt{reliability}, \texttt{availability}, \texttt{observability}, \texttt{DevOps}.
+\end{itemize}
+
+Główne zapytanie wyszukiwawcze zastosowane w bazie Scopus miało następującą postać:
+
+\begin{verbatim}
+TITLE-ABS-KEY (
+    (
+        microservice* OR "micro-service*" OR "microservices architecture"
+        OR "microservice architecture" OR "service-oriented architecture"
+    )
+    AND
+    (
+        monolith* OR "monolithic architecture" OR "monolithic application"
+        OR monolith
+    )
+    AND
+    (
+        cloud OR "cloud computing" OR "public cloud" OR "cloud-native"
+        OR kubernetes OR container* OR docker OR orchestration
+    )
+    AND
+    (
+        performance OR benchmark* OR throughput OR latency
+        OR "response time" OR scalab* OR autoscal* OR elasticity
+    )
+    AND
+    (
+        cost OR "operational cost" OR "infrastructure cost" OR TCO
+        OR "total cost of ownership" OR maintenance OR maintainability
+        OR reliability OR availability OR observability OR DevOps
+    )
+)
+AND PUBYEAR > 2016
+AND ( LIMIT-TO ( DOCTYPE , "ar" ) OR LIMIT-TO ( DOCTYPE , "cp" ) )
+AND ( LIMIT-TO ( LANGUAGE , "English" ) )
+\end{verbatim}
+
+Ze względu na różnice składniowe pomiędzy wyszukiwarkami poszczególnych baz zapytanie było adaptowane lokalnie, przy zachowaniu niezmienionej logiki semantycznej. Krótsze warianty zapytań stosowano między innymi w IEEE Xplore i ACM Digital Library, gdzie zbyt rozbudowane formuły powodowały nadmiar wyników ubocznych lub ograniczenia wyszukiwarki.
+
+\section{Źródła danych i zakres przeszukiwania}
+
+Wyszukiwanie literatury przeprowadzono w bazach uznawanych za podstawowe źródła publikacji z obszaru informatyki i inżynierii oprogramowania. W szczególności uwzględniono Scopus, IEEE Xplore, ACM Digital Library, SpringerLink oraz ScienceDirect. Dobór źródeł wynikał z potrzeby połączenia szerokiego pokrycia literatury interdyscyplinarnej z dobrym pokryciem publikacji stricte informatycznych i konferencyjnych.
+
+Uwzględniono publikacje opublikowane w języku angielskim po roku 2016. Przyjęcie takiego zakresu czasowego było uzasadnione faktem, że po 2016 roku nastąpił wyraźny wzrost liczby badań dotyczących systemów mikroserwisowych, konteneryzacji i cloud-native. Wyszukiwanie obejmowało artykuły naukowe oraz materiały konferencyjne, natomiast pominięto publikacje o charakterze czysto marketingowym, notki redakcyjne oraz opracowania bez wartości empirycznej.
+
+\section{Kryteria włączenia i wyłączenia}
+
+W celu zapewnienia spójności procesu selekcji zdefiniowano kryteria włączenia i wyłączenia.
+
+\subsection{Kryteria włączenia}
+
+Do dalszej analizy kwalifikowano publikacje, które spełniały co najmniej jedno z poniższych kryteriów:
+\begin{itemize}
+    \item porównywały architekturę mikroserwisową i monolityczną bezpośrednio lub zawierały dane umożliwiające takie porównanie,
+    \item dotyczyły systemów uruchamianych w środowiskach chmurowych, kontenerowych lub cloud-native,
+    \item raportowały wyniki odnoszące się do wydajności, skalowalności, utrzymywalności, kosztów lub operacyjności,
+    \item miały charakter empiryczny, eksperymentalny, benchmarkingowy lub zawierały systematyczną analizę literatury istotną dla przyjętego problemu badawczego.
+\end{itemize}
+
+\subsection{Kryteria wyłączenia}
+
+Z analizy wyłączano publikacje, które:
+\begin{itemize}
+    \item nie dotyczyły bezpośrednio architektury monolitycznej i mikroserwisowej,
+    \item nie odnosiły się do środowisk chmurowych, kontenerowych ani nowoczesnych środowisk wdrożeniowych,
+    \item miały charakter opiniotwórczy, marketingowy lub przeglądowy bez użytecznych danych analitycznych,
+    \item koncentrowały się wyłącznie na porównaniu mikroserwisów z innymi stylami architektonicznymi, na przykład SOA, bez odniesienia do monolitu,
+    \item były duplikatami rekordów pozyskanych z innych baz.
+\end{itemize}
+
+\section{Proces selekcji publikacji}
+
+Proces selekcji miał charakter dwuetapowy. W pierwszym etapie przeprowadzono screening tytułów i abstraktów, odrzucając publikacje jednoznacznie niezwiązane z problemem badawczym. W drugim etapie analizowano pełne teksty prac zakwalifikowanych wstępnie, sprawdzając ich zgodność z pytaniami badawczymi oraz przyjętymi kryteriami selekcji.
+
+Do organizacji procesu screeningu i usuwania duplikatów wykorzystano narzędzie Rayyan, które umożliwia sprawne zarządzanie rekordami bibliograficznymi, ich tagowanie oraz wspomaga deduplikację. Dodatkowo publikacjom przypisywano znaczniki tematyczne odpowiadające głównym osiom analizy, takim jak \textit{performance}, \textit{scalability}, \textit{cost}, \textit{Kubernetes}, \textit{benchmark} czy \textit{empirical study}. Takie podejście ułatwiło późniejszą syntezę wyników.
+
+Po zakończeniu procesu deduplikacji i selekcji końcowy zbiór obejmował 16 publikacji. Rozkład publikacji według roku wydania wskazuje, że największa liczba prac została opublikowana w 2023 roku, natomiast wyraźny wzrost zainteresowania tematyką jest widoczny od 2020 roku. Na wykresie przedstawiającym rozkład czasowy widać odpowiednio: 1 publikację z 2017 roku, brak publikacji z lat 2018--2019, 2 publikacje z 2020 roku, 2 z 2021 roku, 3 z 2022 roku, 4 z 2023 roku oraz po 2 publikacje z lat 2024 i 2025. \cite{slr_year_chart}
+
+Znacząca część końcowego zbioru pochodziła z IEEE Xplore, które stanowiło 56{,}25\% wszystkich zakwalifikowanych publikacji. Drugim najważniejszym źródłem był SpringerLink z udziałem 18{,}75\%, natomiast ACM Digital Library, ScienceDirect, MDPI oraz CEUR-WS odpowiadały po 6{,}25\% zbioru. Taki rozkład potwierdza, że rdzeń analizowanej literatury ma charakter informatyczny i konferencyjny, z silną reprezentacją publikacji indeksowanych w źródłach technicznych. \cite{slr_sources_chart}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{images/slr/wykres_publikacje_lata}
+    \caption{Liczba wybranych publikacji w zależności od roku wydania}
+    \label{fig:slr-years}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{images/slr/wykres_zrodla_publikacji}
+    \caption{Udział poszczególnych źródeł publikacyjnych w końcowym zbiorze}
+    \label{fig:slr-sources}
+\end{figure}
+
+\section{Ekstrakcja i synteza danych}
+
+Dla każdej zakwalifikowanej publikacji przeprowadzono ekstrakcję danych według jednolitego schematu. Rejestrowano przede wszystkim:
+\begin{itemize}
+    \item typ badania,
+    \item analizowany styl architektoniczny,
+    \item kontekst wdrożeniowy,
+    \item zastosowane technologie,
+    \item metryki oceny,
+    \item główne wyniki oraz ograniczenia badania.
+\end{itemize}
+
+W celu uporządkowania materiału źródłowego zastosowano syntezę tematyczną. Publikacje podzielono na trzy główne grupy odpowiadające celom niniejszej pracy:
+\begin{enumerate}
+    \item badania koncentrujące się na wydajności,
+    \item badania dotyczące skalowalności i zachowania pod obciążeniem,
+    \item badania odnoszące się do kosztów utrzymania, utrzymywalności oraz złożoności operacyjnej.
+\end{enumerate}
+
+Taki podział umożliwił przejrzyste zestawienie wyników literaturowych z rezultatami własnego eksperymentu zaprezentowanego w dalszych rozdziałach pracy.
+
+\section{Analiza badań dotyczących porównania architektury monolitycznej i mikroserwisowej}
+
+\subsection{Porównania pod względem wydajności}
+
+W obszarze wydajności literatura najczęściej wykorzystuje takie metryki jak czas odpowiedzi, latencja, przepustowość oraz zużycie zasobów obliczeniowych. W wielu opracowaniach wskazuje się, że architektura monolityczna osiąga korzystniejsze wyniki w scenariuszach, w których logika aplikacji wykonywana jest w obrębie jednego procesu, bez konieczności wielokrotnej komunikacji sieciowej pomiędzy usługami. Brak kosztów serializacji, deserializacji oraz zdalnych wywołań procedur ogranicza narzut komunikacyjny i może skutkować niższą latencją.
+
+Z drugiej strony literatura wskazuje, że architektura mikroserwisowa może osiągać porównywalną lub wyższą efektywność w tych scenariuszach, w których możliwe jest odseparowanie najbardziej obciążonych funkcji i niezależna optymalizacja krytycznych komponentów. W takim ujęciu sama architektura nie determinuje jeszcze wyniku; istotne znaczenie mają również sposób dekompozycji systemu, rodzaj protokołu komunikacyjnego, liczba zależności pomiędzy usługami oraz charakter obciążenia.
+
+\subsection{Porównania pod względem skalowalności}
+
+W zakresie skalowalności literatura konsekwentnie akcentuje przewagę mikroserwisów wynikającą z możliwości niezależnego skalowania poszczególnych komponentów. W środowiskach chmurowych i kontenerowych szczególnie istotne okazuje się to, że tylko wybrane usługi mogą być skalowane poziomo w odpowiedzi na wzrost obciążenia, bez konieczności replikowania całej aplikacji.
+
+Jednocześnie część badań zwraca uwagę, że korzyści te nie są darmowe. Wraz ze wzrostem liczby usług wzrasta złożoność zarządzania komunikacją, routingiem, monitorowaniem i równoważeniem obciążenia. Oznacza to, że przewaga architektury mikroserwisowej w zakresie elastyczności może zostać częściowo osłabiona przez narzut operacyjny, szczególnie w systemach niewielkich lub średnio złożonych.
+
+\subsection{Porównania pod względem kosztów utrzymania}
+
+Najmniej jednoznaczne wyniki dotyczą kosztów utrzymania. W części publikacji koszty są rozumiane wąsko, jako koszt infrastrukturalny związany z użyciem procesora, pamięci, maszyn wirtualnych lub kontenerów. W innych badaniach stosuje się ujęcie szersze, obejmujące również koszty obserwowalności, automatyzacji wdrożeń, utrzymania pipeline'ów CI/CD, zarządzania konfiguracją oraz koordynacji zespołów.
+
+Z literatury wynika, że architektura monolityczna bywa korzystniejsza kosztowo na wczesnych etapach rozwoju systemu lub w projektach o umiarkowanej złożoności. Mikroserwisy mogą z kolei uzasadniać większy koszt operacyjny wtedy, gdy skala systemu, zmienność obciążenia lub organizacja pracy zespołów pozwala realnie wykorzystać ich modularność i niezależne skalowanie.
+
+\section{Luki badawcze i uzasadnienie własnego podejścia}
+
+Analiza wybranych publikacji wskazuje na kilka istotnych luk badawczych. Po pierwsze, stosunkowo niewiele prac porównuje architekturę monolityczną i mikroserwisową na podstawie funkcjonalnie równoważnych implementacji tej samej aplikacji. W wielu przypadkach porównywane systemy różnią się nie tylko stylem architektonicznym, lecz także zakresem funkcjonalnym lub zastosowanym stosem technologicznym, co utrudnia wyciąganie jednoznacznych wniosków.
+
+Po drugie, duża część badań koncentruje się wyłącznie na jednym wymiarze oceny, najczęściej wydajności albo skalowalności, pomijając koszty utrzymania. Tymczasem w praktyce inżynierskiej decyzja architektoniczna ma charakter wielokryterialny i powinna uwzględniać także nakład operacyjny oraz koszty środowiska uruchomieniowego.
+
+Po trzecie, literatura rzadko oferuje jednolitą metodykę eksperymentalną pozwalającą na bezpośrednie porównywanie wyników. Różnice dotyczą zarówno metryk, jak i sposobu wdrożenia, typu infrastruktury, poziomu obciążenia czy użytych narzędzi. W efekcie nadal brakuje badań, które w jednym, spójnym eksperymencie zestawiałyby wydajność, skalowalność i koszt utrzymania obu architektur w kontrolowanych warunkach.
+
+Zidentyfikowane luki uzasadniają podejście przyjęte w niniejszej pracy. Polega ono na porównaniu funkcjonalnie równoważnych wariantów tej samej aplikacji, uruchomionych w porównywalnym środowisku chmurowym i badanych według jednolitej procedury eksperymentalnej. Takie podejście pozwala ograniczyć wpływ czynników zakłócających i lepiej odpowiedzieć na pytanie o rzeczywisty wpływ stylu architektonicznego na parametry jakościowe systemu.
+
+\section{Podsumowanie}
+
+Przeprowadzony systematyczny przegląd literatury potwierdził, że porównanie architektury monolitycznej i mikroserwisowej pozostaje istotnym i aktualnym problemem badawczym. Jednocześnie analiza wykazała, że dominują opracowania koncentrujące się na pojedynczych aspektach jakościowych, podczas gdy liczba badań obejmujących równocześnie wydajność, skalowalność i koszty utrzymania jest wciąż ograniczona.
+
+Wnioski z przeglądu wskazują, że architektura monolityczna może oferować niższy narzut komunikacyjny i większą prostotę operacyjną, natomiast architektura mikroserwisowa zapewnia większą elastyczność skalowania i modularność. Ostateczna ocena obu podejść zależy jednak od kontekstu wdrożeniowego, charakterystyki aplikacji oraz sposobu implementacji środowiska uruchomieniowego.
+
+Uzyskane wyniki przeglądu stanowią podstawę do zaprojektowania własnego eksperymentu badawczego, przedstawionego w kolejnych rozdziałach pracy.
