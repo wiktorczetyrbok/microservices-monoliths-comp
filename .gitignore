@@ -111,3 +111,15 @@ http-client.private.env.json
 *.toc
 *.xdv
 /Repositories/java/java-monolith-images/.gradle/
+/results/
+/latex/deprecated/
+/latex/prace-innych/
+/generated-results/.idea/misc.xml
+/generated-results/.idea/modules.xml
+/generated-results/.idea/inspectionProfiles/profiles_settings.xml
+/generated-results/.idea/workspace.xml
+/generated-results/output/scaling_summary_full.xlsx
+/latex/praca-latex/main.lol
+/plots-images/
+/generated-results/.idea/generated-results.iml
+/generated-results/generate.py

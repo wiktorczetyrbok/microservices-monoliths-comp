@@ -1,103 +1,202 @@
-\section{Założenia eksperymentu badawczego}
+\chapter{Implementacja aplikacji benchmarkowej}
+\label{chap:implementation}
 
-Celem przygotowanego eksperymentu badawczego jest przeprowadzenie porównania dwóch wariantów architektonicznych tej samej aplikacji: wariantu monolitycznego oraz wariantu mikroserwisowego. Założeniem badania jest zachowanie porównywalności funkcjonalnej obu implementacji, tak aby możliwe było przypisanie obserwowanych różnic przede wszystkim do przyjętego stylu architektonicznego, a nie do odmienności logiki biznesowej.
-\par
-W eksperymencie przyjęto, że obie wersje aplikacji realizują ten sam zestaw funkcji biznesowych oraz operują na porównywalnych danych wejściowych. Różnice pomiędzy nimi dotyczą przede wszystkim sposobu organizacji komponentów systemu, modelu komunikacji oraz sposobu wdrożenia w środowisku chmurowym. Takie podejście umożliwia analizę wpływu architektury na wydajność, skalowalność oraz koszty utrzymania.
-\par
-Istotnym założeniem eksperymentu jest także wykorzystanie powtarzalnego środowiska uruchomieniowego. W tym celu wdrożenie aplikacji, konfiguracja infrastruktury oraz wykonywanie testów zostały zautomatyzowane. Pozwala to ograniczyć wpływ czynników losowych oraz zwiększa wiarygodność otrzymanych wyników.
+\section{Cel rozdziału}
 
-\section{Opis analizowanej aplikacji}
+Celem niniejszego rozdziału jest przedstawienie implementacji aplikacji benchmarkowej wykorzystanej w badaniach porównawczych. Aplikację przygotowano w dwóch wariantach architektonicznych: jako system monolityczny oraz jako system oparty na mikroserwisach. Oba warianty realizują ten sam proces biznesowy i operują na tych samych danych wejściowych oraz wyjściowych. Dzięki temu możliwe było przeprowadzenie rzetelnego porównania wpływu architektury na wydajność, skalowalność oraz koszty utrzymania.
 
-Analizowana aplikacja stanowi system przetwarzania danych, przygotowany w dwóch wariantach architektonicznych: monolitycznym i mikroserwisowym. Oba warianty zostały zaprojektowane w taki sposób, aby realizować ten sam proces biznesowy i udostępniać porównywalny punkt końcowy wykorzystywany w badaniach wydajnościowych.
-\par
-Aplikacja została dobrana tak, aby jej logika nie była trywialna, a jednocześnie umożliwiała wyraźne rozdzielenie funkcji biznesowych pomiędzy komponenty w wariancie mikroserwisowym. Dzięki temu możliwe jest zaobserwowanie wpływu rozproszenia logiki, komunikacji pomiędzy usługami oraz sposobu skalowania na końcowe właściwości systemu.
-\par
-W obu implementacjach zachowano zgodność funkcjonalną, natomiast różnice dotyczą struktury wdrożeniowej i organizacyjnej systemu. Wariant monolityczny realizuje cały proces w obrębie jednej aplikacji, natomiast wariant mikroserwisowy dzieli ten sam proces na zestaw współpracujących usług.
+W celu zwiększenia wartości porównawczej eksperymentu każdą z wersji architektonicznych zaimplementowano w trzech stosach technologicznych:
+\begin{itemize}
+    \item Java z wykorzystaniem frameworka Spring,
+    \item JavaScript z wykorzystaniem środowiska Node.js,
+    \item Python z wykorzystaniem frameworka Flask.
+\end{itemize}
 
-\subsection{Wymagania funkcjonalne aplikacji}
+W rezultacie przygotowano sześć implementacji aplikacji: trzy monolity oraz trzy warianty mikroserwisowe. Pozwala to analizować nie tylko wpływ samego stylu architektonicznego, ale również sprawdzić, czy obserwowane zależności są spójne pomiędzy różnymi ekosystemami programistycznymi.
 
-Z punktu widzenia niniejszej pracy kluczowe znaczenie mają wymagania funkcjonalne, które muszą być spełnione przez oba warianty aplikacji. System powinien przyjmować żądania wejściowe, przetwarzać dane zgodnie z ustaloną logiką biznesową, integrować wyniki pośrednie oraz zwracać wynik końcowy do klienta.
-\par
-Wymagania funkcjonalne zostały zdefiniowane w sposób umożliwiający zachowanie pełnej porównywalności obu architektur. Oznacza to, że zarówno wariant monolityczny, jak i mikroserwisowy muszą realizować ten sam zakres operacji, przetwarzać te same typy danych oraz generować równoważne odpowiedzi.
-\par
-Takie podejście pozwala ograniczyć wpływ różnic funkcjonalnych na wyniki pomiarów i skupić analizę na właściwościach architektonicznych systemu.
+\section{Charakterystyka aplikacji benchmarkowej}
 
-\subsection{Logika działania i przepływ przetwarzania}
+Aplikacja benchmarkowa została osadzona w domenie \textit{image processing}. Jej zadaniem jest wyszukiwanie obrazów podobnych do obrazu referencyjnego na podstawie ekstrakcji cech oraz porównania z wcześniej przygotowanym indeksem wektorów cech. Wynik działania systemu stanowi lista obrazów spełniających zadany próg podobieństwa wraz z odpowiadającymi im metadanymi.
 
-Proces realizowany przez aplikację składa się z sekwencji kroków przetwarzania, które w wariancie monolitycznym wykonywane są wewnątrz jednego procesu aplikacyjnego, natomiast w wariancie mikroserwisowym są rozdzielone pomiędzy niezależne usługi. Przepływ przetwarzania rozpoczyna się od przyjęcia żądania przez warstwę wejściową systemu, następnie wykonywane są kolejne operacje biznesowe, po czym zwracany jest wynik końcowy.
-\par
-W wariancie monolitycznym przepływ ten odbywa się wewnętrznie, bez konieczności komunikacji sieciowej pomiędzy komponentami. W wariancie mikroserwisowym część kroków realizowana jest przez odrębne usługi, które wymieniają dane za pośrednictwem zdefiniowanych interfejsów komunikacyjnych. Taki podział pozwala lepiej analizować wpływ komunikacji między usługami oraz rozproszenia systemu na opóźnienia i wykorzystanie zasobów.
-\par
-Schemat przepływu danych w obu wariantach jest logicznie równoważny, jednak techniczna realizacja kolejnych etapów przetwarzania różni się istotnie, co stanowi podstawę dalszej analizy eksperymentalnej.
+Wybrany scenariusz jest odpowiedni do badań architektonicznych z kilku powodów. Po pierwsze, obejmuje kilka kolejnych etapów przetwarzania, które mogą zostać naturalnie wydzielone do osobnych komponentów. Po drugie, zawiera zarówno element obliczeniowy, związany z ekstrakcją cech z obrazu, jak i etap wyszukiwania podobieństwa oraz pobierania metadanych. Po trzecie, logika ta może zostać zrealizowana zarówno w jednej aplikacji monolitycznej, jak i w formie rozproszonego łańcucha mikroserwisów, bez zmiany sensu biznesowego całego systemu.
 
-\subsection{Punkt końcowy wykorzystany w badaniach}
+W obu wariantach architektonicznych aplikacja korzysta z tego samego zbioru danych wejściowych, obejmującego:
+\begin{itemize}
+    \item buforowane obrazy referencyjne,
+    \item indeks cech obrazów zapisany w pliku \texttt{features.json},
+    \item metadane obrazów zapisane w pliku \texttt{metadata.json}.
+\end{itemize}
 
-W badaniach wykorzystano wybrany punkt końcowy aplikacji, który reprezentuje kompletny przepływ przetwarzania danych i angażuje wszystkie istotne komponenty systemu. Jego wybór został dokonany w taki sposób, aby testowany scenariusz był reprezentatywny dla rzeczywistego działania aplikacji oraz umożliwiał porównanie obu wariantów architektonicznych w tych samych warunkach.
-\par
-Punkt końcowy przyjmuje zestaw parametrów wejściowych, uruchamia logikę biznesową oraz zwraca odpowiedź końcową do klienta. W wariancie mikroserwisowym jego obsługa obejmuje dodatkowo komunikację pomiędzy usługami, co pozwala ocenić wpływ narzutu komunikacyjnego na wyniki wydajnościowe.
-\par
-Wybór jednego, reprezentatywnego punktu końcowego upraszcza interpretację wyników i umożliwia skoncentrowanie się na najbardziej istotnych różnicach pomiędzy badanymi architekturami.
+Dane te są ładowane przy starcie aplikacji do struktur pamięciowych, co pozwala ograniczyć wpływ zewnętrznej warstwy persystencji na wyniki eksperymentu. Dzięki temu badanie koncentruje się na wpływie architektury systemu i modelu komunikacji, a nie na kosztach dostępu do bazy danych.
+
+\section{Model wejścia i wyjścia systemu}
+
+Z perspektywy klienta testowego aplikacja udostępnia interfejs HTTP. W przedstawionym scenariuszu badawczym punkt końcowy przyjmuje parametry sterujące procesem wyszukiwania obrazów podobnych. Najważniejszymi parametrami są próg podobieństwa oraz rozmiar jądra wykorzystywanego w etapie ekstrakcji cech.
+
+Przykładowe wywołanie punktu końcowego można przedstawić następująco:
+
+\begin{lstlisting}[language={},caption={Przykładowe wywołanie punktu końcowego HTTP},label={lst:image-search-http}]
+GET /images/search?threshold=0.2&kernel=3
+\end{lstlisting}
+
+Logiczny model żądania można również zapisać w postaci uproszczonego obiektu JSON:
+
+\begin{lstlisting}[caption={Logiczny model żądania wyszukiwania},label={lst:image-search-request}]
+{
+  "threshold": 0.2,
+  "kernel": 3
+}
+\end{lstlisting}
+
+W odpowiedzi system zwraca listę obiektów reprezentujących obrazy uznane za podobne do obrazu referencyjnego. Każdy element odpowiedzi zawiera identyfikator obrazu, jego nazwę oraz listę tagów opisujących zawartość. Przykładową odpowiedź przedstawiono w listingu~\ref{lst:image-search-response}.
+
+\begin{lstlisting}[caption={Przykładowa odpowiedź systemu},label={lst:image-search-response}]
+[
+  {
+    "id": "img_001",
+    "name": "forest-path",
+    "tags": ["forest", "nature", "path"]
+  },
+  {
+    "id": "img_014",
+    "name": "green-woods",
+    "tags": ["trees", "forest", "landscape"]
+  }
+]
+\end{lstlisting}
+
+Z punktu widzenia eksperymentu istotne jest to, że wszystkie implementacje zwracają ten sam typ odpowiedzi końcowej. Pozwala to uznać badane warianty za funkcjonalnie równoważne.
+
+\section{Logika przetwarzania obrazu}
+
+Proces biznesowy realizowany przez aplikację składa się z kilku kolejnych etapów. Najpierw wybierany jest obraz referencyjny, który w wariancie testowym pobierany jest z wcześniej załadowanego zbioru obrazów. Następnie z obrazu wyznaczany jest wektor cech. W przedstawionej implementacji cechy są obliczane na podstawie uproszczonego przetwarzania obrazu, obejmującego:
+\begin{itemize}
+    \item konwersję bufora obrazu do tablicy wartości pikseli,
+    \item normalizację do skali szarości,
+    \item zastosowanie uśredniającego jądra konwolucyjnego o zadanym rozmiarze,
+    \item budowę histogramu o ustalonej liczbie przedziałów,
+    \item normalizację histogramu do postaci wektora cech.
+\end{itemize}
+
+Otrzymany wektor porównywany jest następnie z indeksem cech wszystkich obrazów zapisanych w systemie. Miara podobieństwa została oparta na odległości euklidesowej pomiędzy wektorem zapytania a wektorami zapisanymi w indeksie. Do wyniku wyszukiwania trafiają identyfikatory tych obrazów, dla których odległość nie przekracza zadanego progu podobieństwa.
+
+W ostatnim etapie system pobiera metadane dla znalezionych identyfikatorów obrazów i buduje odpowiedź zwracaną do klienta. Taki przepływ danych jest wspólny dla wariantu monolitycznego i mikroserwisowego. Różnica dotyczy wyłącznie sposobu rozmieszczenia odpowiedzialności pomiędzy komponentami oraz modelu komunikacji wewnętrznej.
 
 \section{Implementacja wariantu monolitycznego}
 
-Wariant monolityczny został zaimplementowany jako pojedyncza aplikacja zawierająca wszystkie elementy logiki biznesowej oraz mechanizmy obsługi żądań. Poszczególne funkcje systemu zostały zorganizowane w formie modułów wewnętrznych, jednak z perspektywy uruchomieniowej i wdrożeniowej aplikacja stanowi jeden artefakt.
-\par
-Takie podejście upraszcza zarówno budowanie systemu, jak i jego wdrożenie. Komunikacja pomiędzy modułami odbywa się w pamięci jednego procesu, bez konieczności użycia zewnętrznych protokołów sieciowych. Ogranicza to narzut komunikacyjny i upraszcza diagnostykę działania aplikacji.
-\par
-Monolityczny wariant badanej aplikacji został przygotowany tak, aby realizować dokładnie ten sam proces biznesowy co wariant mikroserwisowy. Dzięki temu możliwe jest wykorzystanie go jako punktu odniesienia w analizie różnic wydajnościowych, skalowalnościowych i kosztowych.
+Wariant monolityczny został zaimplementowany jako pojedyncza aplikacja uruchamiana w jednym procesie. W tej wersji wszystkie etapy przetwarzania obrazu, tj. obsługa żądania HTTP, ekstrakcja cech, wyszukiwanie podobieństwa oraz pobieranie metadanych, realizowane są lokalnie wewnątrz jednego artefaktu wdrożeniowego.
+
+W implementacji Java wariant monolityczny został oparty na frameworku Spring. Aplikacja udostępnia punkt końcowy \texttt{/images/search}, a podczas uruchamiania ładuje obrazy, indeks cech oraz metadane do struktur pamięciowych. Przepływ wykonania obejmuje kolejno: odczyt parametrów wejściowych, wybór obrazu referencyjnego, ekstrakcję cech, porównanie z indeksem oraz mapowanie wyników do odpowiedzi zwracanej klientowi. Analogiczny model działania zastosowano również w implementacjach JavaScript i Python.
+
+Takie podejście upraszcza strukturę systemu. Komunikacja pomiędzy poszczególnymi częściami logiki odbywa się przez lokalne wywołania funkcji lub metod, bez konieczności użycia protokołów sieciowych. Oznacza to niższy narzut komunikacyjny, prostszy model wdrożenia oraz mniejszą liczbę komponentów operacyjnych. Z drugiej strony cały system stanowi jeden artefakt, który w przypadku skalowania poziomego musi być replikowany jako całość.
+
+Schemat infrastruktury wariantu monolitycznego przedstawiono na rysunku~\ref{fig:infra-monolith}, natomiast sekwencję realizacji żądania w tym wariancie pokazano na rysunku~\ref{fig:seq-monolith}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/architecture/infra-monolit.pdf}
+    \caption{Schemat infrastruktury wariantu monolitycznego}
+    \label{fig:infra-monolith}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/architecture/monolit-sequence-diagram.pdf}
+    \caption{Diagram sekwencji przetwarzania w wariancie monolitycznym}
+    \label{fig:seq-monolith}
+\end{figure}
 
 \section{Implementacja wariantu mikroserwisowego}
 
-Wariant mikroserwisowy został zbudowany jako zbiór niezależnych usług realizujących wyodrębnione części procesu przetwarzania. Poszczególne mikroserwisy komunikują się ze sobą przy użyciu zdefiniowanych interfejsów, a całość tworzy logicznie spójny system odpowiadający funkcjonalnie wariantowi monolitycznemu.
-\par
-Podział aplikacji na usługi umożliwia niezależne rozwijanie, wdrażanie i skalowanie wybranych komponentów. Jednocześnie wprowadza dodatkowy poziom złożoności wynikający z konieczności komunikacji pomiędzy usługami, zarządzania ich dostępnością oraz monitorowania całego środowiska.
-\par
-Implementacja wariantu mikroserwisowego została przygotowana z uwzględnieniem zasad charakterystycznych dla systemów rozproszonych, tak aby możliwe było zbadanie rzeczywistych konsekwencji zastosowania tego podejścia w środowisku chmurowym.
+Wariant mikroserwisowy został zbudowany jako system złożony z pięciu współpracujących usług. Każda z nich odpowiada za wyodrębniony etap przetwarzania, a komunikacja pomiędzy usługami realizowana jest za pomocą gRPC. Zastosowanie tego protokołu miało na celu ograniczenie narzutu komunikacyjnego względem klasycznego modelu HTTP/JSON oraz zapewnienie jednolitego kontraktu między komponentami systemu.
 
-\section{Przygotowanie danych testowych}
+Architektura mikroserwisowa obejmuje następujące komponenty:
+\begin{itemize}
+    \item \textbf{Gateway} -- warstwa wejściowa udostępniająca interfejs HTTP dla klienta zewnętrznego,
+    \item \textbf{Search} -- usługa orkiestrująca cały proces wyszukiwania,
+    \item \textbf{Feature} -- usługa odpowiedzialna za ekstrakcję wektora cech z obrazu referencyjnego,
+    \item \textbf{Similarity} -- usługa porównująca wektor zapytania z indeksem cech i zwracająca listę identyfikatorów obrazów spełniających próg podobieństwa,
+    \item \textbf{Metadata} -- usługa pobierająca metadane obrazów dla identyfikatorów zwróconych przez usługę \textit{Similarity}.
+\end{itemize}
 
-Rzetelna analiza porównawcza wymaga zastosowania spójnych danych testowych dla obu wariantów aplikacji. W tym celu przygotowano zestaw danych wejściowych wykorzystywanych podczas testów wydajnościowych i skalowalnościowych. Dane te zostały dobrane tak, aby odzwierciedlały realistyczne scenariusze użycia systemu oraz umożliwiały wielokrotne, powtarzalne wykonywanie pomiarów.
-\par
-Przygotowanie danych obejmowało ich wygenerowanie, uporządkowanie oraz zapewnienie zgodności pomiędzy obiema implementacjami. Istotne było również ograniczenie wpływu czynników zewnętrznych, takich jak różnice w stanie początkowym aplikacji czy zmienność odpowiedzi wynikająca z niejednakowych danych wejściowych.
-\par
-Zastosowanie kontrolowanych danych testowych umożliwia przeprowadzenie porównania w sposób możliwie obiektywny i stanowi warunek konieczny dla poprawnej interpretacji wyników eksperymentu.
+Przepływ przetwarzania w tym wariancie przebiega następująco:
+\begin{enumerate}
+    \item klient wysyła żądanie HTTP do usługi \textit{Gateway},
+    \item \textit{Gateway} przekazuje żądanie do usługi \textit{Search} przy użyciu gRPC,
+    \item \textit{Search} wywołuje usługę \textit{Feature}, która oblicza wektor cech obrazu referencyjnego,
+    \item \textit{Search} przekazuje otrzymany wektor do usługi \textit{Similarity},
+    \item \textit{Similarity} porównuje wektor z indeksem i zwraca listę identyfikatorów obrazów,
+    \item \textit{Search} przekazuje identyfikatory do \textit{Gateway},
+    \item \textit{Gateway} wywołuje usługę \textit{Metadata}, która pobiera metadane dla wskazanych obrazów,
+    \item \textit{Gateway} buduje końcową odpowiedź JSON i zwraca ją klientowi.
+\end{enumerate}
 
-\section{Środowisko uruchomieniowe i infrastruktura chmurowa}
+Takie rozdzielenie odpowiedzialności pozwala lepiej odwzorować charakter systemów rozproszonych oraz umożliwia niezależne skalowanie wybranych komponentów. Jednocześnie wprowadza dodatkowy koszt związany z komunikacją pomiędzy usługami, serializacją wiadomości, zarządzaniem większą liczbą procesów oraz większą złożonością wdrożeniową.
 
-Oba warianty aplikacji zostały uruchomione w środowisku chmurowym, co umożliwia analizę zachowania systemu w warunkach zbliżonych do rzeczywistych wdrożeń nowoczesnych aplikacji. Wybór chmury obliczeniowej pozwala również na wykorzystanie mechanizmów skalowania, automatyzacji oraz monitorowania, które odgrywają istotną rolę w ocenie architektury systemu.
-\par
-Środowisko badawcze obejmuje zarówno zasoby obliczeniowe wykorzystywane do uruchomienia aplikacji, jak i komponenty wspierające proces wdrażania, testowania oraz zbierania wyników. Infrastruktura została przygotowana w sposób umożliwiający zachowanie porównywalnych warunków dla obu badanych wariantów.
-\par
-Dzięki zastosowaniu środowiska chmurowego możliwe jest również przeprowadzenie eksperymentów związanych ze skalowaniem pionowym i poziomym oraz oszacowanie kosztów utrzymania obu rozwiązań.
+Schemat infrastruktury wariantu mikroserwisowego przedstawiono na rysunku~\ref{fig:infra-microservices}, natomiast sekwencję przetwarzania w tym wariancie pokazano na rysunku~\ref{fig:seq-microservices}.
 
-\subsection{Konteneryzacja aplikacji}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/architecture/infra-microservices.pdf}
+    \caption{Schemat infrastruktury wariantu mikroserwisowego}
+    \label{fig:infra-microservices}
+\end{figure}
 
-W celu zapewnienia przenośności i spójności środowiska uruchomieniowego badane aplikacje zostały skonteneryzowane. Konteneryzacja umożliwia zamknięcie aplikacji wraz z jej zależnościami w izolowanym środowisku wykonywania, co ogranicza wpływ różnic konfiguracyjnych pomiędzy środowiskami.
-\par
-Podejście to ma szczególne znaczenie w przypadku porównania dwóch wariantów architektonicznych, ponieważ pozwala zapewnić większą powtarzalność wdrożeń i testów. Kontenery stanowią również naturalny sposób pakowania usług w architekturze mikroserwisowej, ale mogą być z powodzeniem stosowane także dla aplikacji monolitycznych.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/architecture/microservices-sequence-diagram.pdf}
+    \caption{Diagram sekwencji przetwarzania w wariancie mikroserwisowym}
+    \label{fig:seq-microservices}
+\end{figure}
 
-\subsection{Orkiestracja i sposób wdrożenia}
+\section{Stosy technologiczne}
 
-Zarządzanie uruchamianiem oraz skalowaniem komponentów systemu wymaga zastosowania mechanizmów orkiestracji. W badanym środowisku wykorzystano podejście umożliwiające automatyczne rozmieszczanie komponentów aplikacji, zarządzanie ich cyklem życia oraz kontrolę nad konfiguracją wdrożenia.
-\par
-Wariant monolityczny i mikroserwisowy zostały wdrożone zgodnie z tym samym ogólnym modelem operacyjnym, przy zachowaniu różnic wynikających z liczby i charakteru komponentów. Dzięki temu możliwe było ograniczenie wpływu odmiennych metod wdrożeniowych na wyniki eksperymentu.
+Każdy z dwóch wariantów architektonicznych został zaimplementowany w trzech technologiach programistycznych. Takie podejście pozwala zmniejszyć ryzyko, że uzyskane wyniki będą specyficzne wyłącznie dla jednego środowiska uruchomieniowego.
 
-\subsection{Automatyzacja infrastruktury}
+\subsection{Java i Spring}
 
-W celu zapewnienia powtarzalności oraz uproszczenia przygotowania środowiska badawczego zastosowano automatyzację infrastruktury. Podejście to pozwala deklaratywnie definiować parametry środowiska chmurowego, a następnie odtwarzać je w sposób spójny przy kolejnych uruchomieniach eksperymentu.
-\par
-Automatyzacja infrastruktury ogranicza ryzyko błędów konfiguracyjnych oraz zwiększa przejrzystość procesu przygotowania środowiska. Ma to istotne znaczenie w pracy badawczej, w której porównywalność warunków eksperymentalnych wpływa bezpośrednio na wiarygodność wyników.
+Implementacja w języku Java została oparta na frameworku Spring. Wariant monolityczny udostępnia REST-owy punkt końcowy wyszukiwania obrazów i realizuje wszystkie etapy przetwarzania w jednym procesie aplikacyjnym. Wariant mikroserwisowy wykorzystuje Spring jako bazę dla poszczególnych komponentów oraz biblioteki gRPC do komunikacji między usługami.
 
-\subsection{Automatyzacja procesu wdrażania i testów}
+Java stanowi w badaniu reprezentanta środowiska o dojrzałym modelu wielowątkowości, rozbudowanym ekosystemie serwerowym oraz wysokiej przewidywalności zachowania w środowiskach produkcyjnych. Dzięki temu możliwe jest porównanie zachowania tej platformy z lżejszymi środowiskami interpretera i środowiska uruchomieniowego skryptowego.
 
-Oprócz automatyzacji samej infrastruktury istotnym elementem środowiska badawczego była automatyzacja procesu wdrażania aplikacji oraz uruchamiania testów. Pozwoliło to ograniczyć udział działań manualnych i zwiększyć powtarzalność procedury badawczej.
-\par
-Automatyzacja obejmuje przygotowanie artefaktów aplikacyjnych, wdrożenie odpowiedniego wariantu systemu, uruchomienie scenariuszy testowych oraz zebranie wyników do dalszej analizy. Dzięki temu możliwe jest sprawne wykonywanie kolejnych serii eksperymentów dla różnych konfiguracji środowiska i różnych wariantów architektonicznych.
+\subsection{JavaScript i Node.js}
+
+Wariant JavaScript został przygotowany w środowisku Node.js. Podobnie jak w przypadku Javy, przygotowano zarówno wersję monolityczną, jak i mikroserwisową z komunikacją gRPC. Zastosowanie Node.js pozwala uwzględnić w badaniu model wykonania oparty na pojedynczej pętli zdarzeń oraz nieblokującym przetwarzaniu operacji wejścia-wyjścia.
+
+W kontekście badań porównawczych jest to istotne, ponieważ pozwala sprawdzić, jak architektura monolityczna i mikroserwisowa zachowują się w środowisku o odmiennym modelu współbieżności niż klasyczne środowisko JVM.
+
+\subsection{Python i Flask}
+
+Implementacja Python została oparta na frameworku Flask. Wariant monolityczny realizuje cały przepływ przetwarzania obrazu w jednej aplikacji, natomiast wariant mikroserwisowy rozdziela logikę pomiędzy pięć usług komunikujących się przez gRPC. Python włączono do badania jako reprezentanta środowiska szczególnie popularnego w zadaniach związanych z przetwarzaniem danych i obrazów.
+
+Z punktu widzenia niniejszej pracy ważne było sprawdzenie, czy charakterystyka Pythona, w tym wyższy narzut interpretacyjny i odmienny model wykonania niż w Javie i Node.js, wpływa na skalę różnic pomiędzy monolitem a mikroserwisami.
+
+\section{Dane testowe i przygotowanie środowiska}
+
+We wszystkich implementacjach wykorzystano ten sam zbiór danych testowych. Obejmuje on:
+\begin{itemize}
+    \item obrazy źródłowe przechowywane w katalogu \texttt{data/images},
+    \item wektory cech zapisane w pliku \texttt{data/features.json},
+    \item metadane obrazów zapisane w pliku \texttt{data/metadata.json}.
+\end{itemize}
+
+Podczas uruchamiania aplikacji dane te są ładowane do pamięci operacyjnej. Takie podejście pozwala ograniczyć wpływ opóźnień pochodzących od zewnętrznych systemów bazodanowych oraz zapewnia spójne warunki wejściowe dla wszystkich testowanych wariantów. W konsekwencji pomiar koncentruje się na wpływie architektury i technologii implementacyjnej, a nie na narzucie związanym z warstwą persystencji.
+
+\section{Znaczenie przyjętej implementacji dla badań eksperymentalnych}
+
+Przyjęta konstrukcja aplikacji benchmarkowej ma istotne znaczenie metodologiczne. Po pierwsze, oba warianty architektoniczne realizują dokładnie ten sam proces biznesowy, co ogranicza wpływ czynników funkcjonalnych na wyniki eksperymentu. Po drugie, zastosowanie trzech języków programowania pozwala zweryfikować, czy zależności obserwowane pomiędzy monolitem a mikroserwisami są spójne w różnych środowiskach wykonawczych. Po trzecie, rozdzielenie wariantu mikroserwisowego na pięć komponentów powoduje, że w systemie pojawia się rzeczywisty koszt komunikacji rozproszonej, a więc cecha kluczowa z punktu widzenia celu pracy.
+
+Przygotowana aplikacja benchmarkowa umożliwia zatem analizę trzech kluczowych obszarów:
+\begin{itemize}
+    \item wydajności, rozumianej jako czas odpowiedzi i przepustowość,
+    \item skalowalności pionowej i poziomej,
+    \item kosztów utrzymania wynikających z rozmiaru infrastruktury i liczby uruchamianych komponentów.
+\end{itemize}
+
+Tak zaprojektowane środowisko stanowi spójną i wiarygodną podstawę do dalszych badań eksperymentalnych przedstawionych w kolejnych rozdziałach pracy.
 
 \section{Podsumowanie}
 
-W rozdziale przedstawiono projekt i implementację środowiska badawczego wykorzystanego do porównania architektury monolitycznej i mikroserwisowej. Omówiono założenia eksperymentu, charakterystykę analizowanej aplikacji, oba warianty implementacyjne, przygotowanie danych testowych oraz elementy środowiska uruchomieniowego w chmurze.
-\par
-Przyjęte rozwiązania projektowe miały na celu zapewnienie możliwie wysokiej porównywalności warunków badawczych. Jest to szczególnie istotne z punktu widzenia dalszych analiz, ponieważ pozwala traktować uzyskane różnice jako wynik przyjętego stylu architektonicznego, a nie efekt odmiennych założeń funkcjonalnych lub środowiskowych.
-\par
-W kolejnym rozdziale przedstawiono metodykę badań eksperymentalnych, obejmującą dobór metryk, scenariuszy testowych oraz sposobu gromadzenia i przetwarzania wyników.
+W rozdziale przedstawiono implementację aplikacji benchmarkowej wykorzystanej do porównania architektury monolitycznej i mikroserwisowej. Opisana aplikacja działa w domenie przetwarzania obrazów i realizuje proces wyszukiwania obrazów podobnych na podstawie ekstrakcji cech, porównania z indeksem oraz pobierania metadanych.
+
+Aplikację zaimplementowano w trzech technologiach: Java z wykorzystaniem Spring, JavaScript w środowisku Node.js oraz Python z wykorzystaniem Flask. Dla każdej technologii przygotowano wersję monolityczną oraz wersję mikroserwisową opartą na pięciu usługach komunikujących się przez gRPC. Takie podejście zapewnia funkcjonalną równoważność badanych wariantów i tworzy właściwą podstawę do dalszej analizy wydajności, skalowalności i kosztów utrzymania.
