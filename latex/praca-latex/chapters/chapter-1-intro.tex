@@ -21,7 +21,7 @@ W celu bardziej szczegółowej oceny rozważane są również następujące pyta
 \begin{itemize}
     \item Jak oba style architektoniczne różnią się pod względem przepustowości i czasu odpowiedzi wraz ze wzrostem obciążenia?
     \item Jak skutecznie aplikacje monolityczne i mikroserwisowe wykorzystują skalowanie wertykalne i horyzontalne w środowisku chmurowym?
-    \item Jaki wpływ ma wybrany styl architektoniczny na wykorzystanie zasobów infrastrukturalnych oraz koszty utrzymania?
+    \item Jaki wpływ ma wybrany styl architektoniczny na koszty utrzymania systemu?
     \item W jakich warunkach jeden styl architektoniczny staje się bardziej korzystny od drugiego?
 \end{itemize}
 {\par}
@@ -32,10 +32,10 @@ Praca została podzielona na kilka głównych etapów obejmujących analizę lit
 \par
 Pierwszy etap obejmował zdefiniowanie problemu badawczego, określenie motywacji do podjęcia tematu oraz przegląd literatury dotyczącej architektury monolitycznej, architektury mikroserwisowej, środowisk chmurowych, mechanizmów skalowania oraz metod oceny wydajności systemów. Etap ten pozwolił na wskazanie luki badawczej oraz sformułowanie głównego pytania badawczego i pytań pomocniczych.
 \par
-Drugi etap koncentrował się na zaprojektowaniu i implementacji środowiska eksperymentalnego. Przygotowano dwa funkcjonalnie równoważne warianty analizowanej aplikacji: wariant monolityczny oraz wariant mikroserwisowy. Dodatkowo skonfigurowano infrastrukturę chmurową, proces wdrażania oraz mechanizmy automatyzacji niezbędne do przeprowadzania powtarzalnych eksperymentów.
+Drugi etap koncentrował się na zaprojektowaniu i implementacji środowiska eksperymentalnego. Przygotowano dwa funkcjonalnie równoważne warianty analizowanej aplikacji: wariant monolityczny oraz wariant mikroserwisowy, oraz zaimplementowane je w trzecg rożnych językach programowania (Java, Python, JavaScript), starając się utrzymać tą samą logikę i złożoność programów, jedynie ze zmianą składni jakiej dany język wymaga). Dodatkowo skonfigurowano infrastrukturę chmurową, proces wdrażania oraz mechanizmy automatyzacji niezbędne do przeprowadzania powtarzalnych eksperymentów.
 \par
 Trzeci etap obejmował opracowanie metodyki badawczej. Na tym etapie określono metryki oceny, przygotowano scenariusze testowe, wybrano narzędzia do generowania obciążenia i monitorowania systemu oraz zdefiniowano strategie skalowania. Szczególną uwagę poświęcono zapewnieniu porównywalnych warunków testowych dla obu wariantów architektonicznych.
 \par
-Kolejny etap polegał na przeprowadzeniu eksperymentów benchmarkowych w środowisku chmurowym. Testy wykonano dla różnych poziomów obciążenia oraz różnych konfiguracji skalowania w celu oceny zachowania obu implementacji pod względem przepustowości, latencji, skalowalności oraz wykorzystania zasobów. Uwzględniono również aspekty związane z kosztami utrzymania obu rozwiązań.
+Kolejny etap polegał na przeprowadzeniu eksperymentów benchmarkowych w środowisku chmurowym. Testy wykonano dla różnych poziomów obciążenia oraz różnych konfiguracji skalowania w celu oceny zachowania obu implementacji pod względem przepustowości, latencji, skalowalności. Uwzględniono również aspekty związane z kosztami utrzymania obu rozwiązań.
 \par
 Ostatni etap obejmował analizę i interpretację zebranych wyników, wskazanie najważniejszych różnic pomiędzy badanymi architekturami, omówienie ograniczeń przeprowadzonego badania oraz sformułowanie wniosków końcowych. Wnioski te stanowią podstawę do udzielenia odpowiedzi na postawione pytania badawcze oraz wskazania możliwych kierunków dalszych badań.
