@@ -14,7 +14,6 @@ resource "google_compute_instance" "swarm_worker_instance" {
     network = google_compute_network.vpc_network.id
     subnetwork = google_compute_subnetwork.subnet_app.id
     access_config {
-      // This block is intentionally left empty to assign a public IP
     }
   }
 

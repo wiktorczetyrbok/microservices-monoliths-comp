@@ -24,7 +24,7 @@ jobs:
       SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
       - name: Start benchmark
         timeout-minutes: 120
         uses: appleboy/ssh-action@master

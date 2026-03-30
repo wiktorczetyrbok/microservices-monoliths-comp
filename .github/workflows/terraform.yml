@@ -28,7 +28,7 @@ jobs:
       load_runner_instance_public_ip: ${{ steps.terraform_output.outputs.load_runner_instance_public_ip }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
@@ -98,7 +98,7 @@ jobs:
       SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Run startup script via SSH
         uses: appleboy/ssh-action@master
@@ -152,7 +152,7 @@ jobs:
       SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Run startup script via SSH
         uses: appleboy/ssh-action@master
@@ -195,7 +195,7 @@ jobs:
       SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout the files
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Deploy to app instance
         uses: easingthemes/ssh-deploy@main
@@ -217,7 +217,7 @@ jobs:
       SSH_USERNAME: wczetyrbok
     steps:
       - name: Checkout the files
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Deploy to app instance
         uses: easingthemes/ssh-deploy@main

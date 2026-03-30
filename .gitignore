@@ -123,3 +123,4 @@ http-client.private.env.json
 /plots-images/
 /generated-results/.idea/generated-results.iml
 /generated-results/generate.py
+.DS_Store

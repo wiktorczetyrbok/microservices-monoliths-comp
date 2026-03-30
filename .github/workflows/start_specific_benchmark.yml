@@ -2,13 +2,6 @@ name: Run Specific Benchmark
 on:
   workflow_dispatch:
     inputs:
-      geo_or_images:
-        description: 'Geo benchmark or images processing'
-        required: true
-        type: choice
-        options:
-          - images
-          - geo
       language:
         description: 'Programming Language'
         required: true
@@ -53,7 +46,7 @@ jobs:
     timeout-minutes: 150
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v5
 
       - name: Start benchmark for specific implementation
         uses: appleboy/ssh-action@master
@@ -73,7 +66,6 @@ jobs:
               ${{ github.event.inputs.start_users }} \
               ${{ github.event.inputs.step_users }} \
               ${{ github.event.inputs.end_users }} \
-              ${{ github.event.inputs.geo_or_images }} \
               > benchmark.log 2>&1 &
             
             echo "Benchmark started in background"
