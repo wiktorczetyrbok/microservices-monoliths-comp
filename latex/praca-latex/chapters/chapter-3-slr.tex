@@ -1,5 +1,5 @@
-\chapter{Systematyczny przegląd literatury}
 \label{chap:slr}
+
 
 \section{Cel i zakres przeglądu}
 
@@ -7,35 +7,38 @@ Systematyczny przegląd literatury przeprowadzono w celu uporządkowania aktualn
 
 Przegląd literatury pełni w niniejszej pracy podwójną funkcję. Po pierwsze, pozwala określić, jakie podejścia badawcze dominują w dotychczasowych opracowaniach i jakie metryki są najczęściej wykorzystywane do oceny obu architektur. Po drugie, umożliwia wskazanie luk badawczych, które uzasadniają przeprowadzenie własnego eksperymentu porównawczego na funkcjonalnie równoważnych implementacjach tej samej aplikacji.
 
+
 \section{Pytania badawcze}
 
 Na potrzeby przeglądu sformułowano główne pytanie badawcze:
 
 \begin{quote}
-\textbf{RQ:} Jakie są różnice w wydajności, skalowalności i kosztach utrzymania pomiędzy architekturą monolityczną a mikroserwisową w środowiskach chmurowych oraz jakie czynniki kontekstowe najbardziej wpływają na obserwowane wyniki?
+    \textbf{Q:} W jaki sposób wybór pomiędzy architekturą monolityczną a architekturą opartą na mikroserwisach wpływa na wydajność, skalowalność oraz koszty utrzymania aplikacji wdrożonej w środowisku chmurowym?
 \end{quote}
 
 W celu uporządkowania analizy główne pytanie badawcze rozbito na cztery pytania szczegółowe:
 
 \begin{itemize}
-    \item \textbf{RQ1:} Jak architektura monolityczna i mikroserwisowa wypadają w porównaniu pod względem wydajności, mierzonej za pomocą takich wskaźników jak czas odpowiedzi, latencja, przepustowość oraz dostępność?
-    \item \textbf{RQ2:} Jakie różnice występują pomiędzy obiema architekturami w zakresie skalowalności pionowej i poziomej oraz zachowania systemu przy rosnącym obciążeniu?
-    \item \textbf{RQ3:} Jakie koszty utrzymania i koszty operacyjne są raportowane dla architektury monolitycznej i mikroserwisowej, w szczególności w odniesieniu do infrastruktury, utrzymania, obserwowalności oraz procesów DevOps?
-    \item \textbf{RQ4:} W jakich warunkach technologicznych i środowiskowych, takich jak rodzaj aplikacji, użyty stos technologiczny, środowisko chmurowe czy wykorzystanie kontenerów i orkiestracji, wyniki porównań ulegają zmianie?
+    \item \textbf{Q1:} Jak architektura monolityczna i mikroserwisowa wypadają w porównaniu pod względem wydajności, mierzonej za pomocą takich wskaźników jak czas odpowiedzi, latencja, przepustowość oraz dostępność?
+    \item \textbf{Q2:} Jakie różnice występują pomiędzy obiema architekturami w zakresie skalowalności pionowej i poziomej oraz zachowania systemu przy rosnącym obciążeniu?
+    \item \textbf{Q3:} Jakie koszty utrzymania i koszty operacyjne są raportowane dla architektury monolitycznej i mikroserwisowej, w szczególności w odniesieniu do infrastruktury, utrzymania, obserwowalności oraz procesów DevOps?
+    \item \textbf{Q4:} W jakich warunkach technologicznych i środowiskowych, takich jak rodzaj aplikacji, użyty stos technologiczny, środowisko chmurowe czy wykorzystanie kontenerów i orkiestracji, wyniki porównań ulegają zmianie?
 \end{itemize}
+
 
 \section{Metodyka przeglądu}
 
-Przegląd przeprowadzono zgodnie z podejściem systematycznym, obejmującym zdefiniowanie pytania badawczego, opracowanie strategii wyszukiwania, wybór źródeł, zastosowanie kryteriów włączenia i wykluczenia, a następnie ekstrakcję oraz syntezę danych. Jako ramę konceptualną przyjęto model PICO, który dobrze odpowiada charakterowi porównawczemu niniejszego badania:
+Przegląd przeprowadzono zgodnie z podejściem systematycznym, obejmującym zdefiniowanie pytania badawczego, opracowanie strategii wyszukiwania, wybór źródeł, zastosowanie kryteriów włączenia i wykluczenia, a następnie ekstrakcję oraz syntezę danych. Jako ramę konceptualną przyjęto model \textbf{PICO}, który dobrze odpowiada charakterowi porównawczemu niniejszego badania:
 
 \begin{itemize}
-    \item \textbf{P (Population/Problem):} systemy i aplikacje wdrażane w środowiskach chmurowych lub cloud-native,
+    \item \textbf{P (Population/Problem):} systemy i aplikacje wdrażane w środowiskach chmurowych,
     \item \textbf{I (Intervention):} architektura mikroserwisowa,
     \item \textbf{C (Comparison):} architektura monolityczna,
-    \item \textbf{O (Outcome):} wydajność, skalowalność, koszty utrzymania, operacyjność i utrzymywalność.
+    \item \textbf{O (Outcome):} wydajność, skalowalność, koszty utrzymania i utrzymywalność.
 \end{itemize}
 
 Takie ujęcie umożliwiło zachowanie spójności pomiędzy strategią wyszukiwania a późniejszą syntezą wyników.
+
 
 \section{Strategia wyszukiwania}
 
@@ -50,48 +53,52 @@ W praktyce wykorzystano następujące grupy słów kluczowych:
     \item \textbf{Koszty i utrzymanie:} \texttt{cost}, \texttt{"operational cost"}, \texttt{"infrastructure cost"}, \texttt{TCO}, \texttt{"total cost of ownership"}, \texttt{maintenance}, \texttt{maintainability}, \texttt{reliability}, \texttt{availability}, \texttt{observability}, \texttt{DevOps}.
 \end{itemize}
 
-Główne zapytanie wyszukiwawcze zastosowane w bazie Scopus miało następującą postać:
-
-\begin{verbatim}
-TITLE-ABS-KEY (
-    (
-        microservice* OR "micro-service*" OR "microservices architecture"
-        OR "microservice architecture" OR "service-oriented architecture"
-    )
-    AND
-    (
-        monolith* OR "monolithic architecture" OR "monolithic application"
-        OR monolith
-    )
-    AND
-    (
-        cloud OR "cloud computing" OR "public cloud" OR "cloud-native"
-        OR kubernetes OR container* OR docker OR orchestration
-    )
-    AND
-    (
-        performance OR benchmark* OR throughput OR latency
-        OR "response time" OR scalab* OR autoscal* OR elasticity
-    )
-    AND
-    (
-        cost OR "operational cost" OR "infrastructure cost" OR TCO
-        OR "total cost of ownership" OR maintenance OR maintainability
-        OR reliability OR availability OR observability OR DevOps
-    )
+Główne zapytanie wyszukiwawcze miało następującą postać:
+\begin{listing}[ht]
+    \begin{minted}[fontsize=\small, breaklines]{text}
+(
+  (microservice* OR "micro-service*" OR "microservices architecture" OR "microservice architecture" OR "service-oriented architecture")
+  AND
+  (monolith* OR "monolithic architecture" OR "monolithic application" OR monolith)
+  AND
+  (cloud OR "cloud computing" OR "public cloud" OR "cloud-native" OR kubernetes OR container* OR docker OR orchestration)
+  AND
+  (performance OR benchmark* OR throughput OR latency OR "response time" OR scalab* OR autoscal* OR elasticity)
+  AND
+  (cost OR "operational cost" OR "infrastructure cost" OR TCO OR "total cost of ownership" OR maintenance OR maintainability OR reliability OR availability OR observability OR DevOps)
 )
-AND PUBYEAR > 2016
-AND ( LIMIT-TO ( DOCTYPE , "ar" ) OR LIMIT-TO ( DOCTYPE , "cp" ) )
-AND ( LIMIT-TO ( LANGUAGE , "English" ) )
-\end{verbatim}
-
-Ze względu na różnice składniowe pomiędzy wyszukiwarkami poszczególnych baz zapytanie było adaptowane lokalnie, przy zachowaniu niezmienionej logiki semantycznej. Krótsze warianty zapytań stosowano między innymi w IEEE Xplore i ACM Digital Library, gdzie zbyt rozbudowane formuły powodowały nadmiar wyników ubocznych lub ograniczenia wyszukiwarki.
+AND publication year > 2016
+AND document type IN (article, conference paper)
+AND language = English
+    \end{minted}
+    \caption{Zapytanie do wyszukiwania artykułów}
+    \label{lst:slr-search-sequence}
+\end{listing}
 
 \section{Źródła danych i zakres przeszukiwania}
 
-Wyszukiwanie literatury przeprowadzono w bazach uznawanych za podstawowe źródła publikacji z obszaru informatyki i inżynierii oprogramowania. W szczególności uwzględniono Scopus, IEEE Xplore, ACM Digital Library, SpringerLink oraz ScienceDirect. Dobór źródeł wynikał z potrzeby połączenia szerokiego pokrycia literatury interdyscyplinarnej z dobrym pokryciem publikacji stricte informatycznych i konferencyjnych.
+Wyszukiwanie literatury przeprowadzono w bazach uznawanych za podstawowe źródła publikacji z obszaru informatyki i inżynierii oprogramowania. W szczególności uwzględniono Scopus~\cite{scopus}, IEEE Xplore~\cite{ieeexplore}, Web of Science~\cite{webofscience}. Dobór źródeł wynikał z potrzeby połączenia szerokiego pokrycia literatury interdyscyplinarnej z dobrym pokryciem publikacji stricte informatycznych i konferencyjnych.
 
 Uwzględniono publikacje opublikowane w języku angielskim po roku 2016. Przyjęcie takiego zakresu czasowego było uzasadnione faktem, że po 2016 roku nastąpił wyraźny wzrost liczby badań dotyczących systemów mikroserwisowych, konteneryzacji i cloud-native. Wyszukiwanie obejmowało artykuły naukowe oraz materiały konferencyjne, natomiast pominięto publikacje o charakterze czysto marketingowym, notki redakcyjne oraz opracowania bez wartości empirycznej.
+
+Łącznie w przeszukiwanych bazach zidentyfikowano 469 rekordów. Rozkład liczby rekordów pozyskanych z poszczególnych baz przedstawiono w tabeli~\ref{tab:slr-databases}. Należy zaznaczyć, że bazy wykorzystane do wyszukiwania literatury nie są tożsame ze źródłami publikacyjnymi widocznymi w końcowym zbiorze. Bazy takie jak Scopus czy Web of Science pełnią rolę agregatorów indeksujących publikacje pochodzące od różnych wydawców i platform publikacyjnych.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Liczba rekordów pozyskanych z przeszukiwanych baz literaturowych}
+    \label{tab:slr-databases}
+    \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Baza literaturowa} & \textbf{Liczba rekordów} \\
+        \hline
+        Scopus & 199 \\
+        Web of Science & 135 \\
+        IEEE Xplore & 135 \\
+        \hline
+        \textbf{Łącznie} & \textbf{469} \\
+        \hline
+    \end{tabular}
+\end{table}
 
 \section{Kryteria włączenia i wyłączenia}
 
@@ -102,9 +109,9 @@ W celu zapewnienia spójności procesu selekcji zdefiniowano kryteria włączeni
 Do dalszej analizy kwalifikowano publikacje, które spełniały co najmniej jedno z poniższych kryteriów:
 \begin{itemize}
     \item porównywały architekturę mikroserwisową i monolityczną bezpośrednio lub zawierały dane umożliwiające takie porównanie,
-    \item dotyczyły systemów uruchamianych w środowiskach chmurowych, kontenerowych lub cloud-native,
+    \item dotyczyły systemów uruchamianych w środowiskach chmurowych lub kontenerowych,
     \item raportowały wyniki odnoszące się do wydajności, skalowalności, utrzymywalności, kosztów lub operacyjności,
-    \item miały charakter empiryczny, eksperymentalny, benchmarkingowy lub zawierały systematyczną analizę literatury istotną dla przyjętego problemu badawczego.
+    \item miały charakter eksperymentalny, benchmarkingowy lub zawierały systematyczną analizę literatury istotną dla przyjętego problemu badawczego.
 \end{itemize}
 
 \subsection{Kryteria wyłączenia}
@@ -113,10 +120,9 @@ Z analizy wyłączano publikacje, które:
 \begin{itemize}
     \item nie dotyczyły bezpośrednio architektury monolitycznej i mikroserwisowej,
     \item nie odnosiły się do środowisk chmurowych, kontenerowych ani nowoczesnych środowisk wdrożeniowych,
-    \item miały charakter opiniotwórczy, marketingowy lub przeglądowy bez użytecznych danych analitycznych,
-    \item koncentrowały się wyłącznie na porównaniu mikroserwisów z innymi stylami architektonicznymi, na przykład SOA, bez odniesienia do monolitu,
     \item były duplikatami rekordów pozyskanych z innych baz.
 \end{itemize}
+
 
 \section{Proces selekcji publikacji}
 
@@ -124,9 +130,27 @@ Proces selekcji miał charakter dwuetapowy. W pierwszym etapie przeprowadzono sc
 
 Do organizacji procesu screeningu i usuwania duplikatów wykorzystano narzędzie Rayyan, które umożliwia sprawne zarządzanie rekordami bibliograficznymi, ich tagowanie oraz wspomaga deduplikację. Dodatkowo publikacjom przypisywano znaczniki tematyczne odpowiadające głównym osiom analizy, takim jak \textit{performance}, \textit{scalability}, \textit{cost}, \textit{Kubernetes}, \textit{benchmark} czy \textit{empirical study}. Takie podejście ułatwiło późniejszą syntezę wyników.
 
-Po zakończeniu procesu deduplikacji i selekcji końcowy zbiór obejmował 16 publikacji. Rozkład publikacji według roku wydania wskazuje, że największa liczba prac została opublikowana w 2023 roku, natomiast wyraźny wzrost zainteresowania tematyką jest widoczny od 2020 roku. Na wykresie przedstawiającym rozkład czasowy widać odpowiednio: 1 publikację z 2017 roku, brak publikacji z lat 2018--2019, 2 publikacje z 2020 roku, 2 z 2021 roku, 3 z 2022 roku, 4 z 2023 roku oraz po 2 publikacje z lat 2024 i 2025. \cite{slr_year_chart}
+Kolejne etapy zawężania zbioru publikacji przedstawiono w tabeli~\ref{tab:slr-selection-steps}. Proces obejmował usunięcie duplikatów, selekcję na podstawie tytułu i abstraktu, analizę pełnych tekstów oraz ocenę według kryteriów jakościowych.
 
-Znacząca część końcowego zbioru pochodziła z IEEE Xplore, które stanowiło 56{,}25\% wszystkich zakwalifikowanych publikacji. Drugim najważniejszym źródłem był SpringerLink z udziałem 18{,}75\%, natomiast ACM Digital Library, ScienceDirect, MDPI oraz CEUR-WS odpowiadały po 6{,}25\% zbioru. Taki rozkład potwierdza, że rdzeń analizowanej literatury ma charakter informatyczny i konferencyjny, z silną reprezentacją publikacji indeksowanych w źródłach technicznych. \cite{slr_sources_chart}
+\begin{table}[htbp]
+    \centering
+    \caption{Etapy selekcji publikacji w systematycznym przeglądzie literatury}
+    \label{tab:slr-selection-steps}
+    \begin{tabular}{|l|r|r|r|}
+        \hline
+        \textbf{Etap} & \textbf{Liczba przed etapem} & \textbf{Liczba po etapie} & \textbf{Liczba odrzuconych} \\
+        \hline
+        Usunięcie duplikatów & 469 & 390 & 79 \\
+        Selekcja po tytule i opisie & 390 & 39 & 351 \\
+        Selekcja po pełnej treści & 39 & 24 & 15 \\
+        Selekcja po kryteriach jakościowych & 24 & 16 & 8 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Po zakończeniu procesu deduplikacji i wieloetapowej selekcji końcowy zbiór obejmował 16 publikacji. Jak pokazano w tabeli~\ref{tab:slr-selection-steps}, największa liczba rekordów została odrzucona na etapie selekcji po tytule i opisie, co wskazuje, że szeroka strategia wyszukiwania skutecznie zapewniła wysoką czułość wyszukiwania, kosztem konieczności późniejszego odfiltrowania publikacji mniej istotnych dla problemu badawczego. Rozkład publikacji według roku wydania wskazuje, że największa liczba prac została opublikowana w 2023 roku, natomiast wyraźny wzrost zainteresowania tematyką jest widoczny od 2020 roku. Na wykresie przedstawiającym rozkład czasowy widać odpowiednio: 1 publikację z 2017 roku, brak publikacji z lat 2018-2019, 2 publikacje z 2020 roku, 2 z 2021 roku, 3 z 2022 roku, 4 z 2023 roku oraz po 2 publikacje z lat 2024 i 2025. \ref{fig:slr-years}
+
+Znacząca część końcowego zbioru obejmowała publikacje pochodzące ze źródeł publikacyjnych związanych z IEEE Xplore~\cite{ieeexplore}, które stanowiły 56{,}25\% wszystkich zakwalifikowanych prac. Drugim najważniejszym źródłem był SpringerLink~\cite{springerlink} z udziałem 18{,}75\%, natomiast ACM Digital Library~\cite{acm_dl}, ScienceDirect~\cite{sciencedirect}, MDPI~\cite{mdpi} oraz CEUR-WS~\cite{ceur} odpowiadały po 6{,}25\% zbioru. Taki rozkład potwierdza, że rdzeń analizowanej literatury ma charakter informatyczny i konferencyjny, z silną reprezentacją publikacji indeksowanych w źródłach technicznych (rys.~\ref{fig:slr-sources}).
 
 \begin{figure}[htbp]
     \centering
@@ -141,6 +165,7 @@ Znacząca część końcowego zbioru pochodziła z IEEE Xplore, które stanowił
     \caption{Udział poszczególnych źródeł publikacyjnych w końcowym zbiorze}
     \label{fig:slr-sources}
 \end{figure}
+
 
 \section{Ekstrakcja i synteza danych}
 
@@ -162,6 +187,7 @@ W celu uporządkowania materiału źródłowego zastosowano syntezę tematyczną
 \end{enumerate}
 
 Taki podział umożliwił przejrzyste zestawienie wyników literaturowych z rezultatami własnego eksperymentu zaprezentowanego w dalszych rozdziałach pracy.
+
 
 \section{Analiza badań dotyczących porównania architektury monolitycznej i mikroserwisowej}
 
@@ -192,6 +218,7 @@ Po drugie, duża część badań koncentruje się wyłącznie na jednym wymiarze
 Po trzecie, literatura rzadko oferuje jednolitą metodykę eksperymentalną pozwalającą na bezpośrednie porównywanie wyników. Różnice dotyczą zarówno metryk, jak i sposobu wdrożenia, typu infrastruktury, poziomu obciążenia czy użytych narzędzi. W efekcie nadal brakuje badań, które w jednym, spójnym eksperymencie zestawiałyby wydajność, skalowalność i koszt utrzymania obu architektur w kontrolowanych warunkach.
 
 Zidentyfikowane luki uzasadniają podejście przyjęte w niniejszej pracy. Polega ono na porównaniu funkcjonalnie równoważnych wariantów tej samej aplikacji, uruchomionych w porównywalnym środowisku chmurowym i badanych według jednolitej procedury eksperymentalnej. Takie podejście pozwala ograniczyć wpływ czynników zakłócających i lepiej odpowiedzieć na pytanie o rzeczywisty wpływ stylu architektonicznego na parametry jakościowe systemu.
+
 
 \section{Podsumowanie}
 
