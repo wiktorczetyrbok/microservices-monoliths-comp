@@ -31,7 +31,7 @@ const similarityClient = new similarityProto.Similarity(
 function Search(call, callback) {
     const { kernel, threshold } = call.request;
 
-    // fixed reference image (like geo center)
+    // fixed reference image
     featureClient.Extract(
         { imageId: 'img001', kernel },
         (err, featureRes) => {
