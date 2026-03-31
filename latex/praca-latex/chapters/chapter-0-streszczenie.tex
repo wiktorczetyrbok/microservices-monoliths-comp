@@ -1,47 +1,16 @@
 \section*{Streszczenie}
 
-Celem pracy była analiza porównawcza architektury monolitycznej oraz
-architektury mikroserwisowej pod kątem ich wydajności, skalowalności
-oraz kosztów utrzymania w środowiskach chmurowych. W dobie rosnącej
-złożoności systemów informatycznych oraz dynamicznego przyrostu liczby
-użytkowników coraz większe znaczenie zyskują modele architektoniczne
-umożliwiające efektywne zarządzanie zasobami, elastyczność oraz
-niezawodność. W pracy zbadano, w jaki sposób wybór architektury wpływa
-na realne parametry działania aplikacji, a także jakie konsekwencje
-niesie dla organizacji pod względem operacyjnym i finansowym.
+Celem pracy było porównanie architektury monolitycznej oraz architektury mikroserwisowej pod kątem wydajności, skalowalności i kosztów środowiska uruchomieniowego w warunkach chmurowych. Analiza została przeprowadzona z perspektywy praktycznej, z naciskiem na rzeczywiste zachowanie aplikacji pod obciążeniem, a nie wyłącznie na teoretyczne zalety i ograniczenia obu podejść architektonicznych. W pracy skupiono się na odpowiedzi na pytanie, w jaki sposób wybór architektury oraz technologii implementacyjnej wpływa na przepustowość, latencję, skuteczność skalowania wertykalnego i horyzontalnego oraz relację kosztu do osiąganej wydajności.
 
-Przeprowadzony przegląd literatury pozwolił zidentyfikować aktualne
-podejścia do pomiaru wydajności i skalowalności systemów rozproszonych
-oraz istniejące narzędzia benchmarkingowe. Jednak większość dostępnych
-badań analizuje architektury w oderwaniu od praktycznego kontekstu
-wdrożenia w chmurze, co wskazało na istnienie luki badawczej — brak
-kompleksowego porównania monolitu i mikroserwisów uruchomionych w
-porównywalnym środowisku, z zastosowaniem jednolitych metod obciążenia
-i identycznych scenariuszy testowych.
+W części teoretycznej przeprowadzono systematyczny przegląd literatury dotyczącej porównania architektury monolitycznej i mikroserwisowej w środowiskach chmurowych. Analiza źródeł pozwoliła uporządkować aktualny stan wiedzy w zakresie wydajności, skalowalności i kosztów utrzymania systemów, a także wskazać lukę badawczą polegającą na ograniczonej liczbie prac porównujących funkcjonalnie równoważne implementacje tej samej aplikacji w jednolitych warunkach eksperymentalnych.
 
-W ramach pracy zaimplementowano aplikację benchmarkingową w dwóch
-wariantach architektonicznych — monolitycznym oraz mikroserwisowym —
-oraz wdrożono oba modele na platformie chmurowej. Zastosowano testy
-obciążeniowe generowane za pomocą dedykowanego narzędzia oraz
-przeprowadzono analizę skalowania pionowego i poziomego. Dodatkowo
-zbadano wpływ konfiguracji infrastruktury, mechanizmów komunikacji,
-wielowątkowości oraz sposobu zarządzania zasobami na ogólną
-efektywność aplikacji.
+W części badawczej przygotowano sześć implementacji tego samego systemu: trzy warianty monolityczne oraz trzy warianty mikroserwisowe. Zostały one zaimplementowane w trzech technologiach: Java, JavaScript oraz Python. Wariant mikroserwisowy wykorzystywał komunikację opartą na gRPC, natomiast wszystkie implementacje udostępniały ten sam punkt końcowy HTTP i realizowały ten sam proces przetwarzania. Środowisko eksperymentalne zostało uruchomione w Google Cloud Platform, z wykorzystaniem konteneryzacji, Docker Swarm, Terraform oraz GitHub Actions. Testy wydajnościowe przeprowadzono przy użyciu Apache JMeter, analizując wpływ skalowania wertykalnego i horyzontalnego na przepustowość oraz latencję.
 
-Wyniki badań wskazują, że architektura monolityczna charakteryzuje się
-wyższą wydajnością przy niewielkim obciążeniu oraz niższymi kosztami
-utrzymania w prostych instalacjach, natomiast architektura
-mikroserwisowa oferuje znacząco lepszą skalowalność poziomą,
-niezależność komponentów oraz większą elastyczność w zakresie
-optymalizacji wybranych obszarów systemu. Jednocześnie mikroserwisy
-wprowadzają koszty związane z komunikacją między usługami,
-złożonością infrastruktury oraz większym nakładem na utrzymanie.
+Uzyskane wyniki wykazały, że najwyższą bezwzględną wydajność osiągnęły implementacje w języku Java. Jednocześnie we wszystkich analizowanych językach architektura monolityczna uzyskiwała wyższą maksymalną przepustowość niż odpowiadająca jej implementacja mikroserwisowa, co potwierdziło wpływ narzutu komunikacyjnego na wynik końcowy. Stwierdzono również, że skuteczność skalowania zależy nie tylko od architektury, lecz także od właściwości środowiska uruchomieniowego. Java najlepiej reagowała na skalowanie wertykalne, natomiast Python i JavaScript uzyskiwały lepsze rezultaty przy skalowaniu horyzontalnym. Analiza latencji potwierdziła wnioski wynikające z pomiarów przepustowości: rozwiązania osiągające wyższą przepustowość cechowały się jednocześnie niższą i wolniej rosnącą latencją.
 
-Praca kończy się omówieniem ograniczeń badania, wkładu pracy w obszar
-inżynierii oprogramowania oraz propozycją kierunków dalszych badań,
-obejmujących m.in.\ analizę architektur hybrydowych,
-automatyczne skalowanie zasobów oraz wpływ technologii serverless na
-koszty operacyjne aplikacji.
+W pracy przeprowadzono także analizę kosztów środowiska eksperymentalnego. Wykazano, że przy tym samym poziomie zasobów architektura mikroserwisowa w większości przypadków nie osiągała wydajności monolitu, a zatem zrównanie obu podejść pod względem przepustowości wymagałoby dodatkowych zasobów i wyższych kosztów infrastrukturalnych. Najbardziej widoczne było to w przypadku implementacji w Pythonie, natomiast najmniejsze różnice występowały dla JavaScriptu i Javy. Oznacza to, że z perspektywy relacji kosztu do wydajności architektura monolityczna w badanym środowisku wypadała korzystniej.
+
+Wyniki pracy wskazują, że wybór architektury i strategii skalowania powinien być podejmowany na podstawie pomiarów wykonanych dla konkretnej technologii i sposobu implementacji. Sama architektura nie determinuje końcowej efektywności systemu. Istotne znaczenie mają również model wykonania aplikacji, narzut komunikacyjny, sposób skalowania oraz koszt osiągnięcia oczekiwanego poziomu wydajności.
 
 \vspace{0.5cm}
 

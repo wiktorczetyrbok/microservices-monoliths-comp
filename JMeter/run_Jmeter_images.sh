@@ -22,7 +22,5 @@ for k in $(seq 1 "$iterations"); do
       -Jiteration="$k" \
       -Jlanguage="$language" \
       -Japp_type="$app_type"
-
-    sleep 3
   done
 done

@@ -1,41 +1,16 @@
 \section*{Abstract}
 
-The aim of this thesis was to conduct a comparative analysis of monolithic
-and microservice architectures in terms of performance, scalability,
-and maintenance costs in cloud environments. As software systems become
-increasingly complex and the number of users continues to grow, architectural
-models that provide effective resource management, flexibility, and reliability
-gain significant importance. This work investigates how the choice of software
-architecture influences real application performance parameters and what
-operational and financial consequences it entails for an organization.
+The aim of this thesis was to compare monolithic architecture and microservice architecture in terms of performance, scalability, and runtime environment costs under cloud conditions. The analysis was conducted from a practical perspective, with a focus on the actual behavior of the application under load rather than solely on the theoretical advantages and limitations of both architectural approaches. The study addressed the question of how the choice of architecture and implementation technology affects throughput, latency, the effectiveness of vertical and horizontal scaling, and the relationship between cost and achieved performance.
 
-A systematic literature review was carried out to identify current approaches
-to measuring the performance and scalability of distributed systems, as well
-as existing benchmarking tools. However, most available studies examine these
-architectures without a practical cloud deployment context, exposing a research
-gap — the lack of a comprehensive comparison of monolithic and microservice
-applications deployed in equivalent environments, using unified load-testing
-methods and identical test scenarios.
+In the theoretical part, a systematic literature review was carried out on the comparison of monolithic and microservice architectures in cloud environments. The analysis of the selected sources made it possible to organize the current state of knowledge regarding performance, scalability, and maintenance costs of systems, as well as to identify a research gap consisting in the limited number of studies comparing functionally equivalent implementations of the same application under uniform experimental conditions.
 
-As part of the thesis, a benchmarking application was implemented in two
-architectural variants — monolithic and microservice — and both versions were
-deployed on a cloud platform. Load tests were conducted using a dedicated tool,
-and vertical and horizontal scaling were analyzed. Additionally, the impact of
-infrastructure configuration, communication mechanisms, multithreading, and
-resource management strategies on overall application efficiency was examined.
+In the experimental part, six implementations of the same system were prepared: three monolithic variants and three microservice variants. They were implemented in three technologies: Java, JavaScript, and Python. The microservice variant used gRPC-based communication, while all implementations exposed the same HTTP endpoint and performed the same processing workflow. The experimental environment was deployed on Google Cloud Platform using containerization, Docker Swarm, Terraform, and GitHub Actions. Performance tests were carried out using Apache JMeter, analyzing the impact of vertical and horizontal scaling on throughput and latency.
 
-The study results indicate that monolithic architecture provides higher
-performance under low load and lower maintenance costs in simpler deployments.
-In contrast, microservice architecture offers significantly better horizontal
-scalability, component independence, and greater flexibility in optimizing
-specific parts of the system. At the same time, microservices introduce
-additional costs related to inter-service communication, infrastructure
-complexity, and operational overhead.
+The obtained results showed that the highest absolute performance was achieved by the implementations written in Java. At the same time, in all analyzed languages, the monolithic architecture achieved higher maximum throughput than the corresponding microservice implementation, which confirmed the impact of communication overhead on the final result. It was also found that the effectiveness of scaling depends not only on the architecture itself, but also on the characteristics of the runtime environment. Java responded best to vertical scaling, whereas Python and JavaScript achieved better results under horizontal scaling. The latency analysis confirmed the conclusions drawn from the throughput measurements: the solutions achieving higher throughput were also characterized by lower and more slowly increasing latency.
 
-The thesis concludes with a discussion of study limitations, the scientific
-contribution of the work, and directions for further research, including
-hybrid architectural models, automatic resource scaling, and the impact of
-serverless technologies on the operational costs of cloud applications.
+The thesis also included an analysis of the costs of the experimental environment. It was shown that, at the same level of resources, the microservice architecture in most cases did not achieve the performance of the monolith, and therefore matching both approaches in terms of throughput would require additional resources and higher infrastructure costs. This effect was most visible in the Python implementations, while the smallest differences were observed for JavaScript and Java. This means that, from the perspective of cost-to-performance ratio, the monolithic architecture performed better in the analyzed environment.
+
+The results of the thesis indicate that the choice of architecture and scaling strategy should be based on measurements carried out for a specific technology and implementation approach. Architecture alone does not determine the final efficiency of the system. The execution model of the application, communication overhead, scaling method, and the cost of achieving the expected level of performance are also of significant importance.
 
 \vspace{0.5cm}
 

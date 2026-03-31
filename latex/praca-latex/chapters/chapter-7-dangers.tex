@@ -1,47 +1,26 @@
+\chapter{Zagrożenia dla rzetelności wyników}
 \section{Zagrożenia wewnętrzne}
 
-Zagrożenia wewnętrzne odnoszą się do tych czynników, które mogą wpływać na uzyskane wyniki w obrębie samego eksperymentu i zaburzać relację pomiędzy badaną przyczyną a obserwowanym skutkiem. W kontekście niniejszej pracy głównym zagrożeniem tego typu jest możliwość, że różnice zaobserwowane pomiędzy wariantem monolitycznym i mikroserwisowym wynikają nie tylko z odmiennego stylu architektonicznego, lecz również z różnic implementacyjnych, konfiguracyjnych lub środowiskowych.
-\par
-Jednym z kluczowych zagrożeń wewnętrznych jest brak pełnej równoważności obu implementacji. Mimo założenia, że oba warianty realizują ten sam proces biznesowy, każda implementacja może zawierać inne decyzje projektowe, optymalizacje lub uproszczenia, które wpływają na wyniki pomiarów. Ograniczenie tego zagrożenia wymaga zachowania możliwie dużej spójności funkcjonalnej oraz porównywalnego zakresu logiki wykonywanej po obu stronach.
-\par
-Kolejnym zagrożeniem jest wpływ konfiguracji środowiska uruchomieniowego. Nawet niewielkie różnice w parametrach zasobów, konfiguracji sieci, ustawieniach kontenerów lub sposobie wdrożenia mogą powodować odchylenia w wynikach testów. W związku z tym konieczne jest zachowanie spójnych parametrów środowiska oraz automatyzacja procesu wdrożenia.
-\par
-Istotnym źródłem zagrożeń wewnętrznych jest również niestabilność środowiska chmurowego. Współdzielenie zasobów z innymi użytkownikami infrastruktury, chwilowe przeciążenia sieci lub zmienność wydajności maszyn wirtualnych mogą wpływać na wyniki eksperymentu niezależnie od badanej architektury. W celu ograniczenia tego wpływu testy powinny być wykonywane wielokrotnie, a analiza powinna opierać się na wynikach zagregowanych.
-\par
+Zagrożenia wewnętrzne odnoszą się do tych czynników, które mogą wpływać na uzyskane wyniki w obrębie samego eksperymentu i zaburzać relację pomiędzy badaną przyczyną a obserwowanym skutkiem. W kontekście niniejszej pracy głównym zagrożeniem tego typu jest możliwość, że różnice zaobserwowane pomiędzy wariantem monolitycznym i mikroserwisowym wynikają nie tylko z odmiennego stylu architektonicznego, lecz również z różnic implementacyjnych, konfiguracyjnych lub środowiskowych. Mimo założenia, że oba warianty realizują ten sam proces biznesowy, każda implementacja może zawierać inne decyzje projektowe, optymalizacje lub uproszczenia, które wpływają na wyniki pomiarów. Ograniczenie tego zagrożenia wymaga zachowania możliwie dużej spójności funkcjonalnej oraz porównywalnego zakresu logiki wykonywanej po obu stronach.
+
 Do zagrożeń wewnętrznych należy także możliwość błędów pomiarowych. Dotyczy to zarówno błędów związanych z konfiguracją narzędzi testowych, jak i nieprawidłowego gromadzenia lub interpretacji metryk. Aby ograniczyć to ryzyko, konieczne jest stosowanie jednolitej procedury eksperymentalnej i zachowanie tej samej metody pomiaru dla wszystkich badanych wariantów.
 
 \section{Zagrożenia zewnętrzne}
 
-Zagrożenia zewnętrzne dotyczą możliwości uogólnienia uzyskanych wyników poza warunki, w których przeprowadzono badanie. W niniejszej pracy podstawowym ograniczeniem tego rodzaju jest fakt, że analiza została przeprowadzona na jednej konkretnej aplikacji oraz w określonym środowisku chmurowym.
-\par
-Oznacza to, że uzyskane wyniki nie muszą być bezpośrednio przenoszalne na wszystkie klasy systemów informatycznych. Inne aplikacje mogą różnić się charakterem logiki biznesowej, stopniem złożoności, profilem obciążenia, intensywnością komunikacji między komponentami oraz wymaganiami niefunkcjonalnymi. W rezultacie przewaga jednego stylu architektonicznego zaobserwowana w niniejszym badaniu nie musi występować w identycznej postaci w innym kontekście.
-\par
+Zagrożenia zewnętrzne dotyczą możliwości uogólnienia uzyskanych wyników poza warunki, w których przeprowadzono badanie. W niniejszej pracy podstawowym ograniczeniem tego rodzaju jest fakt, że analiza została przeprowadzona na jednej konkretnej aplikacji oraz w określonym środowisku chmurowym. Oznacza to, że uzyskane wyniki nie muszą być bezpośrednio przenoszalne na wszystkie klasy systemów informatycznych. Inne aplikacje mogą różnić się charakterem logiki biznesowej, stopniem złożoności, profilem obciążenia, intensywnością komunikacji między komponentami oraz wymaganiami niefunkcjonalnymi. W rezultacie przewaga jednego stylu architektonicznego zaobserwowana w niniejszym badaniu nie musi występować w identycznej postaci w innym kontekście.
+
 Kolejnym zagrożeniem zewnętrznym jest zależność wyników od konkretnej platformy chmurowej i jej właściwości operacyjnych. Różne środowiska chmurowe mogą stosować odmienne modele przydziału zasobów, rozliczania usług, równoważenia obciążenia oraz komunikacji sieciowej. Z tego względu wyniki uzyskane dla jednego dostawcy chmury nie muszą być w pełni reprezentatywne dla innych środowisk.
-\par
-Na możliwość uogólnienia wyników wpływa także charakter przyjętych scenariuszy testowych. Eksperyment obejmuje wybrane poziomy obciążenia, określony model ruchu oraz jeden reprezentatywny punkt końcowy aplikacji. W praktyce rzeczywiste systemy mogą być poddawane bardziej złożonym i mniej przewidywalnym wzorcom użycia, co może prowadzić do innych obserwacji.
-\par
+
+Na możliwość uogólnienia wyników wpływa także charakter przyjętych scenariuszy testowych. Eksperyment obejmuje wybrane poziomy obciążenia, określony model ruchu oraz jeden reprezentatywny punkt końcowy aplikacji. W praktyce rzeczywiste systemy mogą być poddawane bardziej złożonym i mniej przewidywalnym wzorcom użycia, co może prowadzić do innych obserwacji. Wiele punktów końcowych w aplikacji i bardziej wydajny rozkład ruchu między mikroserwisami lub zastosowanie asynchroniczności w komunikacji mogło doprowadzić do przewagi mikroserwisów.
 Mimo tych ograniczeń wyniki badania pozostają wartościowe, ponieważ pozwalają zidentyfikować mechanizmy i zależności, które mogą stanowić punkt odniesienia dla dalszych analiz i kolejnych eksperymentów.
 
 \section{Zagrożenia konstrukcyjne}
 
-Zagrożenia konstrukcyjne odnoszą się do zgodności pomiędzy przyjętymi pojęciami teoretycznymi a sposobem ich operacjonalizacji w eksperymencie. W niniejszej pracy dotyczy to przede wszystkim sposobu rozumienia takich kategorii jak wydajność, skalowalność oraz koszty utrzymania.
-\par
-Jednym z podstawowych zagrożeń konstrukcyjnych jest możliwość, że wybrane metryki nie oddają w pełni badanego zjawiska. Przykładowo przepustowość i latencja opisują istotne aspekty wydajności, lecz nie wyczerpują całego obrazu jakości działania systemu. Podobnie koszty utrzymania mogą być rozumiane szerzej niż tylko koszt zasobów infrastrukturalnych i obejmować także nakład pracy operacyjnej, złożoność utrzymania czy koszt zarządzania środowiskiem.
-\par
-Kolejne zagrożenie wynika z przyjęcia jednego punktu końcowego aplikacji jako reprezentatywnego dla całości systemu. Choć podejście to upraszcza analizę i zwiększa porównywalność wyników, może jednocześnie ograniczać pełny obraz zachowania systemu. Inne operacje aplikacyjne mogłyby wykazywać odmienną charakterystykę wydajnościową i skalowalnościową.
-\par
-Do zagrożeń konstrukcyjnych należy również sposób definiowania kosztów. Jeżeli analiza kosztowa opiera się głównie na kosztach bezpośrednich infrastruktury chmurowej, może nie uwzględniać pełnego kosztu utrzymania systemu, zwłaszcza w przypadku architektury mikroserwisowej, gdzie istotne znaczenie mają także koszty operacyjne związane z monitorowaniem, wdrażaniem i zarządzaniem większą liczbą komponentów.
-\par
-Ograniczenie zagrożeń konstrukcyjnych wymaga jasnego zdefiniowania używanych pojęć, konsekwentnego stosowania metryk oraz świadomego wskazania, które elementy rzeczywistości zostały objęte zakresem pomiaru, a które pozostały poza nim.
+Jednym z podstawowych zagrożeń konstrukcyjnych jest ryzyko, że przyjęte metryki nie oddają w pełni wszystkich aspektów analizowanego zjawiska. W niniejszym badaniu główny nacisk położono na przepustowość, latencję oraz koszt infrastruktury, ponieważ wskaźniki te dobrze nadają się do porównania architektury monolitycznej i mikroserwisowej w kontrolowanych warunkach eksperymentalnych. Należy jednak podkreślić, że nie wyczerpują one całego obrazu jakości działania systemu. W szczególności nie obejmują wszystkich wymiarów utrzymywalności, niezawodności czy złożoności operacyjnej środowiska.
+
+Drugim istotnym ograniczeniem jest przyjęcie jednego punktu końcowego aplikacji jako reprezentatywnego dla całości systemu. Takie założenie było uzasadnione potrzebą zachowania spójności eksperymentu i porównywalności wyników, jednak może jednocześnie zawężać perspektywę badawczą. Nie można wykluczyć, że inne operacje realizowane w systemie charakteryzowałyby się odmiennym profilem wydajnościowym i inną podatnością na skalowanie.
+
+Do zagrożeń konstrukcyjnych należy zaliczyć również sposób ujęcia kosztów. W przeprowadzonej analizie kosztowej uwzględniono przede wszystkim bezpośredni koszt zasobów infrastrukturalnych, co pozwalało na przejrzyste zestawienie wariantów eksperymentalnych. Takie podejście nie obejmuje jednak pełnego kosztu utrzymania systemu, zwłaszcza w przypadku architektury mikroserwisowej, dla której istotne mogą być także koszty związane z monitorowaniem, wdrażaniem, utrzymaniem pipeline'ów, diagnostyką oraz zarządzaniem większą liczbą współpracujących komponentów. Oznacza to, że przedstawiona analiza kosztów powinna być interpretowana jako uproszczony model porównawczy, a nie pełna ekonomiczna ocena całego cyklu życia systemu.
 
 \section{Zagrożenia związane z trafnością wnioskowania}
-
-Zagrożenia związane z trafnością wnioskowania dotyczą poprawności interpretacji uzyskanych wyników oraz zasadności formułowanych na ich podstawie wniosków. W niniejszej pracy istotne jest przede wszystkim to, aby nie przypisywać nadmiernego znaczenia różnicom obserwowanym w określonych warunkach eksperymentalnych.
-\par
-Jednym z głównych zagrożeń tego typu jest wyciąganie zbyt szerokich wniosków na podstawie ograniczonego zestawu danych. Nawet jeśli jedna z architektur osiąga lepsze wyniki w określonym scenariuszu, nie oznacza to automatycznie jej ogólnej przewagi we wszystkich warunkach pracy. Interpretacja wyników powinna być zatem osadzona w kontekście konkretnej aplikacji, środowiska i modelu obciążenia.
-\par
-Innym zagrożeniem jest nieuwzględnienie relacji pomiędzy poszczególnymi metrykami. Przykładowo wyższa przepustowość może być osiągnięta kosztem większej latencji lub znacznie wyższego zużycia zasobów. Podobnie korzystniejsze wyniki skalowalności nie muszą oznaczać lepszej opłacalności ekonomicznej. Wnioski końcowe powinny więc wynikać z łącznej analizy wszystkich obszarów badania, a nie z obserwacji pojedynczej metryki.
-\par
-Zagrożeniem dla trafności wnioskowania może być również nieuwzględnienie ograniczeń samej metodyki badawczej. Jeżeli ograniczenia te nie zostaną jasno wskazane, istnieje ryzyko nadinterpretacji wyników i przypisania im większej uniwersalności niż rzeczywiście posiadają.
-\par
-W celu ograniczenia tego rodzaju zagrożeń wnioski formułowane w niniejszej pracy są odnoszone bezpośrednio do przeprowadzonych eksperymentów, zastosowanej konfiguracji środowiska oraz przyjętego zakresu pomiaru. Takie podejście zwiększa przejrzystość interpretacji i pozwala zachować ostrożność metodologiczną.
+Jednym z głównych zagrożeń tego typu jest wyciąganie zbyt szerokich wniosków na podstawie ograniczonego zestawu danych. Nawet jeśli jedna z architektur osiąga lepsze wyniki w określonym scenariuszu, nie oznacza to automatycznie jej ogólnej przewagi we wszystkich warunkach pracy. Interpretacja wyników powinna być zatem osadzona w kontekście konkretnej aplikacji, środowiska i modelu obciążenia. W celu ograniczenia tego rodzaju zagrożeń wnioski formułowane w niniejszej pracy są odnoszone bezpośrednio do przeprowadzonych eksperymentów, zastosowanej konfiguracji środowiska oraz przyjętego zakresu pomiaru. Takie podejście zwiększa przejrzystość interpretacji i pozwala zachować ostrożność metodologiczną.

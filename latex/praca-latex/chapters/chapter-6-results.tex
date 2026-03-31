@@ -1,7 +1,6 @@
-W niniejszym rozdziale przedstawiono analizę wyników testów skalowalności przeprowadzonych dla
-trzech implementacji językowych: Python, JavaScript oraz Java. Badania objęły dwie wersje
-architektoniczne aplikacji: monolityczną oraz mikroserwisową wykorzystującą \texttt{gRPC} jako
-technologię komunikacji międzyserwisowej. Analizie poddano dwa mechanizmy zwiększania zasobów:
+\chapter{Wyniki badań i ich analiza}
+
+W następującym rozdziale przedstawiono analizę wyników testów skalowalności przeprowadzonych dla implementacji opisywanych w pracy. Analizie poddano dwa mechanizmy zwiększania zasobów,
 skalowanie wertykalne, polegające na zwiększaniu parametrów pojedynczej instancji maszyny,
 oraz skalowanie horyzontalne, polegające na zwiększaniu liczby instancji aplikacji lub replik
 mikroserwisów.
@@ -12,323 +11,311 @@ przepustowości oraz przyrosty wydajności. Celem analizy było określenie, kt�
 jest skuteczniejszy dla poszczególnych języków i architektur oraz jak duży wpływ na końcowy rezultat
 ma sama technologia wykonania aplikacji.
 
+\section{Analiza latencji}
+
+Oprócz przepustowości w analizie wyników uwzględniono również latencję, ponieważ metryka ta lepiej oddaje czas oczekiwania użytkownika na rozpoczęcie odpowiedzi systemu. W niniejszym badaniu latencja była rejestrowana przez aplikację JMeter i interpretowana jako czas od wysłania żądania do chwili nadejścia pierwszej części odpowiedzi.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{chapters/images/latencja/latencja_wedlug_jezyka_i_implementacji}
+    \caption{Mediana latencji w zależności od języka i typu implementacji}
+    \label{fig:latency-by-language}
+\end{figure}
+
+Na rysunku~\ref{fig:latency-by-language} przedstawiono medianę latencji dla wszystkich analizowanych wariantów aplikacji. We wszystkich przypadkach wraz ze wzrostem liczby użytkowników rosła również wartość latencji, jednak tempo tego wzrostu było wyraźnie zróżnicowane zależnie od języka programowania i architektury systemu.
+
+Najniższe wartości latencji osiągały implementacje w języku Java. Zarówno w wariancie monolitycznym, jak i mikroserwisowym wzrost mediany latencji miał przebieg relatywnie łagodny, a wartości końcowe pozostawały wyraźnie niższe niż dla analogicznych implementacji w JavaScripcie i Pythonie. Oznacza to, że system zaimplementowany w Javie zachowywał większą stabilność czasów odpowiedzi przy rosnącym obciążeniu. Implementacje w JavaScripcie osiągały wartości pośrednie. Wariant monolityczny cechował się niższą latencją niż wariant mikroserwisowy w całym obserwowanym zakresie obciążenia, co potwierdza wpływ dodatkowego narzutu komunikacji między usługami. Jednocześnie wzrost latencji w JavaScripcie był wyraźnie szybszy niż w Javie, lecz wolniejszy niż w Pythonie. Najwyższe wartości latencji zaobserwowano dla implementacji w Pythonie. Zarówno monolit, jak i mikroserwisy osiągały wysokie wartości już przy relatywnie małej liczbie użytkowników, a wariant mikroserwisowy wykazywał najbardziej stromy wzrost spośród wszystkich badanych konfiguracji. W praktyce oznacza to, że w badanym scenariuszu Python najszybciej tracił zdolność do utrzymywania niskiego czasu oczekiwania na rozpoczęcie odpowiedzi.
+
 \section{Wyniki skalowania wertykalnego}
 
-W testach skalowania wertykalnego porównano trzy konfiguracje zasobów obliczeniowych:
-\texttt{std-2}, \texttt{std-4} oraz \texttt{std-8}. Oznacza to odpowiednio bazowy poziom zasobów,
-konfigurację dwukrotnie większą oraz konfigurację czterokrotnie większą względem punktu odniesienia.
-Tabela~\ref{tab:vertical-scaling-results} przedstawia zbiorcze wyniki dla wszystkich badanych
-implementacji.
+W testach skalowania wertykalnego porównano trzy konfiguracje zasobów obliczeniowych: \texttt{std-2}, \texttt{std-4} oraz \texttt{std-8}. Oznacza to odpowiednio bazowy poziom zasobów, konfigurację dwukrotnie większą oraz konfigurację czterokrotnie większą względem punktu odniesienia. Wyniki przepustowości w tej wersji skalowania przedstawione są na poniżych wykresach.~\ref{fig:vertical-python, fig:vertical-java, fig:vertical-java}
 
-\begin{table}[htbp]
-\centering
-\caption{Wyniki skalowania wertykalnego dla badanych implementacji.}
-\label{tab:vertical-scaling-results}
-\renewcommand{\arraystretch}{1.15}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|l|l|l|r|r|r|r|r|r|}
-\hline
-\textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{std-2} & \textbf{std-4} & \textbf{std-8} & \textbf{std-4/std-2} & \textbf{std-8/std-2} & \textbf{std-8/std-4} \\
- &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[\%]} & \textbf{[\%]} \\
-\hline
-1 & Python & monolityczna & - & 77,2 & 145,6 & 216,4 & 88,6\% & 180,3\% & 48,6\% \\
-2 & JavaScript & monolityczna & - & 1058,8 & 1096,8 & 1173,4 & 3,6\% & 10,8\% & 7,0\% \\
-3 & Java & monolityczna & - & 1841,6 & 3630,6 & 7275 & 97,1\% & 295,0\% & 100,4\% \\
-4 & Python & mikroserwisowa & gRPC & 45,8 & 55,8 & 63,6 & 21,8\% & 38,9\% & 14,0\% \\
-5 & JavaScript & mikroserwisowa & gRPC & 530,4 & 699,2 & 946,4 & 31,8\% & 78,4\% & 35,4\% \\
-6 & Java & mikroserwisowa & gRPC & 1354 & 2523,6 & 4835,8 & 86,4\% & 257,1\% & 91,6\% \\
-\hline
-\end{tabular}%
-}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/python-monolith-images_vertical_scaling}
+    \end{minipage}
+
+    \vspace{0.6cm}
+
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/python-microservices-grpc-images_vertical_scaling}
+    \end{minipage}
+    \caption{Wyniki skalowania wertykalnego dla implementacji w języku Python}
+    \label{fig:vertical-python}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/javascript-monolith-images_vertical_scaling}
+    \end{minipage}
+    \vspace{0.6cm}
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/javascript-microservices-grpc-images_vertical_scaling}
+    \end{minipage}
+    \caption{Wyniki skalowania wertykalnego dla implementacji w języku JavaScript}
+    \label{fig:vertical-javascript}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/java-monolith-images_vertical_scaling}
+    \end{minipage}
+
+    \vspace{0.6cm}
+
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/java-microservices-grpc-images_vertical_scaling}
+    \end{minipage}
+    \caption{Wyniki skalowania wertykalnego dla implementacji w języku Java}
+    \label{fig:vertical-java}
+\end{figure}
+
+Tabela~\ref{tab:vertical-scaling-results} przedstawia zbiorcze wyniki dla wszystkich badanych implementacji.
+
+\begin{table}[H]
+    \centering
+    \caption{Wyniki skalowania wertykalnego dla badanych implementacji}
+    \label{tab:vertical-scaling-results}
+    \renewcommand{\arraystretch}{1.15}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|l|l|r|r|r|r|r|r|}
+            \hline
+            \textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{std-2} & \textbf{std-4} & \textbf{std-8} & \textbf{std-4/std-2} & \textbf{std-8/std-2} & \textbf{std-8/std-4} \\
+            &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[\%]} & \textbf{[\%]} \\
+            \hline
+            1 & Python & monolityczna & - & 77,2 & 145,6 & 216,4 & 88,6\% & 180,3\% & 48,6\% \\
+            2 & JavaScript & monolityczna & - & 1058,8 & 1096,8 & 1173,4 & 3,6\% & 10,8\% & 7,0\% \\
+            3 & Java & monolityczna & - & 1841,6 & 3630,6 & 7275 & 97,1\% & 295,0\% & 100,4\% \\
+            4 & Python & mikroserwisowa & gRPC & 45,8 & 55,8 & 63,6 & 21,8\% & 38,9\% & 14,0\% \\
+            5 & JavaScript & mikroserwisowa & gRPC & 530,4 & 699,2 & 946,4 & 31,8\% & 78,4\% & 35,4\% \\
+            6 & Java & mikroserwisowa & gRPC & 1354 & 2523,6 & 4835,8 & 86,4\% & 257,1\% & 91,6\% \\
+            \hline
+        \end{tabular}%
+    }
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/python-monolith-images_vertical_scaling}
+Analiza wyników skalowania wertykalnego pokazuje wyraźnie, że największe korzyści z dokładania zasobów uzyskano dla implementacji w języku Java. W przypadku monolitu przepustowość wzrosła z poziomu 1841,6~req/s dla konfiguracji \texttt{std-2} do 7275~req/s dla konfiguracji \texttt{std-8}, co oznacza przyrost o 295,0\%. Bardzo podobny trend zaobserwowano dla mikroserwisów w Javie, gdzie wzrost wyniósł 257,1\%. Oznacza to, że implementacja w Javie efektywnie wykorzystuje dodatkowe rdzenie procesora i pamięć operacyjną, a skalowanie pionowe przekłada się bezpośrednio na wzrost przepustowości.
 
-    \small (a) Python -- architektura monolityczna
-\end{minipage}
-\hfill
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/python-microservices-grpc-images_vertical_scaling}
+Odmienny obraz widoczny jest dla JavaScriptu. W architekturze monolitycznej wzrost wydajności po zwiększeniu zasobów był minimalny: z 1058,8 req/s do 1173,4 req/s, czyli jedynie o 10,8\%. Wynika to z charakterystyki środowiska uruchomieniowego Node.js, które domyślnie działa w modelu jednowątkowym z pojedynczą pętlą zdarzeń (event loop). W takiej konfiguracji aplikacja nie jest w stanie efektywnie wykorzystać dodatkowych rdzeni procesora, ponieważ przetwarzanie żądań odbywa się w ramach jednego wątku wykonania. W praktyce oznacza to, że niezależnie od zwiększania dostępnych zasobów sprzętowych, przepustowość jest ograniczona przez maksymalną wydajność pojedynczego wątku oraz mechanizmy kolejkowania żądań. Można to interpretować jako naturalny „rate limiting” wynikający z architektury runtime’u, a nie bezpośredniego ograniczenia sprzętowego.
 
-    \small (b) Python -- architektura mikroserwisowa z \texttt{gRPC}
-\end{minipage}
-\caption{Wyniki skalowania wertykalnego dla implementacji w języku Python.}
-\label{fig:vertical-python}
-\end{figure}
+Dopiero dla mikroserwisów w JavaScript przyrost był wyraźnie większy i osiągnął 78,4\%, jednak nadal pozostawał istotnie niższy niż w przypadku Javy, która dzięki wielowątkowości znacznie lepiej skaluje się wraz ze wzrostem liczby dostępnych rdzeni.
 
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/javascript-monolith-images_vertical_scaling}
+Python osiągnął najniższe wartości bezwzględne przepustowości, ale sam kierunek zmian był zróżnicowany zależnie od architektury. Monolit zwiększył przepustowość z 77,2~req/s do 216,4~req/s, czyli o 180,3\%, natomiast wersja mikroserwisowa jedynie z 45,8~req/s do 63,6~req/s, co daje wzrost rzędu 38,9\%. Oznacza to, że w Pythonie skalowanie pionowe poprawia wynik, lecz w przypadku wersji rozproszonej poprawa ta jest ograniczona.
 
-    \small (a) JavaScript -- architektura monolityczna
-\end{minipage}
-\hfill
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/javascript-microservices-grpc-images_vertical_scaling}
-
-    \small (b) JavaScript -- architektura mikroserwisowa z \texttt{gRPC}
-\end{minipage}
-\caption{Wyniki skalowania wertykalnego dla implementacji w języku JavaScript.}
-\label{fig:vertical-javascript}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/java-monolith-images_vertical_scaling}
-
-    \small (a) Java -- architektura monolityczna
-\end{minipage}
-\hfill
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/vertical-scaling/java-microservices-grpc-images_vertical_scaling}
-
-    \small (b) Java -- architektura mikroserwisowa z \texttt{gRPC}
-\end{minipage}
-\caption{Wyniki skalowania wertykalnego dla implementacji w języku Java.}
-\label{fig:vertical-java}
-\end{figure}
-
-Analiza wyników skalowania wertykalnego pokazuje wyraźnie, że największe korzyści z dokładania
-zasobów uzyskano dla implementacji w języku Java. W przypadku monolitu przepustowość wzrosła
-z poziomu 1841,6~req/s dla konfiguracji \texttt{std-2} do 7275~req/s dla konfiguracji \texttt{std-8},
-co oznacza przyrost o 295,0\%. Bardzo podobny trend zaobserwowano dla mikroserwisów w Javie,
-gdzie wzrost wyniósł 257,1\%. Oznacza to, że implementacja java efektywnie wykorzystuje dodatkowe
-rdzenie procesora i pamięć operacyjną, a skalowanie pionowe przekłada się bezpośrednio na wzrost
-przepustowości.
-
-Odmienny obraz widoczny jest dla JavaScriptu. W architekturze monolitycznej wzrost wydajności
-po zwiększeniu zasobów był minimalny: z 1058,8~req/s do 1173,4~req/s, czyli jedynie o 10,8\%.
-Sugeruje to, że w tej wersji aplikacji głównym ograniczeniem nie był sam przydział CPU lub RAM,
-lecz charakter wykonania pojedynczego procesu. Dla mikroserwisów w JavaScript przyrost był
-wyraźnie większy i osiągnął 78,4\%, jednak nadal pozostawał istotnie niższy niż w przypadku Javy.
-
-Python osiągnął najniższe wartości bezwzględne przepustowości, ale sam kierunek zmian był
-zróżnicowany zależnie od architektury. Monolit zwiększył przepustowość z 77,2~req/s do
-216,4~req/s, czyli o 180,3\%, natomiast wersja mikroserwisowa jedynie z 45,8~req/s do 63,6~req/s,
-co daje wzrost rzędu 38,9\%. Oznacza to, że w Pythonie skalowanie pionowe poprawia wynik, lecz
-w przypadku wersji rozproszonej poprawa ta jest ograniczona.
-
-Z punktu widzenia porównania architektur można zauważyć, że dla każdego języka monolit osiągał
-wyższe wartości maksymalnej przepustowości niż odpowiadająca mu implementacja mikroserwisowa
-z \texttt{gRPC}. Różnica ta była szczególnie wyraźna dla JavaScriptu oraz Pythona. W przypadku Javy
-obie architektury reagowały na skalowanie pionowe bardzo dobrze, jednak monolit nadal zachowywał
-przewagę bezwzględną. Wskazuje to, że dodatkowy narzut komunikacji międzyserwisowej pozostaje
-istotnym czynnikiem ograniczającym wydajność, nawet wtedy, gdy aplikacja otrzymuje większe
-zasoby sprzętowe.
+Z punktu widzenia porównania architektur można zauważyć, że dla każdego języka monolit osiągał wyższe wartości maksymalnej przepustowości niż odpowiadająca mu implementacja mikroserwisowa z gRPC. Różnica ta była szczególnie wyraźna dla JavaScriptu oraz Pythona. W przypadku Javy obie architektury reagowały na skalowanie pionowe bardzo dobrze, jednak monolit nadal zachowywał przewagę bezwzględną. Wskazuje to, że dodatkowy narzut komunikacji międzyserwisowej pozostaje istotnym czynnikiem ograniczającym wydajność, nawet wtedy, gdy aplikacja otrzymuje większe zasoby sprzętowe.
 
 \section{Wyniki skalowania horyzontalnego}
 
-W testach skalowania horyzontalnego analizowano trzy warianty wdrożenia: 1, 2 oraz 4 instancje.
-W przypadku monolitu oznaczało to uruchomienie wielu kopii całej aplikacji, natomiast w przypadku
-architektury mikroserwisowej zwiększano liczbę replik każdego serwisu. Tabela~\ref{tab:horizontal-scaling-results}
-przedstawia zestawienie maksymalnych przepustowości oraz procentowych przyrostów wydajności.
+W testach skalowania horyzontalnego analizowano trzy warianty wdrożenia: 1, 2 oraz 4 instancje. W przypadku monolitu oznaczało to uruchomienie wielu kopii całej aplikacji, natomiast w przypadku architektury mikroserwisowej zwiększano liczbę replik każdego serwisu. Wyniki przepustowości prezentują się następująco na poniżych wykresach.~\ref{fig:horizontal-python, fig:horizontal-java, fig:horizontal-java}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/python-monolith-images_horizontal_scaling}
+    \end{minipage}
+
+    \vspace{0.6cm}
+
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/python-microservices-grpc-images_horizontal_scaling}
+    \end{minipage}
+    \caption{Wyniki skalowania horyzontalnego dla implementacji w języku Python}
+    \label{fig:horizontal-python}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/javascript-monolith-images_horizontal_scaling}
+    \end{minipage}
+
+    \vspace{0.6cm}
+
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/javascript-microservices-grpc-images_horizontal_scaling}
+    \end{minipage}
+    \caption{Wyniki skalowania horyzontalnego dla implementacji w języku JavaScript}
+    \label{fig:horizontal-javascript}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/java-monolith-images_horizontal_scaling}
+    \end{minipage}
+
+    \vspace{0.6cm}
+
+    \begin{minipage}{0.95\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/java-microservices-grpc-images_horizontal_scaling}
+    \end{minipage}
+    \caption{Wyniki skalowania horyzontalnego dla implementacji w języku Java}
+    \label{fig:horizontal-java}
+\end{figure}
+
+Tabela~\ref{tab:horizontal-scaling-results} przedstawia zestawienie maksymalnych przepustowości oraz procentowych przyrostów wydajności.
 
 \begin{table}[htbp]
-\centering
-\caption{Wyniki skalowania horyzontalnego dla badanych implementacji.}
-\label{tab:horizontal-scaling-results}
-\renewcommand{\arraystretch}{1.15}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|l|l|l|r|r|r|r|r|r|}
-\hline
-\textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{1 inst.} & \textbf{2 inst.} & \textbf{4 inst.} & \textbf{2/1} & \textbf{4/1} & \textbf{4/2} \\
- &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[\%]} & \textbf{[\%]} \\
-\hline
-1 & Python & monolityczna & - & 79 & 150,4 & 303,2 & 90,4\% & 283,8\% & 101,6\% \\
-2 & JavaScript & monolityczna & - & 1017,4 & 1385 & 2318,8 & 36,1\% & 127,9\% & 67,4\% \\
-3 & Java & monolityczna & - & 1817,2 & 3390 & 6344,4 & 86,6\% & 249,1\% & 87,2\% \\
-4 & Python & mikroserwisowa & gRPC & 46,6 & 58,6 & 79,6 & 25,8\% & 70,8\% & 35,8\% \\
-5 & JavaScript & mikroserwisowa & gRPC & 559,2 & 920 & 1925,6 & 64,5\% & 244,3\% & 109,3\% \\
-6 & Java & mikroserwisowa & gRPC & 1355,8 & 2292,4 & 5007,8 & 69,1\% & 269,4\% & 118,5\% \\
-\hline
-\end{tabular}%
-}
+    \centering
+    \caption{Wyniki skalowania horyzontalnego dla badanych implementacji}
+    \label{tab:horizontal-scaling-results}
+    \renewcommand{\arraystretch}{1.15}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|l|l|r|r|r|r|r|r|}
+            \hline
+            \textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{1 inst.} & \textbf{2 inst.} & \textbf{4 inst.} & \textbf{2/1} & \textbf{4/1} & \textbf{4/2} \\
+            &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[\%]} & \textbf{[\%]} \\
+            \hline
+            1 & Python & monolityczna & - & 79 & 150,4 & 303,2 & 90,4\% & 283,8\% & 101,6\% \\
+            2 & JavaScript & monolityczna & - & 1017,4 & 1385 & 2318,8 & 36,1\% & 127,9\% & 67,4\% \\
+            3 & Java & monolityczna & - & 1817,2 & 3390 & 6344,4 & 86,6\% & 249,1\% & 87,2\% \\
+            4 & Python & mikroserwisowa & gRPC & 46,6 & 58,6 & 79,6 & 25,8\% & 70,8\% & 35,8\% \\
+            5 & JavaScript & mikroserwisowa & gRPC & 559,2 & 920 & 1925,6 & 64,5\% & 244,3\% & 109,3\% \\
+            6 & Java & mikroserwisowa & gRPC & 1355,8 & 2292,4 & 5007,8 & 69,1\% & 269,4\% & 118,5\% \\
+            \hline
+        \end{tabular}%
+    }
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/python-monolith-images_horizontal_scaling}
+Wyniki przedstawione w tabeli~\ref{tab:horizontal-scaling-results} pokazują, że skalowanie horyzontalne okazało się bardzo skuteczne przede wszystkim dla implementacji Java oraz JavaScript w architekturze mikroserwisowej. Największy procentowy wzrost względem konfiguracji bazowej osiągnęła mikroserwisowa implementacja w Javie: z 1355,8~req/s do 5007,8~req/s, co oznacza poprawę o 269,4\%. Bardzo dobry rezultat uzyskał również monolit w Javie, który zwiększył przepustowość o 249,1\%.
 
-    \small (a) Python -- architektura monolityczna
-\end{minipage}
-\hfill
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/python-microservices-grpc-images_horizontal_scaling}
+W przypadku JavaScriptu szczególnie istotne jest zachowanie wersji mikroserwisowej. Przejście z jednej instancji do czterech zwiększyło przepustowość z 559,2~req/s do 1925,6~req/s, czyli o 244,3\%. Jest to rezultat zdecydowanie lepszy niż w analogicznym teście skalowania wertykalnego. Taki układ wyników wskazuje, że dla tej implementacji bardziej opłacalne jest rozmnażanie instancji niż wzmacnianie pojedynczego węzła.
 
-    \small (b) Python -- architektura mikroserwisowa z \texttt{gRPC}
-\end{minipage}
-\caption{Wyniki skalowania horyzontalnego dla implementacji w języku Python.}
-\label{fig:horizontal-python}
-\end{figure}
+Python pozostaje najsłabszy pod względem wartości bezwzględnych, jednak także tutaj można zaobserwować poprawę po zwiększaniu liczby instancji. Monolit osiągnął wzrost o 283,8\%, z 79 do 303,2~req/s, natomiast wersja mikroserwisowa poprawiła wynik o 70,8\%. Oznacza to, że nawet dla technologii o relatywnie niskiej bazowej przepustowości zwiększanie liczby instancji może być skuteczną drogą poprawy wydajności.
 
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/javascript-monolith-images_horizontal_scaling}
-
-    \small (a) JavaScript -- architektura monolityczna
-\end{minipage}
-\hfill
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/javascript-microservices-grpc-images_horizontal_scaling}
-
-    \small (b) JavaScript -- architektura mikroserwisowa z \texttt{gRPC}
-\end{minipage}
-\caption{Wyniki skalowania horyzontalnego dla implementacji w języku JavaScript.}
-\label{fig:horizontal-javascript}
-\end{figure}
-
-\begin{figure}[htbp]
-\centering
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/java-monolith-images_horizontal_scaling}
-
-    \small (a) Java -- architektura monolityczna
-\end{minipage}
-\hfill
-\begin{minipage}{0.49\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{images/scaling/horizontal-scaling/java-microservices-grpc-images_horizontal_scaling}
-
-    \small (b) Java -- architektura mikroserwisowa z \texttt{gRPC}
-\end{minipage}
-\caption{Wyniki skalowania horyzontalnego dla implementacji w języku Java.}
-\label{fig:horizontal-java}
-\end{figure}
-
-Wyniki przedstawione w tabeli~\ref{tab:horizontal-scaling-results} pokazują, że skalowanie
-horyzontalne okazało się bardzo skuteczne przede wszystkim dla implementacji Java oraz
-JavaScript w architekturze mikroserwisowej. Największy procentowy wzrost względem konfiguracji
-bazowej osiągnęła mikroserwisowa implementacja w Javie: z 1355,8~req/s do 5007,8~req/s,
-co oznacza poprawę o 269,4\%. Bardzo dobry rezultat uzyskał również monolit w Javie,
-który zwiększył przepustowość o 249,1\%.
-
-W przypadku JavaScriptu szczególnie istotne jest zachowanie wersji mikroserwisowej.
-Przejście z jednej instancji do czterech zwiększyło przepustowość z 559,2~req/s do 1925,6~req/s,
-czyli o 244,3\%. Jest to rezultat zdecydowanie lepszy niż w analogicznym teście skalowania
-wertykalnego. Taki układ wyników wskazuje, że dla tej implementacji bardziej opłacalne jest
-rozmnażanie instancji niż wzmacnianie pojedynczego węzła.
-
-Python pozostaje najsłabszy pod względem wartości bezwzględnych, jednak także tutaj można
-zaobserwować poprawę po zwiększaniu liczby instancji. Monolit osiągnął wzrost o 283,8\%,
-z 79 do 303,2~req/s, natomiast wersja mikroserwisowa poprawiła wynik o 70,8\%.
-Oznacza to, że nawet dla technologii o relatywnie niskiej bazowej przepustowości zwiększanie
-liczby instancji może być skuteczną drogą poprawy wydajności.
-
-Warto zwrócić uwagę na fakt, że przyrosty przy przejściu z 2 do 4 instancji nie zawsze są
-proporcjonalne do wzrostu liczby replik. Zjawisko to jest naturalne dla systemów rozproszonych,
-ponieważ wraz z liczbą instancji rośnie również koszt koordynacji, komunikacji oraz równoważenia
-obciążenia. Mimo tego dla większości badanych przypadków skalowanie horyzontalne pozostawało
-efektywnym mechanizmem zwiększania przepustowości.
+Warto zwrócić uwagę na fakt, że przyrosty przy przejściu z 2 do 4 instancji nie zawsze są proporcjonalne do wzrostu liczby replik. Zjawisko to jest naturalne dla systemów rozproszonych, ponieważ wraz z liczbą instancji rośnie również koszt koordynacji, komunikacji oraz równoważenia obciążenia. Mimo tego dla większości badanych przypadków skalowanie horyzontalne pozostawało efektywnym mechanizmem zwiększania przepustowości.
 
 \section{Porównanie skalowania wertykalnego i horyzontalnego}
 
-Aby ocenić, który mechanizm zwiększania zasobów był korzystniejszy, zestawiono ze sobą
-wyniki dla konfiguracji odpowiadających dwukrotnemu oraz czterokrotnemu wzrostowi zasobów.
-W praktyce porównano wariant 2 instancji z wariantem \texttt{std-4} oraz wariant 4 instancji
-z wariantem \texttt{std-8}. Zestawienie przedstawiono w tabeli~\ref{tab:horizontal-vs-vertical-results}
-oraz na rysunkach~\ref{fig:compare-python}--\ref{fig:compare-java}.
+Aby ocenić, który mechanizm zwiększania zasobów był korzystniejszy, zestawiono ze sobą wyniki dla konfiguracji odpowiadających dwukrotnemu oraz czterokrotnemu wzrostowi zasobów. W praktyce porównano wariant 2 instancji z wariantem \texttt{std-4} oraz wariant 4 instancji z wariantem \texttt{std-8}.
 
-\begin{table}[htbp]
-\centering
-\caption{Porównanie skuteczności skalowania horyzontalnego i wertykalnego. Dodatnia wartość
-oznacza przewagę skalowania wertykalnego, a ujemna przewagę skalowania horyzontalnego.}
-\label{tab:horizontal-vs-vertical-results}
-\renewcommand{\arraystretch}{1.15}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|l|l|l|r|r|r|r|r|r|}
-\hline
-\textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{H 2$\times$} & \textbf{V 2$\times$} & \textbf{V/H 2$\times$} & \textbf{H 4$\times$} & \textbf{V 4$\times$} & \textbf{V/H 4$\times$} \\
- &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} \\
-\hline
-1 & Python & monolityczna & - & 150,4 & 145,6 & -3,2\% & 303,2 & 216,4 & -28,6\% \\
-2 & JavaScript & monolityczna & - & 1385 & 1096,8 & -20,8\% & 2318,8 & 1173,4 & -49,4\% \\
-3 & Java & monolityczna & - & 3390 & 3630,6 & 7,1\% & 6344,4 & 7275 & 14,7\% \\
-4 & Python & mikroserwisowa & gRPC & 58,6 & 55,8 & -4,8\% & 79,6 & 63,6 & -20,1\% \\
-5 & JavaScript & mikroserwisowa & gRPC & 920 & 699,2 & -24,0\% & 1925,6 & 946,4 & -50,9\% \\
-6 & Java & mikroserwisowa & gRPC & 2292,4 & 2523,6 & 10,1\% & 5007,8 & 4835,8 & -3,4\% \\
-\hline
-\end{tabular}%
-}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/scaling/scaling-comparison/python_scaling_comparison}
+    \caption{Porównanie skalowania wertykalnego i horyzontalnego dla implementacji w języku Python}
+    \label{fig:compare-python}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/scaling/scaling-comparison/javascript_scaling_comparison}
+    \caption{Porównanie skalowania wertykalnego i horyzontalnego dla implementacji w języku JavaScript}
+    \label{fig:compare-javascript}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/scaling/scaling-comparison/java_scaling_comparison}
+    \caption{Porównanie skalowania wertykalnego i horyzontalnego dla implementacji w języku Java}
+    \label{fig:compare-java}
+\end{figure}
+
+Tabela~\ref{tab:horizontal-vs-vertical-results} przedstawia zestawienie wyników dla obu mechanizmów skalowania.
+
+\begin{table}[H]
+    \centering
+    \caption{Porównanie skuteczności skalowania horyzontalnego i wertykalnego. Dodatnia wartość oznacza przewagę skalowania wertykalnego, a ujemna przewagę skalowania horyzontalnego}
+    \label{tab:horizontal-vs-vertical-results}
+    \renewcommand{\arraystretch}{1.15}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|c|l|l|l|r|r|r|r|r|r|}
+            \hline
+            \textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{H 2$\times$} & \textbf{V 2$\times$} & \textbf{V/H 2$\times$} & \textbf{H 4$\times$} & \textbf{V 4$\times$} & \textbf{V/H 4$\times$} \\
+            &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} \\
+            \hline
+            1 & Python & monolityczna & - & 150,4 & 145,6 & -3,2\% & 303,2 & 216,4 & -28,6\% \\
+            2 & JavaScript & monolityczna & - & 1385 & 1096,8 & -20,8\% & 2318,8 & 1173,4 & -49,4\% \\
+            3 & Java & monolityczna & - & 3390 & 3630,6 & 7,1\% & 6344,4 & 7275 & 14,7\% \\
+            4 & Python & mikroserwisowa & gRPC & 58,6 & 55,8 & -4,8\% & 79,6 & 63,6 & -20,1\% \\
+            5 & JavaScript & mikroserwisowa & gRPC & 920 & 699,2 & -24,0\% & 1925,6 & 946,4 & -50,9\% \\
+            6 & Java & mikroserwisowa & gRPC & 2292,4 & 2523,6 & 10,1\% & 5007,8 & 4835,8 & -3,4\% \\
+            \hline
+        \end{tabular}%
+    }
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.82\textwidth]{images/scaling/scaling-comparison/python_scaling_comparison}
-\caption{Porównanie skalowania wertykalnego i horyzontalnego dla implementacji w języku Python.}
-\label{fig:compare-python}
-\end{figure}
+Porównanie obu mechanizmów skalowania prowadzi do jednoznacznego wniosku, że nie istnieje jedno uniwersalne rozwiązanie najlepsze dla wszystkich badanych technologii. W przypadku Pythona i JavaScriptu w każdym analizowanym wariancie lepsze rezultaty dawało skalowanie horyzontalne. Najbardziej wyraźnie widać to dla JavaScriptu, gdzie dla monolitu przewaga skalowania horyzontalnego nad wertykalnym przy czterokrotnym zwiększeniu zasobów wyniosła 49,4\%, a dla mikroserwisów aż 50,9\%. Oznacza to, że w tych implementacjach mnożenie instancji przynosi znacznie lepszy efekt niż wzmacnianie pojedynczego serwera.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.82\textwidth]{images/scaling/scaling-comparison/javascript_scaling_comparison}
-\caption{Porównanie skalowania wertykalnego i horyzontalnego dla implementacji w języku JavaScript.}
-\label{fig:compare-javascript}
-\end{figure}
+Java zachowywała się inaczej. Dla monolitu zarówno przy wzroście zasobów 2$\times$, jak i 4$\times$ lepsze wyniki uzyskało skalowanie wertykalne. Przewaga wyniosła odpowiednio 7,1\% oraz 14,7\%. W przypadku mikroserwisów w Javie sytuacja była bardziej wyrównana: dla konfiguracji 2$\times$ lepsze okazało się skalowanie wertykalne, natomiast dla konfiguracji 4$\times$ nieznacznie wyższy wynik dało skalowanie horyzontalne. Różnica była jednak niewielka i wyniosła jedynie 3,4\% na korzyść skalowania horyzontalnego.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.82\textwidth]{images/scaling/scaling-comparison/java_scaling_comparison}
-\caption{Porównanie skalowania wertykalnego i horyzontalnego dla implementacji w języku Java.}
-\label{fig:compare-java}
-\end{figure}
+Uzyskane rezultaty sugerują, że dla środowiska Java zwiększanie mocy pojedynczej instancji może być bardzo skuteczną strategią, szczególnie dla aplikacji monolitycznych. Z kolei dla Pythona i JavaScriptu bardziej racjonalne wydaje się zwiększanie liczby instancji, ponieważ taka strategia lepiej wykorzystuje charakterystykę tych środowisk uruchomieniowych. W praktyce oznacza to, że decyzja o wyborze sposobu skalowania nie powinna wynikać wyłącznie z architektury systemu, lecz również z właściwości technologii implementacyjnej.
 
-Porównanie obu mechanizmów skalowania prowadzi do jednoznacznego wniosku, że nie istnieje
-jedno uniwersalne rozwiązanie najlepsze dla wszystkich badanych technologii. W przypadku Pythona
-i JavaScriptu w każdym analizowanym wariancie lepsze rezultaty dawało skalowanie horyzontalne.
-Najbardziej wyraźnie widać to dla JavaScriptu, gdzie dla monolitu przewaga skalowania
-horyzontalnego nad wertykalnym przy czterokrotnym zwiększeniu zasobów wyniosła 49,4\%,
-a dla mikroserwisów aż 50,9\%. Oznacza to, że w tych implementacjach mnożenie instancji
-przynosi znacznie lepszy efekt niż wzmacnianie pojedynczego serwera.
+\section{Analiza kosztów środowiska eksperymentalnego}
 
-Java zachowywała się inaczej. Dla monolitu zarówno przy wzroście zasobów 2$\times$, jak i 4$\times$
-lepsze wyniki uzyskało skalowanie wertykalne. Przewaga wyniosła odpowiednio 7,1\% oraz 14,7\%.
-W przypadku mikroserwisów java sytuacja była bardziej wyrównana: dla konfiguracji 2$\times$
-lepsze okazało się skalowanie wertykalne, natomiast dla konfiguracji 4$\times$ nieznacznie wyższy
-wynik dało skalowanie horyzontalne. Różnica była jednak niewielka i wyniosła jedynie 3,4\%
-na korzyść skalowania horyzontalnego.
+W celu zachowania przejrzystości przyjęto referencyjne ceny on-demand maszyn wirtualnych Compute Engine publikowane przez Google Cloud. Należy przy tym podkreślić, że przedstawione wartości odnoszą się wyłącznie do kosztu instancji obliczeniowych i nie obejmują kosztów dysków, obrazów systemowych, transferu sieciowego ani ewentualnych rabatów wynikających z dłuższego wykorzystania zasobów lub modeli zobowiązań. Dodatkowo Google Cloud rozlicza maszyny z minimalnym okresem jednej minuty, a następnie z dokładnością do jednej sekundy~\cite{gcp_vm_pricing}.
 
-Uzyskane rezultaty sugerują, że dla środowiska java zwiększanie mocy pojedynczej instancji może
-być bardzo skuteczną strategią, szczególnie dla aplikacji monolitycznych. Z kolei dla Pythona i
-JavaScriptu bardziej racjonalne wydaje się zwiększanie liczby instancji, ponieważ taka strategia lepiej
-wykorzystuje charakterystykę tych środowisk uruchomieniowych. W praktyce oznacza to, że decyzja
-o wyborze sposobu skalowania nie powinna wynikać wyłącznie z architektury systemu, lecz również
-z właściwości technologii implementacyjnej.
+Tabela~\ref{tab:vm-costs} przedstawia orientacyjne koszty godzinowe i miesięczne dla typów maszyn wykorzystanych w badaniu. Dla kosztu miesięcznego przyjęto uproszczone założenie 730 godzin pracy w miesiącu.
 
+\begin{table}[H]
+    \centering
+    \caption{Orientacyjne koszty instancji wykorzystanych w eksperymencie}
+    \label{tab:vm-costs}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Typ maszyny} & \textbf{vCPU / RAM} & \textbf{Koszt godzinowy [USD/h]} & \textbf{Koszt miesięczny [USD]} \\
+        \hline
+        \texttt{c2d-standard-2} & 2 vCPU / 8 GB & 0.090798 & 66.28 \\
+        \texttt{c2d-standard-4} & 4 vCPU / 16 GB & 0.181596 & 132.57 \\
+        \texttt{c2d-standard-8} & 8 vCPU / 32 GB & 0.363192 & 265.13 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Zestawienie to pokazuje, że koszt pojedynczej instancji rośnie niemal liniowo wraz ze wzrostem liczby przydzielonych rdzeni i pamięci w ramach serii \texttt{c2d-standard}. Oznacza to, że z perspektywy samego kosztu surowych zasobów obliczeniowych skalowanie wertykalne z \texttt{c2d-standard-2} do \texttt{c2d-standard-4} lub \texttt{c2d-standard-8} wiąże się z przewidywalnym, proporcjonalnym wzrostem ceny.
+
+Jednocześnie w analizowanych wariantach skalowania horyzontalnego koszt zasobów pozostaje bardzo zbliżony do kosztu odpowiadającego mu skalowania wertykalnego. Przykładowo dwie instancje \texttt{c2d-standard-2} kosztują łącznie tyle samo co jedna instancja \texttt{c2d-standard-4}, natomiast cztery instancje \texttt{c2d-standard-2} odpowiadają kosztowo jednej instancji \texttt{c2d-standard-8}. Z tego względu w badanym środowisku różnica pomiędzy skalowaniem wertykalnym i horyzontalnym nie wynikała przede wszystkim z samej ceny vCPU i pamięci, lecz raczej z kosztów pośrednich związanych z uruchamianiem większej liczby komponentów, komunikacją sieciową oraz złożonością operacyjną środowiska.
+
+Istotnym uzupełnieniem analizy kosztowej jest zestawienie kosztu z osiąganą wydajnością. W przeprowadzonych eksperymentach architektura mikroserwisowa w większości przypadków osiągała niższą przepustowość niż odpowiadający jej monolit przy tym samym poziomie zasobów. Oznacza to, że chcąc doprowadzić wariant mikroserwisowy do wydajności osiąganej przez monolit, należałoby zwiększyć liczbę wykorzystywanych zasobów, a tym samym również koszt infrastruktury. W tabeli~\ref{tab:cost-to-match-monolith} przedstawiono szacowany mnożnik kosztu mikroserwisów potrzebny do osiągnięcia przepustowości monolitu dla najwyższych badanych konfiguracji. Obliczenia te wykonano przy założeniu proporcjonalnego skalowania kosztu względem wymaganej dodatkowej przepustowości.
+
+\begin{table}[H]
+    \centering
+    \caption{Szacowany koszt zrównania wydajności mikroserwisów z monolitem}
+    \label{tab:cost-to-match-monolith}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{|l|l|c|c|c|}
+        \hline
+        \textbf{Język} & \textbf{Wariant} & \textbf{Mnożnik kosztu mikroserwisów} & \textbf{Koszt [USD/h]} & \textbf{Wzrost} \\
+        \hline
+        Python & Ver. (\texttt{std-8}) & 3.40$\times$ & 1.236 & +240.3\% \\
+        JavaScript & Ver. (\texttt{std-8}) & 1.24$\times$ & 0.450 & +24.0\% \\
+        Java & Ver. (\texttt{std-8}) & 1.50$\times$ & 0.546 & +50.4\% \\
+        \hline
+        Python & Hor. (4 inst.) & 3.81$\times$ & 1.383 & +280.9\% \\
+        JavaScript & Hor. (4 inst.) & 1.20$\times$ & 0.437 & +20.4\% \\
+        Java & Hor. (4 inst.) & 1.27$\times$ & 0.460 & +26.7\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Uzyskane wartości pokazują, że kosztowe „dociągnięcie” mikroserwisów do poziomu wydajności monolitu byłoby szczególnie niekorzystne dla Pythona. W najwyższej konfiguracji wertykalnej oznaczałoby to koszt około 3.40 razy wyższy, a w najwyższej konfiguracji horyzontalnej około 3.81 razy wyższy niż koszt bazowego wariantu mikroserwisowego. W przypadku JavaScriptu i Javy różnice były mniejsze, ale nadal zauważalne. Oznacza to, że w analizowanych warunkach mikroserwisy nie tylko osiągały niższą przepustowość przy tym samym koszcie zasobów, lecz także wymagałyby dodatkowych nakładów, aby zbliżyć się do wydajności monolitu.
+
+Z perspektywy praktycznej wyniki sugerują, że sama analiza kosztu maszyn nie jest wystarczająca do wyboru strategii skalowania. Jeżeli dwa warianty zużywają zbliżoną ilość zasobów obliczeniowych, to o opłacalności rozwiązania zaczynają decydować czynniki dodatkowe, takie jak narzut komunikacji rozproszonej, koszt utrzymania większej liczby instancji, łatwość wdrożenia, niezawodność oraz przewidywana dynamika obciążenia. W konsekwencji bardziej uzasadnione jest traktowanie kosztu infrastruktury jako jednego z elementów wielokryterialnej oceny architektury, a nie jako jedynego czynnika decyzyjnego.
+
+W świetle uzyskanych rezultatów można stwierdzić, że architektura mikroserwisowa nie była w badanym środowisku rozwiązaniem korzystniejszym kosztowo, jeżeli punktem odniesienia była czysta przepustowość. Jej potencjalne uzasadnienie może wynikać z innych przesłanek, takich jak niezależność wdrożeń, elastyczność rozwoju systemu czy możliwość selektywnego skalowania wybranych komponentów, jednak z perspektywy relacji koszt do wydajności monolit wypadał korzystniej.
 \section{Podsumowanie wyników}
 
-Na podstawie przeprowadzonej analizy można sformułować kilka kluczowych wniosków. Po pierwsze,
-najwyższą bezwzględną wydajność w badanym zestawie osiągnęły implementacje w języku Java.
-Dotyczy to zarówno architektury monolitycznej, jak i mikroserwisowej z \texttt{gRPC}. Po drugie,
-architektura monolityczna we wszystkich językach osiągała wyższą maksymalną przepustowość niż
-odpowiadająca jej wersja mikroserwisowa, co potwierdza wpływ narzutu komunikacyjnego na wynik
-końcowy.
+Na podstawie przeprowadzonej analizy można sformułować kilka kluczowych wniosków. Po pierwsze, najwyższą bezwzględną wydajność w badanym zestawie osiągnęły implementacje w języku Java. Dotyczy to zarówno architektury monolitycznej, jak i mikroserwisowej z \texttt{gRPC}. Jednocześnie architektura monolityczna we wszystkich analizowanych językach osiągała wyższą maksymalną przepustowość niż odpowiadająca jej wersja mikroserwisowa, co potwierdza wpływ narzutu komunikacyjnego na wynik końcowy.
 
-Po trzecie, skuteczność skalowania zależała silnie od języka programowania. Java najlepiej reagowała
-na skalowanie wertykalne, natomiast Python i JavaScript wyraźnie korzystały bardziej ze skalowania
-horyzontalnego. Szczególnie istotne jest to w przypadku JavaScriptu, dla którego dokładanie CPU
-i pamięci do pojedynczej instancji dawało mały efekt, natomiast zwiększenie liczby instancji istotnie
-podnosiło przepustowość.
+Po drugie, skuteczność skalowania zależała silnie od języka programowania oraz modelu wykonania aplikacji. Java najlepiej reagowała na skalowanie wertykalne, co było widoczne szczególnie w wariancie monolitycznym. Python i JavaScript wyraźnie korzystały bardziej ze skalowania horyzontalnego. Szczególnie dobrze było to widoczne w przypadku JavaScriptu, dla którego zwiększanie zasobów pojedynczej instancji dawało niewielki efekt, natomiast zwiększanie liczby instancji prowadziło do znacznie większego wzrostu przepustowości.
 
-Ostatecznie wyniki wskazują, że dobór strategii skalowania powinien być podejmowany na podstawie
-empirycznych pomiarów dla konkretnej technologii i sposobu implementacji. Sama decyzja o wyborze
-architektury monolitycznej lub mikroserwisowej nie jest wystarczająca. Równie ważne jest to, czy
-wybrane środowisko uruchomieniowe lepiej wykorzystuje większą liczbę zasobów pojedynczej maszyny,
-czy też większą liczbę równoległych instancji.
+Po trzecie, analiza latencji potwierdziła wnioski wynikające z pomiarów przepustowości. Implementacje osiągające wyższą przepustowość charakteryzowały się jednocześnie niższą i wolniej rosnącą latencją. Najkorzystniejszy profil uzyskano dla implementacji w Javie, natomiast najmniej korzystny dla implementacji w Pythonie, zwłaszcza w wariancie mikroserwisowym. Oznacza to, że różnice pomiędzy badanymi technologiami i architekturami były widoczne nie tylko w maksymalnej liczbie obsługiwanych żądań, lecz również w czasie oczekiwania na odpowiedź z perspektywy użytkownika.
+
+Po czwarte, analiza kosztów wykazała, że sam koszt surowych zasobów obliczeniowych rośnie w sposób przewidywalny i zbliżony zarówno w skalowaniu wertykalnym, jak i horyzontalnym. Jednocześnie architektura mikroserwisowa przy tym samym poziomie zasobów w większości przypadków nie osiągała wydajności monolitu. Oznacza to, że chcąc doprowadzić mikroserwisy do przepustowości osiąganej przez monolit, należałoby przeznaczyć na nie dodatkowe zasoby, a tym samym ponieść wyższy koszt infrastrukturalny. Zależność ta była szczególnie wyraźna dla implementacji w Pythonie, a słabiej zaznaczona dla JavaScriptu i Javy.
+
+Ostatecznie wyniki wskazują, że dobór architektury oraz strategii skalowania powinien być podejmowany na podstawie empirycznych pomiarów dla konkretnej technologii i sposobu implementacji. Sama decyzja o wyborze architektury monolitycznej lub mikroserwisowej nie jest wystarczająca. Równie ważne jest to, czy dane środowisko uruchomieniowe lepiej wykorzystuje większą liczbę zasobów pojedynczej maszyny, czy też większą liczbę równoległych instancji, a także jaki koszt należy ponieść, aby osiągnąć oczekiwany poziom wydajności.

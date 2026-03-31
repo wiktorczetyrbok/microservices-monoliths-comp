@@ -14,7 +14,7 @@
 \usepackage{amssymb}
 \usepackage{eqnarray}
 \usepackage{multicol}
-\usepackage{minted}
+\usepackage[newfloat]{minted}
 \usepackage{array}
 \usepackage{longtable}
 \usepackage[table]{xcolor}
@@ -37,17 +37,22 @@
 \usepackage{incgraph, tikz}
 \usepackage{blindtext}
 \usepackage{csquotes}
-
+\usepackage{float}
 \addbibresource{references.bib}
 
 \setlength\columnsep{20pt}
 \setlength{\parindent}{1.25cm}
-\setlength{\parskip}{1em}
+\setlength{\parskip}{0pt}
 \setcounter{secnumdepth}{5}
 
+\captionsetup[listing]{position=bottom}
 \captionsetup[table]{name=Tabela}
 \captionsetup[figure]{name=Rys.}
-
+\setminted{
+  fontsize=\small,
+  breaklines,
+  frame=single
+}
 \makeatletter
 \newcommand{\chapterauthor}[1]{%
   {\parindent1cm\vspace*{-20pt}%
@@ -88,79 +93,74 @@
 
 \let\cleardoublepage\clearpage
 
-% 1. WSTĘP
-\chapter{WSTĘP}
+% 1. wstęp
 \label{chapter:intro}
 \import{chapters/}{chapter-1-intro.tex}
 
 \let\cleardoublepage\clearpage
 
-% 2. PODSTAWY TEORETYCZNE ARCHITEKTUR SYSTEMÓW
-\chapter{PODSTAWY TEORETYCZNE ARCHITEKTUR SYSTEMÓW}
+% 2. architektura
 \label{chapter:archo}
 \import{chapters/}{chapter-2-archo.tex}
 
 \let\cleardoublepage\clearpage
 
-% 3. PRZEGLĄD LITERATURY I ISTNIEJĄCYCH PODEJŚĆ BADAWCZYCH
+% 3. SLR
+\chapter{Systematyczny przegląd literatury}
 \label{chapter:slr}
 \import{chapters/}{chapter-3-slr.tex}
 
 \let\cleardoublepage\clearpage
 
-% 4. PROJEKT I IMPLEMENTACJA ŚRODOWISKA BADAWCZEGO
+% 4. implementeacja
 \label{chapter:implementation}
 \import{chapters/}{chapter-4-implementation.tex}
 
 \let\cleardoublepage\clearpage
 
-% 5. METODYKA BADAŃ EKSPERYMENTALNYCH
-\chapter{METODYKA BADAŃ EKSPERYMENTALNYCH}
+% 5. Metodyka badań
 \label{chapter:experiment_methodology}
 \import{chapters/}{chapter-5-experiment-methodology.tex}
 
 \let\cleardoublepage\clearpage
 
-% 6. WYNIKI BADAŃ I ICH ANALIZA
-\chapter{WYNIKI BADAŃ I ICH ANALIZA}
+% 6. wyniki badań i analiza
 \label{chapter:results}
 \import{chapters/}{chapter-6-results.tex}
 
 \let\cleardoublepage\clearpage
 
-% 7. ZAGROŻENIA DLA RZETELNOŚCI WYNIKÓW
-\chapter{ZAGROŻENIA DLA RZETELNOŚCI WYNIKÓW}
+% 7. Zagrożenia dla rzetelności wyników
 \label{chapter:dangers}
 \import{chapters/}{chapter-7-dangers.tex}
 
 \let\cleardoublepage\clearpage
 
-% 8. PODSUMOWANIE I WNIOSKI
-\chapter{PODSUMOWANIE I WNIOSKI}
+% 8. Podsumowanie i wnioski
 \label{chapter:summary}
 \import{chapters/}{chapter-8-summary.tex}
 
 \let\cleardoublepage\clearpage
 
-% WYKAZ LITERATURY
-\printbibliography[title={WYKAZ LITERATURY}]
-\addcontentsline{toc}{chapter}{WYKAZ LITERATURY}
+% wykaz literatury
+\printbibliography[title={Wykaz literatury}]
+\addcontentsline{toc}{chapter}{Wykaz literatury}
 
-% WYKAZ RYSUNKÓW
-\renewcommand{\listfigurename}{WYKAZ RYSUNKÓW}
+% wykaz rysunków
+\renewcommand{\listfigurename}{Wykaz rysunków}
 \listoffigures
-\addcontentsline{toc}{chapter}{WYKAZ RYSUNKÓW}
+\addcontentsline{toc}{chapter}{Wykaz rysunków}
 
-% WYKAZ TABEL
-\renewcommand{\listtablename}{WYKAZ TABEL}
+%  wykaz tabel
+\renewcommand{\listtablename}{Wykaz tabel}
 \listoftables
-\addcontentsline{toc}{chapter}{WYKAZ TABEL}
+\addcontentsline{toc}{chapter}{Wykaz tabel}
 
-% WYKAZ LISTINGÓW
+% Wykaz listingów
 \renewcommand{\listingscaption}{Listing}
-\renewcommand{\listoflistingscaption}{WYKAZ LISTINGÓW}
+\renewcommand{\listoflistingscaption}{Wykaz listingów}
 \listoflistings
-\addcontentsline{toc}{chapter}{WYKAZ LISTINGÓW}
+\addcontentsline{toc}{chapter}{Wykaz listingów}
 
 \nocite{*}
 

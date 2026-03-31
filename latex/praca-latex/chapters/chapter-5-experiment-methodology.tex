@@ -1,89 +1,88 @@
-\section{Cele i scenariusze testowe}
+\chapter{Metodyka badań eksperymentalnych}
+\section{Strategia testowania wydajnościowego}
 
-Celem badań eksperymentalnych jest porównanie dwóch wariantów architektonicznych tej samej aplikacji: wariantu monolitycznego oraz wariantu mikroserwisowego. Badanie zostało zaprojektowane w taki sposób, aby ocenić wpływ stylu architektonicznego na trzy główne obszary analizy: wydajność, skalowalność oraz koszty utrzymania w środowisku chmurowym.
-\par
-W ramach eksperymentu przyjęto kilka scenariuszy testowych, różniących się konfiguracją środowiska oraz sposobem skalowania systemu. Pozwala to ocenić nie tylko zachowanie aplikacji przy standardowym obciążeniu, lecz także jej reakcję na wzrost zapotrzebowania na zasoby. Każdy scenariusz został przygotowany tak, aby umożliwić bezpośrednie porównanie wyników uzyskanych dla obu badanych architektur.
-\par
-Scenariusze testowe obejmują trzy podstawowe grupy eksperymentów. Pierwsza z nich dotyczy testów bez zastosowania mechanizmów skalowania i pozwala ocenić bazową wydajność obu wariantów. Druga grupa obejmuje testy skalowania wertykalnego, w których zwiększane są zasoby pojedynczych instancji aplikacji. Trzecia grupa obejmuje testy skalowania horyzontalnego, polegające na zwiększaniu liczby instancji systemu lub jego wybranych komponentów.
-\par
-Tak zdefiniowany układ eksperymentów umożliwia ocenę zachowania aplikacji w różnych warunkach pracy i stanowi podstawę do dalszej analizy porównawczej.
+Celem testów wydajnościowych było porównanie zachowania wszystkich badanych implementacji w warunkach kontrolowanego, stopniowo zwiększanego obciążenia. Przyjęta strategia testowania została opracowana w taki sposób, aby zapewnić możliwie wysoką porównywalność wyników pomiędzy wariantem monolitycznym i mikroserwisowym oraz pomiędzy różnymi stosami technologicznymi. W szczególności wykorzystano ten sam scenariusz żądań, te same parametry wejściowe aplikacji oraz jednolity sposób uruchamiania kolejnych serii pomiarowych.
 
-\section{Narzędzia wykorzystane do pomiarów}
+Testy były wykonywane automatycznie w wielu iteracjach, dla rosnącej liczby równoległych użytkowników. Dzięki temu możliwa była obserwacja nie tylko pojedynczego punktu pracy systemu, lecz również zmiany jego zachowania wraz ze wzrostem intensywności ruchu. Takie podejście pozwala lepiej ocenić zarówno wydajność bazową, jak i granice skalowalności badanych wariantów.
 
-Przeprowadzenie badań eksperymentalnych wymagało użycia zestawu narzędzi umożliwiających generowanie obciążenia, monitorowanie działania aplikacji, obserwację wykorzystania zasobów oraz gromadzenie wyników pomiarów. Zastosowane narzędzia dobrano w taki sposób, aby zapewnić powtarzalność testów oraz możliwość porównania wyników pomiędzy kolejnymi uruchomieniami eksperymentu.
-\par
-Do generowania ruchu testowego wykorzystano narzędzie służące do przeprowadzania testów obciążeniowych, które umożliwia definiowanie scenariuszy żądań, kontrolę poziomu równoległości oraz pomiar podstawowych parametrów wydajnościowych, takich jak czas odpowiedzi i liczba obsłużonych żądań. Narzędzie to stanowi podstawę do oceny zachowania systemu pod rosnącym obciążeniem.
-\par
-Do monitorowania środowiska wykorzystano mechanizmy pozwalające na obserwację parametrów infrastrukturalnych, takich jak zużycie procesora, pamięci operacyjnej, ruch sieciowy oraz liczba aktywnych instancji aplikacji. Dane te są niezbędne do oceny efektywności wykorzystania zasobów oraz do analizy wpływu skalowania na zachowanie systemu.
-\par
-W badaniu wykorzystano również narzędzia wspierające automatyzację wdrożeń i wykonywania eksperymentów, co pozwoliło ograniczyć udział działań manualnych i zwiększyć porównywalność wyników. Dzięki temu każda seria testowa mogła zostać przeprowadzona według tej samej procedury.
+\subsection{Narzędzie generujące obciążenie}
 
-\section{Metryki oceny}
+Do generowania obciążenia wykorzystano Apache JMeter~\cite{jmeterdocs}. Narzędzie to umożliwia definiowanie scenariuszy testowych, sterowanie liczbą współbieżnych użytkowników, uruchamianie testów w trybie nieinteraktywnym oraz zapisywanie surowych wyników pomiarów w postaci plików CSV, które mogą być następnie analizowane automatycznie. W badaniu przygotowano jeden spójny scenariusz testowy wykorzystywany dla wszystkich implementacji, tak aby zachować porównywalność warunków wejściowych.
 
-Ocena badanych architektur została oparta na zestawie metryk pozwalających uchwycić zarówno wydajność aplikacji, jak i konsekwencje infrastrukturalne oraz kosztowe zastosowania danego stylu architektonicznego. Dobór metryk wynika bezpośrednio z celu pracy i podporządkowany jest trzem głównym obszarom porównania: wydajności, skalowalności oraz kosztom utrzymania.
+JMeter był uruchamiany na osobnej maszynie wirtualnej, oddzielonej od aplikacji zarówno logicznie, jak i infrastrukturalnie. Taki układ minimalizował ryzyko, że generator obciążenia będzie konkurował z testowaną aplikacją o te same zasoby procesora lub pamięci operacyjnej. Dodatkowo dla procesu JMeter zwiększano dostępną pamięć JVM, tak aby w trakcie intensywnych serii testowych sam generator nie stawał się wąskim gardłem eksperymentu.
 
-\subsection{Przepustowość}
+Wyniki poszczególnych uruchomień były zapisywane oddzielnie dla każdej technologii, wariantu architektonicznego, iteracji oraz poziomu obciążenia. Takie uporządkowanie danych ułatwiało późniejszą analizę zbiorczą, porównanie wyników pomiędzy seriami testowymi oraz przygotowanie wykresów i zestawień statystycznych.
 
-Przepustowość określa liczbę żądań, które system jest w stanie obsłużyć w jednostce czasu. Jest to jedna z podstawowych metryk oceny wydajności aplikacji, szczególnie istotna w testach obciążeniowych. W kontekście niniejszego badania przepustowość pozwala określić, który wariant architektoniczny efektywniej przetwarza rosnący strumień żądań.
-\par
-Analiza przepustowości jest szczególnie ważna przy porównywaniu systemów wdrożonych w środowisku chmurowym, ponieważ pozwala ocenić, czy wzrost wykorzystania zasobów przekłada się na rzeczywisty wzrost zdolności przetwarzania. W badaniu przepustowość stanowi jedną z głównych metryk używanych do porównania architektury monolitycznej i mikroserwisowej.
+\subsection{Scenariusz testowy}
 
-\subsection{Latencja}
+Scenariusz testowy polegał na wielokrotnym wywoływaniu tego samego punktu końcowego HTTP aplikacji, wcześniej wspominanego \texttt{/images/search} ~\ref{chap:implementation}. Dla każdego żądania wykorzystywano te same parametry wejściowe w zapytaniu testowym. Pozwalało to wyeliminować wpływ zmienności danych wejściowych na wyniki i skoncentrować analizę na kosztach obliczeniowych oraz komunikacyjnych wynikających z przyjętej architektury.
 
-Latencja opisuje opóźnienie występujące pomiędzy wysłaniem żądania a otrzymaniem odpowiedzi przez klienta. W praktyce jest ona zwykle wyrażana jako czas odpowiedzi systemu i stanowi kluczową metrykę z punktu widzenia jakości odbieranej przez użytkownika końcowego.
-\par
-W niniejszej pracy analiza latencji pozwala ocenić wpływ rozproszenia logiki biznesowej i komunikacji pomiędzy usługami na czas realizacji żądań. Ma to szczególne znaczenie przy porównywaniu systemu monolitycznego z wariantem mikroserwisowym, w którym dodatkowy narzut może wynikać z wywołań sieciowych, serializacji danych oraz pośrednictwa pomiędzy komponentami.
-\par
-W badaniu analizowane są zarówno wartości średnie, jak i wybrane statystyki pozycyjne czasu odpowiedzi, co pozwala pełniej ocenić zachowanie aplikacji pod obciążeniem.
+W przypadku badanej aplikacji żądanie kierowane było do warstwy wejściowej systemu, która inicjowała pełny przepływ przetwarzania. W monolicie oznaczało to wykonanie całej logiki w jednym procesie aplikacyjnym. W mikroserwisach identyczne żądanie uruchamiało komunikację pomiędzy usługami \textit{Gateway}, \textit{Search}, \textit{Feature}, \textit{Similarity} oraz \textit{Metadata}, przy czym klient zewnętrzny nadal komunikował się z systemem wyłącznie przez HTTP.
 
-\subsection{Zużycie zasobów obliczeniowych}
+Każda seria testowa była wykonywana w trzech iteracjach. W ramach pojedynczej iteracji liczba równoległych użytkowników rosła do ustalonej liczby z predefiniowanym skokiem wzrostu, parametry były ustawiane tak aby było widać górną granice w możliwościach przepustowych danej implementacji. Dla każdego poziomu obciążenia uruchamiano grupę wątków działającą przez 10 sekund, bez fazy narastania obciążenia. Oznacza to, że pełna zadana liczba użytkowników rozpoczynała generowanie ruchu natychmiast po starcie testu. Taki sposób konfiguracji pozwalał badać zachowanie systemu przy gwałtownym przyłożeniu obciążenia i ułatwiał obserwację zmian czasu odpowiedzi oraz przepustowości w kolejnych punktach pomiarowych.
 
-Zużycie zasobów obliczeniowych obejmuje przede wszystkim wykorzystanie procesora, pamięci operacyjnej oraz, w razie potrzeby, ruchu sieciowego i innych parametrów infrastrukturalnych. Metryka ta ma istotne znaczenie przy ocenie efektywności działania systemu, ponieważ pozwala określić, jakim kosztem infrastrukturalnym osiągane są określone wyniki wydajnościowe.
-\par
-W kontekście porównania dwóch stylów architektonicznych analiza zasobów umożliwia ocenę, czy większa modularność i elastyczność mikroserwisów nie prowadzi jednocześnie do nadmiernego narzutu operacyjnego. W przypadku architektury monolitycznej metryka ta pozwala z kolei ocenić, czy prostszy model uruchomieniowy rzeczywiście przekłada się na bardziej ekonomiczne wykorzystanie infrastruktury.
+\subsection{Zakres pomiaru}
 
-\subsection{Koszty utrzymania}
+W eksperymencie rejestrowano metryki takie jak czas odpowiedzi, latencja, przepustowość, status code, timestamp zapytania. Czas odpowiedzi i latencja pozwalają ocenić szybkość reakcji systemu z punktu widzenia klienta, natomiast przepustowość pokazuje, ile żądań system potrafi obsłużyć w jednostce czasu. Rejestracja liczby błędnych odpowiedzi była z kolei istotna dla identyfikacji punktów przeciążenia, w których system przestawał obsługiwać ruch w sposób stabilny. Łączne wykorzystanie tych metryk umożliwia bardziej wiarygodną interpretację wyników niż analiza pojedynczego wskaźnika.
 
-Koszty utrzymania stanowią czwarty wymiar oceny badanych architektur i obejmują zarówno koszty bezpośrednie związane z wykorzystaniem zasobów chmurowych, jak i koszty pośrednie wynikające ze złożoności środowiska. W praktyce analiza ta uwzględnia przede wszystkim koszt instancji obliczeniowych, zasobów pamięciowych, mechanizmów równoważenia obciążenia, transferu danych oraz komponentów wspierających działanie systemu.
-\par
-W przypadku niniejszego badania analiza kosztów nie ogranicza się wyłącznie do nominalnej ceny zasobów, lecz obejmuje także relację pomiędzy ponoszonym kosztem a uzyskiwaną wydajnością i skalowalnością. Taki sposób oceny pozwala lepiej określić rzeczywistą opłacalność zastosowania danego stylu architektonicznego.
+Dodatkowo istotne było obserwowanie, przy jakim poziomie obciążenia zaczynają pojawiać się oznaki degradacji działania systemu, takie jak wyraźny wzrost czasu odpowiedzi, spadek przepustowości lub zwiększona liczba błędów. W kontekście porównania architektury monolitycznej i mikroserwisowej właśnie ten moment ma szczególne znaczenie, ponieważ pozwala ocenić praktyczne granice skalowalności obu podejść w tych samych warunkach eksperymentalnych.
 
-\section{Scenariusz testów bez skalowania}
+\section{Konfiguracje maszyn i warianty eksperymentu}
 
-Pierwszy scenariusz eksperymentalny obejmuje testy przeprowadzane bez zastosowania dodatkowych mechanizmów skalowania. Celem tego etapu jest określenie bazowych właściwości obu wariantów aplikacji przy stałej konfiguracji środowiska uruchomieniowego.
-\par
-W tym scenariuszu zarówno wariant monolityczny, jak i mikroserwisowy uruchamiane są w porównywalnej konfiguracji zasobów. Następnie do obu systemów kierowany jest ruch testowy o stopniowo rosnącym natężeniu, co pozwala zaobserwować momenty pogorszenia wydajności, wzrostu opóźnień oraz zmian w wykorzystaniu zasobów.
-\par
-Scenariusz ten pełni rolę punktu odniesienia dla dalszych eksperymentów związanych ze skalowaniem i umożliwia ocenę, jak obie architektury zachowują się w warunkach bazowych.
+W celu przeprowadzenia testów przygotowano kilka konfiguracji zasobów obliczeniowych. Maszyny uruchamiające aplikację były dobierane zależnie od analizowanego wariantu eksperymentu, tak aby możliwe było badanie zarówno wpływu zwiększania zasobów pojedynczej instancji, jak i wpływu skalowania poziomego poprzez zwiększanie liczby replik usług. Odmiennie potraktowano natomiast maszynę odpowiedzialną za generowanie obciążenia.
 
-\section{Scenariusz testów skalowania wertykalnego}
+Z perspektywy metodyki eksperymentu istotne było, aby generator ruchu nie stał się wąskim gardłem pomiaru. Z tego względu maszyna uruchamiająca Apache JMeter została skonfigurowana jako relatywnie silna instancja \texttt{c4-standard-8}. Taki dobór zasobów miał zapewnić odpowiednią liczbę rdzeni procesora oraz wystarczającą ilość pamięci operacyjnej, dzięki czemu JMeter mógł generować dużą liczbę żądań bez istotnego ryzyka, że ograniczenia samego generatora wpłyną na wyniki testów. Innymi słowy, celem było takie przygotowanie środowiska, aby mierzonym ograniczeniem była przede wszystkim badana aplikacja, a nie narzędzie testowe.
 
-Drugi scenariusz obejmuje badanie wpływu skalowania wertykalnego na zachowanie systemu. Skalowanie wertykalne polega na zwiększaniu zasobów pojedynczej instancji aplikacji lub usługi, na przykład poprzez przydzielenie większej liczby rdzeni procesora lub większej ilości pamięci operacyjnej.
-\par
-W ramach tego scenariusza wykonywane są kolejne serie testów dla różnych konfiguracji zasobów, przy zachowaniu tego samego schematu obciążenia. Pozwala to ocenić, w jakim stopniu zwiększenie parametrów pojedynczej instancji przekłada się na poprawę przepustowości, obniżenie latencji oraz zmianę kosztów utrzymania.
-\par
-Scenariusz ten jest szczególnie istotny dla architektury monolitycznej, która często opiera się właśnie na skalowaniu pionowym, ale umożliwia również ocenę, w jakim stopniu taki mechanizm jest efektywny dla wybranych komponentów systemu mikroserwisowego.
+W praktyce oznaczało to utrzymywanie stałej, wydajnej konfiguracji maszyny testowej po stronie generatora obciążenia, podczas gdy konfiguracje instancji aplikacyjnych mogły być zmieniane w zależności od scenariusza badawczego. Takie podejście zwiększało wiarygodność wyników i ułatwiało interpretację różnic pomiędzy wariantem monolitycznym i mikroserwisowym.
 
-\section{Scenariusz testów skalowania horyzontalnego}
+Przykładowy fragment konfiguracji Terraform definiującej maszynę generatora obciążenia przedstawiono w listingu~\ref{lst:terraform-load-runner}. Konfiguracja ta obejmuje zarówno definicję instancji obliczeniowej, jak i przypisanego do niej wewnętrznego adresu IP w podsieci testowej.
 
-Trzeci scenariusz dotyczy skalowania horyzontalnego, polegającego na zwiększaniu liczby instancji aplikacji lub wybranych usług. W środowiskach chmurowych jest to jeden z podstawowych mechanizmów zwiększania zdolności systemu do obsługi rosnącego obciążenia.
-\par
-W przypadku wariantu monolitycznego skalowanie horyzontalne obejmuje replikację całej aplikacji, natomiast w wariancie mikroserwisowym możliwe jest niezależne zwiększanie liczby instancji wybranych usług. Pozwala to zbadać, czy większa elastyczność architektury mikroserwisowej przekłada się na bardziej efektywne wykorzystanie zasobów i lepsze wyniki przy rosnącym obciążeniu.
-\par
-W ramach eksperymentu analizowany jest wpływ liczby instancji na przepustowość, czas odpowiedzi, zużycie zasobów oraz koszt działania systemu. Wyniki tego scenariusza pozwalają ocenić praktyczną skuteczność skalowania obu badanych architektur.
+\begin{listing}[H]
+    \begin{minted}[fontsize=\small, breaklines]{hcl}
+resource "google_compute_instance" "load_runner_instance" {
+  name         = "load-runner-instance"
+  machine_type = "c4-standard-8"
+  zone         = var.zone
 
-\section{Sposób gromadzenia i przetwarzania wyników}
+  metadata = {
+    ssh-keys = "wczetyrbok:${var.ssh_public_key}"
+  }
+}
 
-Dane pomiarowe uzyskane w trakcie eksperymentów są gromadzone dla każdej serii testowej w sposób uporządkowany i umożliwiający ich dalszą analizę porównawczą. Rejestrowane są zarówno metryki wydajnościowe pochodzące z narzędzi testowych, jak i dane infrastrukturalne związane z wykorzystaniem zasobów oraz konfiguracją środowiska.
-\par
-W celu zwiększenia wiarygodności wyników każda seria testowa może być wykonywana wielokrotnie, a do dalszej analizy wykorzystywane są wartości uśrednione lub reprezentatywne statystyki opisowe. Takie podejście pozwala ograniczyć wpływ chwilowych odchyleń wynikających z niestabilności środowiska chmurowego lub zakłóceń sieciowych.
-\par
-Przetwarzanie wyników obejmuje ich agregację, porządkowanie oraz przygotowanie do prezentacji w formie wykresów, tabel i zestawień porównawczych. Na tej podstawie możliwa jest dalsza interpretacja zachowania badanych architektur w różnych scenariuszach testowych.
+resource "google_compute_address" "load_runner_ip" {
+  name         = "load-runner-ip"
+  subnetwork   = google_compute_subnetwork.subnet_load.id
+  address_type = "INTERNAL"
+  address      = "10.0.1.2"
+  region       = var.region
+}
+    \end{minted}
+    \caption{Przykładowa konfiguracja Terraform dla maszyny generatora obciążenia}
+    \label{lst:terraform-load-runner}
+\end{listing}
 
-\section{Ograniczenia metodyki badawczej}
+Przedstawiona konfiguracja pokazuje, że maszyna odpowiedzialna za uruchamianie JMetera została wydzielona w osobnej podsieci oraz otrzymała stały wewnętrzny adres IP. Rozwiązanie to upraszczało konfigurację scenariuszy testowych, zapewniało powtarzalność środowiska oraz ułatwiało automatyzację kolejnych uruchomień eksperymentu.
 
-Mimo przyjęcia uporządkowanej i możliwie powtarzalnej metodyki, przeprowadzone badanie posiada pewne ograniczenia. Po pierwsze, eksperyment opiera się na jednej analizowanej aplikacji, co oznacza, że uzyskane wyniki nie muszą być bezpośrednio uogólnialne na wszystkie klasy systemów informatycznych.
-\par
-Po drugie, na wyniki eksperymentu mogą wpływać cechy konkretnego środowiska chmurowego, w tym sposób przydzielania zasobów, chwilowe obciążenie infrastruktury współdzielonej oraz właściwości sieci. Czynniki te są częściowo ograniczane przez powtarzalność testów, jednak nie mogą zostać całkowicie wyeliminowane.
-\par
-Po trzecie, przyjęte scenariusze testowe koncentrują się na wybranym punkcie końcowym i określonym modelu obciążenia. Oznacza to, że inne typy żądań lub inna struktura ruchu mogłyby prowadzić do częściowo odmiennych obserwacji. Mimo tych ograniczeń przyjęta metodyka umożliwia przeprowadzenie spójnego i użytecznego porównania badanych architektur.
+\section{Procedura testów skalowania wertykalnego}
+
+Testy skalowania wertykalnego polegały na uruchamianiu tej samej implementacji aplikacji na kolejnych typach maszyn o rosnącej liczbie rdzeni i pamięci operacyjnej. Dla każdej konfiguracji zasobów wykonywano serię testów obciążeniowych z różną liczbą równoległych użytkowników, a następnie zapisywano wyniki w postaci plików surowych do dalszej analizy.
+
+Takie podejście pozwalało odpowiedzieć na pytanie, w jakim stopniu wzrost zasobów pojedynczej maszyny przekłada się na wzrost przepustowości. Dodatkowo umożliwiało wskazanie momentu, w którym dalsze zwiększanie zasobów przestawało dawać proporcjonalne korzyści wydajnościowe.
+
+Dla zachowania rzetelności wyników każdą serię testów wykonywano wielokrotnie. Ograniczało to wpływ chwilowych anomalii po stronie chmury, zakłóceń sieciowych lub krótkotrwałych wahań wydajności środowiska uruchomieniowego.
+
+\section{Procedura testów skalowania horyzontalnego}
+
+Testy skalowania horyzontalnego polegały na zwiększaniu liczby replik uruchamianych usług przy zachowaniu tego samego typu maszyny wirtualnej. W badaniu analizowano konfiguracje obejmujące jedną, dwie oraz cztery repliki. W przypadku mikroserwisów zwiększano liczbę instancji każdej usługi zgodnie z przyjętym scenariuszem. Rozmieszczanie replik pomiędzy węzłami klastra realizował Docker Swarm.
+
+W przypadku architektury mikroserwisowej taka procedura odzwierciedla klasyczny model skalowania w poziomie, w którym obciążenie jest rozdzielane pomiędzy większą liczbę instancji usług. Szczególnie istotne było tutaj zbadanie, czy wzrost liczby replik przekłada się na proporcjonalną poprawę przepustowości, czy też zyski wydajnościowe są ograniczane przez narzut komunikacji gRPC oraz koszt koordynacji w systemie rozproszonym.
+
+W przypadku tego eksperymentu uwagę trzeba zwrócić na horyzontalne skalowanie monolitu. W klasycznych systemach monolitycznych jest ono często mniej naturalne niż w mikroserwisach, jednak w badanej aplikacji było możliwe. Wynikało to z faktu, że aplikacja operowała na danych ładowanych do pamięci i nie wymagała synchronizacji stanu zapisywanego do zewnętrznej bazy transakcyjnej. Dzięki temu możliwe było uruchomienie wielu replik monolitu i rozdzielanie ruchu pomiędzy nimi bez konieczności rozwiązywania problemów związanych z rozproszonym zapisem danych. Było to bardzo ważne, ponieważ umożliwiło zestawienie skalowania pionowego i poziomego również dla wariantu monolitycznego, a nie wyłącznie dla mikroserwisów.
+
+\section{Przetwarzanie i analiza danych}
+
+Surowe dane z testów zostały następnie poddane przetwarzaniu automatycznemu. Celem tego etapu było wyodrębnienie z danych generowanych przez JMeter takich miar, które najlepiej opisują zachowanie systemu pod obciążeniem i umożliwiają porównanie pomiędzy wariantami. W analizie uwzględniono zarówno miary centralne, jak i odporne na obserwacje skrajne.
+
+Podstawową miarą wydajności była przepustowość, rozumiana jako liczba poprawnie obsłużonych żądań na sekundę. Miara ta pozwalała określić maksymalną zdolność systemu do przetwarzania ruchu w danej konfiguracji. Drugą kluczową miarą była latencja, pokazująca średni czas odpowiedzi aplikacji od rozpoczynającego zapytania użytkownika.
+
+W celu ograniczenia wpływu fazy rozgrzewania środowiska na końcowe wyniki uwzględniano etap stabilizacji. Pozwalało to zmniejszyć znaczenie zjawisk takich jak cold start procesu, czyli powolniejsza praca aplikacji na samym początku jej cyklu życia. Wpływają na to inicjalne ładowanie danych do pamięci lub rozgrzewanie maszyny wirtualnej języka programowania. Dodatkowo odrzucano skrajne obserwacje, które mogły wynikać z przypadkowych zaburzeń środowiska i nie odzwierciedlały typowego zachowania badanego systemu. Tak przygotowane dane stanowiły podstawę do budowy wykresów oraz tabel porównawczych przedstawionych w dalszej części pracy za pomocą skyptów implementowanych w Pythonie.
