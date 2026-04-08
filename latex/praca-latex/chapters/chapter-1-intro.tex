@@ -1,42 +1,39 @@
 \chapter{Wstęp}
 \section{Motywacja, cel pracy oraz pytania badawcze}
 
-W ostatnich latach systemy informatyczne są coraz częściej projektowane i wdrażane w środowiskach chmurowych, w których kluczowe znaczenie mają wydajność, skalowalność oraz koszty utrzymania aplikacji. Wśród najczęściej rozważanych podejść architektonicznych architektura monolityczna oraz architektura oparta na mikroserwisach stanowią dwa zasadniczo odmienne sposoby budowy i eksploatacji systemów informatycznych. Architektura monolityczna jest często postrzegana jako prostsza w implementacji, wdrażaniu i utrzymaniu w przypadku mniejszych systemów, natomiast podejście mikroserwisowe jest powszechnie kojarzone z większą modułowością, elastycznością i możliwością skalowania. Korzyści te nie są jednak osiągane bez pewnych kompromisów.
-{\par}
-Rosnąca popularność mikroserwisów sprawiła, że wiele organizacji decyduje się na stosowanie tego stylu architektonicznego, często przy założeniu, że jest on z natury lepszy od architektury monolitycznej, zwłaszcza w środowiskach chmurowych. W praktyce rzeczywiste korzyści wynikające z zastosowania mikroserwisów zależą jednak w dużym stopniu od charakteru aplikacji, rodzaju obciążenia, modelu wdrożenia oraz narzutu operacyjnego. Zwiększona złożoność komunikacji między usługami, orkiestracji, monitorowania oraz zarządzania infrastrukturą może w istotny sposób wpływać zarówno na wydajność systemu, jak i na całkowity koszt jego utrzymania.
-{\par}
-Jednocześnie platformy chmurowe oferują mechanizmy takie jak skalowanie wertykalne i horyzontalne, konteneryzacja oraz automatyzacja infrastruktury, które mogą wpływać na efektywność obu stylów architektonicznych. W rezultacie na pytanie, czy architektura monolityczna czy mikroserwisowa sprawdza się lepiej w środowisku chmurowym, nie można udzielić jednoznacznej, uniwersalnej odpowiedzi. Wymaga to przeprowadzenia systematycznego porównania w kontrolowanych warunkach eksperymentalnych, z uwzględnieniem nie tylko podstawowych metryk wydajnościowych, ale również cech skalowalności oraz kosztów utrzymania.
-{\par}
-Mimo że w literaturze przedmiotu można znaleźć liczne opracowania dotyczące wzorców architektonicznych oraz systemów chmurowych, nadal brak jednoznacznego konsensusu co do rzeczywistego wpływu wybranego stylu architektonicznego na wydajność, skalowalność i efektywność kosztową aplikacji wdrażanych w chmurze. Wiele prac koncentruje się wyłącznie na wybranych atrybutach jakościowych, natomiast stosunkowo niewiele przedstawia kompleksowe porównanie implementacji monolitycznej i mikroserwisowej testowanych w porównywalnych warunkach.
-{\par}
-Z tego względu główną motywacją niniejszej pracy jest zbadanie, w jaki sposób wybór pomiędzy architekturą monolityczną a architekturą opartą na mikroserwisach wpływa na działanie aplikacji wdrożonej w środowisku chmurowym. Analiza została ukierunkowana na trzy kluczowe aspekty: wydajność, skalowalność oraz koszty utrzymania. W celu rozwiązania tego problemu porównane zostaną dwie funkcjonalnie równoważne implementacje tej samej aplikacji: jedna oparta na architekturze monolitycznej, a druga na architekturze mikroserwisowej. Oba warianty zostaną wdrożone w środowisku chmurowym i poddane ocenie z wykorzystaniem zdefiniowanej metodyki benchmarkowej.
-{\par}
+W ostatnich latach systemy informatyczne są coraz częściej projektowane i wdrażane w środowiskach chmurowych, w których kluczowe znaczenie mają wydajność, skalowalność oraz koszty utrzymania aplikacji. Wśród najczęściej rozważanych podejść architektonicznych architektura monolityczna oraz architektura oparta na mikroserwisach stanowią dwa zasadniczo odmienne sposoby budowy i eksploatacji systemów informatycznych. Architektura monolityczna jest często postrzegana jako prostsza w implementacji, wdrażaniu i utrzymaniu w przypadku mniejszych systemów, natomiast podejście mikroserwisowe jest powszechnie kojarzone z większą modułowością, elastycznością i możliwością skalowania. Korzyści te nie są jednak osiągane bez pewnych kompromisów.\cite{dragoni2017microservicesyesterdaytodaytomorrow}
+
+Rosnąca popularność mikroserwisów sprawiła, że wiele organizacji decyduje się na stosowanie tego stylu architektonicznego, często przy założeniu, że jest on z natury lepszy od architektury monolitycznej, zwłaszcza w środowiskach chmurowych. W praktyce rzeczywiste korzyści wynikające z zastosowania mikroserwisów zależą jednak w dużym stopniu od charakteru aplikacji, rodzaju obciążenia, modelu wdrożenia oraz narzutu operacyjnego. Zwiększona złożoność komunikacji między usługami, orkiestracji, monitorowania oraz zarządzania infrastrukturą może w istotny sposób wpływać zarówno na wydajność systemu, jak i na całkowity koszt jego utrzymania.\cite{waseem2026issues}
+
+Jednocześnie platformy chmurowe oferują mechanizmy takie jak skalowanie wertykalne i horyzontalne, konteneryzacja oraz automatyzacja infrastruktury, które mogą wpływać na efektywność obu stylów architektonicznych. W rezultacie na pytanie, czy architektura monolityczna czy mikroserwisowa sprawdza się lepiej w środowisku chmurowym, nie można udzielić jednoznacznej, uniwersalnej odpowiedzi. Wymaga to przeprowadzenia systematycznego porównania w kontrolowanych warunkach eksperymentalnych, z uwzględnieniem nie tylko podstawowych metryk wydajnościowych, ale również cech skalowalności oraz kosztów utrzymania.\cite{verticalhorizontalscaling}
+
+Mimo że w literaturze przedmiotu można znaleźć liczne opracowania dotyczące wzorców architektonicznych oraz systemów chmurowych, nadal brak jednoznacznego konsensusu co do rzeczywistego wpływu wybranego stylu architektonicznego na wydajność, skalowalność i efektywność kosztową aplikacji wdrażanych w chmurze. Wiele prac koncentruje się wyłącznie na wybranych atrybutach jakościowych, natomiast stosunkowo niewiele przedstawia kompleksowe porównanie implementacji monolitycznej i mikroserwisowej testowanych w porównywalnych warunkach. Z tego względu główną motywacją niniejszej pracy jest zbadanie, w jaki sposób wybór pomiędzy architekturą monolityczną a architekturą opartą na mikroserwisach wpływa na działanie aplikacji wdrożonej w środowisku chmurowym. Analiza została ukierunkowana na trzy kluczowe aspekty: wydajność, skalowalność oraz koszty utrzymania. W celu rozwiązania tego problemu porównane zostaną dwie funkcjonalnie równoważne implementacje tej samej aplikacji: jedna oparta na architekturze monolitycznej, a druga na architekturze mikroserwisowej. Oba warianty zostaną wdrożone w środowisku chmurowym i poddane ocenie z wykorzystaniem zdefiniowanej metodyki benchmarkowej.
+
 Głównym celem pracy jest przeprowadzenie analizy porównawczej wydajności, skalowalności oraz kosztów utrzymania architektury monolitycznej i architektury opartej na mikroserwisach w środowiskach chmurowych. Aby osiągnąć ten cel, przygotowane zostanie środowisko eksperymentalne, zdefiniowane zostaną scenariusze pomiarowe, a uzyskane wyniki zostaną przeanalizowane w celu wskazania mocnych i słabych stron obu podejść.
-{\par}
+
 W pracy sformułowano następujące główne pytanie badawcze:
 \begin{quote}
 \textit{W jaki sposób wybór pomiędzy architekturą monolityczną a architekturą opartą na mikroserwisach wpływa na wydajność, skalowalność oraz koszty utrzymania aplikacji wdrożonej w środowisku chmurowym?}
 \end{quote}
-{\par}
+
 W celu bardziej szczegółowej oceny rozważane są również następujące pytania pomocnicze:
 \begin{itemize}
     \item Jak oba style architektoniczne różnią się pod względem przepustowości i czasu odpowiedzi wraz ze wzrostem obciążenia?
     \item Jak skutecznie aplikacje monolityczne i mikroserwisowe wykorzystują skalowanie wertykalne i horyzontalne w środowisku chmurowym?
     \item Jaki wpływ ma wybrany styl architektoniczny na koszty utrzymania systemu?
-    \item W jakich warunkach jeden styl architektoniczny staje się bardziej korzystny od drugiego?
 \end{itemize}
-{\par}
-Wyniki przeprowadzonych badań mogą mieć znaczenie zarówno poznawcze, jak i praktyczne. Z perspektywy naukowej praca wnosi wkład do dyskusji dotyczącej rzeczywistych zalet i ograniczeń współczesnych wzorców architektonicznych. Z perspektywy praktycznej może stanowić wsparcie dla architektów oprogramowania oraz inżynierów przy podejmowaniu bardziej świadomych decyzji związanych z wyborem stylu architektonicznego dla systemów wdrażanych w środowiskach chmurowych.
+
+Wyniki przeprowadzonych badań mają bezpośrednie zastosowanie zarówno w analizie naukowej, jak i w praktyce inżynierskiej. W ujęciu naukowym pozwalają na bardziej obiektywną ocenę rzeczywistych różnic pomiędzy architekturą monolityczną a mikroserwisową, w szczególności w kontekście wydajności, skalowalności i kosztów. W ujęciu praktycznym dostarczają konkretnych danych, które mogą być wykorzystane przez architektów oprogramowania i inżynierów do podejmowania świadomych decyzji przy wyborze architektury systemu w środowisku chmurowym.
 \section{Struktura pracy}
 
 Praca została podzielona na kilka głównych etapów obejmujących analizę literatury, projekt i implementację środowiska badawczego, przygotowanie metodyki eksperymentalnej, przeprowadzenie testów wydajnościowych oraz interpretację uzyskanych wyników.
-\par
+
 Pierwszy etap obejmował zdefiniowanie problemu badawczego, określenie motywacji do podjęcia tematu oraz przegląd literatury dotyczącej architektury monolitycznej, architektury mikroserwisowej, środowisk chmurowych, mechanizmów skalowania oraz metod oceny wydajności systemów. Etap ten pozwolił na wskazanie luki badawczej oraz sformułowanie głównego pytania badawczego i pytań pomocniczych.
-\par
+
 Drugi etap koncentrował się na zaprojektowaniu i implementacji środowiska eksperymentalnego. Przygotowano dwa funkcjonalnie równoważne warianty analizowanej aplikacji: wariant monolityczny oraz wariant mikroserwisowy, oraz zaimplementowane je w trzecg rożnych językach programowania (Java, Python, JavaScript), starając się utrzymać tą samą logikę i złożoność programów, jedynie ze zmianą składni jakiej dany język wymaga). Dodatkowo skonfigurowano infrastrukturę chmurową, proces wdrażania oraz mechanizmy automatyzacji niezbędne do przeprowadzania powtarzalnych eksperymentów.
-\par
+
 Trzeci etap obejmował opracowanie metodyki badawczej. Na tym etapie określono metryki oceny, przygotowano scenariusze testowe, wybrano narzędzia do generowania obciążenia i monitorowania systemu oraz zdefiniowano strategie skalowania. Szczególną uwagę poświęcono zapewnieniu porównywalnych warunków testowych dla obu wariantów architektonicznych.
-\par
+
 Kolejny etap polegał na przeprowadzeniu eksperymentów benchmarkowych w środowisku chmurowym. Testy wykonano dla różnych poziomów obciążenia oraz różnych konfiguracji skalowania w celu oceny zachowania obu implementacji pod względem przepustowości, latencji, skalowalności. Uwzględniono również aspekty związane z kosztami utrzymania obu rozwiązań.
-\par
+
 Ostatni etap obejmował analizę i interpretację zebranych wyników, wskazanie najważniejszych różnic pomiędzy badanymi architekturami, omówienie ograniczeń przeprowadzonego badania oraz sformułowanie wniosków końcowych. Wnioski te stanowią podstawę do udzielenia odpowiedzi na postawione pytania badawcze oraz wskazania możliwych kierunków dalszych badań.

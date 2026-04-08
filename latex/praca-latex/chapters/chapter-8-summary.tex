@@ -1,12 +1,13 @@
 \chapter{Podsumowanie i wnioski}
-
 \section{Odpowiedzi na pytania badawcze}
 
 Głównym celem niniejszej pracy było udzielenie odpowiedzi na pytanie badawcze: \textit{w jaki sposób wybór pomiędzy architekturą monolityczną a architekturą opartą na mikroserwisach wpływa na wydajność, skalowalność oraz koszty utrzymania aplikacji wdrożonej w środowisku chmurowym?}
 
-Na podstawie przeprowadzonych badań można stwierdzić, że wpływ architektury na zachowanie aplikacji w środowisku chmurowym jest istotny, ale niejednoznaczny i zależy zarówno od analizowanego kryterium, jak i od zastosowanej technologii implementacyjnej. W badanym środowisku architektura monolityczna osiągała wyższą maksymalną przepustowość niż odpowiadająca jej wersja mikroserwisowa we wszystkich analizowanych językach programowania. Oznacza to, że przy porównywalnym poziomie zasobów monolit zapewniał korzystniejszy profil wydajnościowy, głównie dzięki mniejszemu narzutowi komunikacyjnemu i prostszemu modelowi przetwarzania.
+Na podstawie przeprowadzonych badań można stwierdzić, że wpływ architektury na zachowanie aplikacji w środowisku chmurowym jest istotny, lecz zależy zarówno od analizowanego kryterium, jak i od zastosowanej technologii implementacyjnej. W badanym środowisku architektura monolityczna osiągała wyższą maksymalną przepustowość niż odpowiadająca jej wersja mikroserwisowa we wszystkich analizowanych językach programowania. Oznacza to, że przy porównywalnym poziomie zasobów monolit zapewniał korzystniejszy profil wydajnościowy, głównie dzięki mniejszemu narzutowi komunikacyjnemu i prostszemu modelowi przetwarzania.
 
-Z drugiej strony wyniki pokazały również, że architektura mikroserwisowa lepiej wpisuje się w model elastycznego skalowania charakterystyczny dla środowisk chmurowych. Jej przewaga nie wynikała jednak z wyższej wydajności bazowej, lecz z możliwości niezależnego zwiększania liczby instancji i większej swobody organizacji środowiska. Ostatecznie odpowiedź na główne pytanie badawcze prowadzi do wniosku, że wybór między monolitem a mikroserwisami nie powinien być traktowany jako decyzja uniwersalna, lecz jako kompromis pomiędzy wydajnością, elastycznością skalowania i kosztem osiągnięcia oczekiwanego poziomu działania systemu.
+Jednocześnie wyniki pokazały, że architektura mikroserwisowa zapewnia większą elastyczność organizacji skalowania, charakterystyczną dla środowisk chmurowych. Przewaga ta nie oznacza jednak automatycznie lepszych wyników wydajnościowych ani niższego kosztu działania. W badanym przypadku skuteczność skalowania zależała nie tylko od architektury, lecz również od właściwości środowiska uruchomieniowego i języka programowania.
+
+Odpowiedź na główne pytanie badawcze prowadzi zatem do wniosku, że wybór między monolitem a mikroserwisami nie powinien być traktowany jako decyzja uniwersalna. Jest to kompromis pomiędzy wydajnością, elastycznością skalowania oraz kosztem osiągnięcia oczekiwanego poziomu działania systemu.
 
 W odniesieniu do pytań szczegółowych można stwierdzić, że:
 \begin{itemize}
@@ -24,7 +25,7 @@ Uzyskane wyniki potwierdzają również, że narzut komunikacyjny pozostaje jedn
 
 Wyniki latencji potwierdziły obserwacje wynikające z analizy przepustowości. Rozwiązania osiągające wyższą przepustowość charakteryzowały się jednocześnie niższą i wolniej rosnącą latencją. Najkorzystniejszy profil ponownie uzyskano dla Javy, natomiast najmniej korzystny dla Pythona, szczególnie w wariancie mikroserwisowym. Oznacza to, że wpływ architektury i technologii był widoczny nie tylko w maksymalnej liczbie obsługiwanych żądań, lecz także w czasie oczekiwania użytkownika na odpowiedź.
 
-Najważniejszy wniosek w obszarze wydajności jest więc taki, że architektura mikroserwisowa nie gwarantuje automatycznej poprawy parametrów działania systemu. W badanych warunkach to architektura monolityczna okazała się rozwiązaniem korzystniejszym wydajnościowo, natomiast przewaga mikroserwisów nie wynikała z samej szybkości działania, lecz z innych cech organizacji systemu.
+W obszarze wydajności kluczowy wniosek jest następujący, architektura mikroserwisowa nie gwarantuje automatycznej poprawy parametrów działania systemu. W badanych warunkach to architektura monolityczna okazała się rozwiązaniem korzystniejszym wydajnościowo, natomiast potencjalne przewagi mikroserwisów wynikały nie z samej szybkości działania, lecz z większej elastyczności organizacji systemu.
 
 \section{Najważniejsze wnioski dotyczące skalowalności}
 
@@ -34,7 +35,7 @@ Najlepsze rezultaty skalowania wertykalnego uzyskano dla implementacji w języku
 
 Skalowanie horyzontalne okazało się szczególnie korzystne dla JavaScriptu i Pythona. W tych technologiach zwiększanie liczby instancji przynosiło lepsze efekty niż wzmacnianie pojedynczego węzła. W Javie sytuacja była bardziej zróżnicowana: monolit lepiej reagował na skalowanie wertykalne, natomiast w mikroserwisach różnice pomiędzy skalowaniem pionowym i poziomym były niewielkie.
 
-Najważniejszy wniosek dotyczący skalowalności jest taki, że ocena efektywności skalowania nie może być formułowana wyłącznie na poziomie architektury. Konieczne jest uwzględnienie właściwości środowiska uruchomieniowego i modelu wykonania aplikacji. W praktyce oznacza to, że ta sama architektura może zachowywać się odmiennie w zależności od języka programowania i sposobu implementacji.
+Kluczowy wniosek dotyczący skalowalności jest taki, że nie można jej oceniać wyłącznie na poziomie architektury. O rzeczywistej skuteczności skalowania współdecydują także właściwości środowiska uruchomieniowego, model wykonania aplikacji oraz sposób implementacji.
 
 \section{Najważniejsze wnioski dotyczące kosztów utrzymania}
 
@@ -44,7 +45,7 @@ W badanych warunkach architektura mikroserwisowa przy tym samym poziomie zasobó
 
 Jednocześnie koszt nie powinien być rozumiany wyłącznie jako cena maszyn wirtualnych. W przypadku architektury mikroserwisowej znaczenie mają również koszty pośrednie, takie jak utrzymanie większej liczby komponentów, monitorowanie komunikacji między usługami, zarządzanie wdrożeniami oraz większa złożoność operacyjna środowiska. Z tego względu mikroserwisy nie mogą być uznane za rozwiązanie automatycznie bardziej opłacalne kosztowo.
 
-Najważniejszy wniosek w tym obszarze jest taki, że z perspektywy relacji kosztu do wydajności architektura monolityczna w badanym środowisku wypadała korzystniej. Mikroserwisy mogą być uzasadnione z innych powodów, takich jak elastyczność rozwoju systemu czy niezależność wdrożeń, lecz w analizowanym przypadku nie okazały się rozwiązaniem tańszym przy porównywalnym poziomie osiąganej przepustowości.
+Z perspektywy relacji kosztu do wydajności architektura monolityczna w badanym środowisku wypadała korzystniej. Mikroserwisy mogą być uzasadnione z innych powodów, takich jak elastyczność rozwoju systemu, niezależność wdrożeń czy możliwość selektywnego skalowania usług, jednak w analizowanym przypadku nie okazały się rozwiązaniem tańszym przy porównywalnym poziomie osiąganej przepustowości.
 
 \section{Ograniczenia pracy}
 
@@ -56,7 +57,7 @@ Ograniczeniem jest również zakres scenariuszy testowych, które obejmowały wy
 
 \section{Możliwe kierunki dalszych badań}
 
-Przeprowadzone badania mogą stanowić punkt wyjścia do dalszych analiz rozwijających temat porównania architektury monolitycznej i mikroserwisowej. Jednym z naturalnych kierunków dalszych badań jest rozszerzenie eksperymentu na większą liczbę aplikacji o odmiennym charakterze biznesowym, co pozwoliłoby zwiększyć możliwość uogólnienia wyników.
+Przeprowadzone badania stanowią punkt wyjścia do dalszych analiz porównujących architekturę monolityczną i mikroserwisową. Jednym z naturalnych kierunków dalszych badań jest rozszerzenie eksperymentu na większą liczbę aplikacji o odmiennym charakterze biznesowym, co pozwoliłoby zwiększyć możliwość uogólnienia wyników.
 
 Kolejnym kierunkiem może być analiza większej liczby scenariuszy obciążeniowych, obejmujących różne typy ruchu, zmienność intensywności żądań w czasie oraz bardziej złożone przepływy komunikacji pomiędzy usługami. Pozwoliłoby to lepiej ocenić zachowanie badanych architektur w warunkach bliższych rzeczywistym systemom produkcyjnym.
 

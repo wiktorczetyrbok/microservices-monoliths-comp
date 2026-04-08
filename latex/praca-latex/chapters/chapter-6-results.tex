@@ -1,9 +1,6 @@
 \chapter{Wyniki badań i ich analiza}
 
-W następującym rozdziale przedstawiono analizę wyników testów skalowalności przeprowadzonych dla implementacji opisywanych w pracy. Analizie poddano dwa mechanizmy zwiększania zasobów,
-skalowanie wertykalne, polegające na zwiększaniu parametrów pojedynczej instancji maszyny,
-oraz skalowanie horyzontalne, polegające na zwiększaniu liczby instancji aplikacji lub replik
-mikroserwisów.
+W niniejszym rozdziale przedstawiono analizę wyników badań eksperymentalnych przeprowadzonych dla wszystkich badanych implementacji. Analizie poddano dwa mechanizmy zwiększania zasobów: skalowanie wertykalne, polegające na zwiększaniu parametrów pojedynczej instancji maszyny, oraz skalowanie horyzontalne, polegające na zwiększaniu liczby instancji aplikacji lub replik mikroserwisów.
 
 Wyniki zestawiono zarówno w postaci wykresów przedstawiających maksymalną osiąganą przepustowość
 w funkcji narastającego obciążenia, jak i w tabelach zbiorczych prezentujących maksymalne wartości
@@ -28,7 +25,7 @@ Najniższe wartości latencji osiągały implementacje w języku Java. Zarówno 
 
 \section{Wyniki skalowania wertykalnego}
 
-W testach skalowania wertykalnego porównano trzy konfiguracje zasobów obliczeniowych: \texttt{std-2}, \texttt{std-4} oraz \texttt{std-8}. Oznacza to odpowiednio bazowy poziom zasobów, konfigurację dwukrotnie większą oraz konfigurację czterokrotnie większą względem punktu odniesienia. Wyniki przepustowości w tej wersji skalowania przedstawione są na poniżych wykresach.~\ref{fig:vertical-python, fig:vertical-java, fig:vertical-java}
+W testach skalowania wertykalnego porównano trzy konfiguracje zasobów obliczeniowych: \texttt{std-2}, \texttt{std-4} oraz \texttt{std-8}. Oznacza to odpowiednio bazowy poziom zasobów, konfigurację dwukrotnie większą oraz konfigurację czterokrotnie większą względem punktu odniesienia. Wyniki przepustowości w tej wersji skalowania przedstawione są na poniżych wykresach~\ref{fig:vertical-python}, \ref{fig:vertical-javascript} oraz~\ref{fig:vertical-java}.
 
 \begin{figure}[H]
     \centering
@@ -92,9 +89,9 @@ Tabela~\ref{tab:vertical-scaling-results} przedstawia zbiorcze wyniki dla wszyst
             \textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{std-2} & \textbf{std-4} & \textbf{std-8} & \textbf{std-4/std-2} & \textbf{std-8/std-2} & \textbf{std-8/std-4} \\
             &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[\%]} & \textbf{[\%]} \\
             \hline
-            1 & Python & monolityczna & - & 77,2 & 145,6 & 216,4 & 88,6\% & 180,3\% & 48,6\% \\
-            2 & JavaScript & monolityczna & - & 1058,8 & 1096,8 & 1173,4 & 3,6\% & 10,8\% & 7,0\% \\
-            3 & Java & monolityczna & - & 1841,6 & 3630,6 & 7275 & 97,1\% & 295,0\% & 100,4\% \\
+            1 & Python & monolityczna & lokalna & 77,2 & 145,6 & 216,4 & 88,6\% & 180,3\% & 48,6\% \\
+            2 & JavaScript & monolityczna & lokalna & 1058,8 & 1096,8 & 1173,4 & 3,6\% & 10,8\% & 7,0\% \\
+            3 & Java & monolityczna & lokalna & 1841,6 & 3630,6 & 7275 & 97,1\% & 295,0\% & 100,4\% \\
             4 & Python & mikroserwisowa & gRPC & 45,8 & 55,8 & 63,6 & 21,8\% & 38,9\% & 14,0\% \\
             5 & JavaScript & mikroserwisowa & gRPC & 530,4 & 699,2 & 946,4 & 31,8\% & 78,4\% & 35,4\% \\
             6 & Java & mikroserwisowa & gRPC & 1354 & 2523,6 & 4835,8 & 86,4\% & 257,1\% & 91,6\% \\
@@ -105,7 +102,7 @@ Tabela~\ref{tab:vertical-scaling-results} przedstawia zbiorcze wyniki dla wszyst
 
 Analiza wyników skalowania wertykalnego pokazuje wyraźnie, że największe korzyści z dokładania zasobów uzyskano dla implementacji w języku Java. W przypadku monolitu przepustowość wzrosła z poziomu 1841,6~req/s dla konfiguracji \texttt{std-2} do 7275~req/s dla konfiguracji \texttt{std-8}, co oznacza przyrost o 295,0\%. Bardzo podobny trend zaobserwowano dla mikroserwisów w Javie, gdzie wzrost wyniósł 257,1\%. Oznacza to, że implementacja w Javie efektywnie wykorzystuje dodatkowe rdzenie procesora i pamięć operacyjną, a skalowanie pionowe przekłada się bezpośrednio na wzrost przepustowości.
 
-Odmienny obraz widoczny jest dla JavaScriptu. W architekturze monolitycznej wzrost wydajności po zwiększeniu zasobów był minimalny: z 1058,8 req/s do 1173,4 req/s, czyli jedynie o 10,8\%. Wynika to z charakterystyki środowiska uruchomieniowego Node.js, które domyślnie działa w modelu jednowątkowym z pojedynczą pętlą zdarzeń (event loop). W takiej konfiguracji aplikacja nie jest w stanie efektywnie wykorzystać dodatkowych rdzeni procesora, ponieważ przetwarzanie żądań odbywa się w ramach jednego wątku wykonania. W praktyce oznacza to, że niezależnie od zwiększania dostępnych zasobów sprzętowych, przepustowość jest ograniczona przez maksymalną wydajność pojedynczego wątku oraz mechanizmy kolejkowania żądań. Można to interpretować jako naturalny „rate limiting” wynikający z architektury runtime’u, a nie bezpośredniego ograniczenia sprzętowego.
+Odmienny obraz widoczny jest dla JavaScriptu. W architekturze monolitycznej wzrost wydajności po zwiększeniu zasobów był minimalny: z 1058,8 req/s do 1173,4 req/s, czyli jedynie o 10,8\%. Wynika to z charakterystyki środowiska uruchomieniowego Node.js, które domyślnie działa w modelu jednowątkowym z pojedynczą pętlą zdarzeń (event loop). W takiej konfiguracji aplikacja nie jest w stanie efektywnie wykorzystać dodatkowych rdzeni procesora, ponieważ przetwarzanie żądań odbywa się w ramach jednego wątku wykonania. W praktyce oznacza to, że niezależnie od zwiększania dostępnych zasobów sprzętowych, przepustowość jest ograniczona przez maksymalną wydajność pojedynczego wątku oraz mechanizmy kolejkowania żądań. Można to interpretować jako naturalny „rate limiting” wynikający z architektury silnika Node.js, a nie bezpośredniego ograniczenia sprzętowego.
 
 Dopiero dla mikroserwisów w JavaScript przyrost był wyraźnie większy i osiągnął 78,4\%, jednak nadal pozostawał istotnie niższy niż w przypadku Javy, która dzięki wielowątkowości znacznie lepiej skaluje się wraz ze wzrostem liczby dostępnych rdzeni.
 
@@ -115,7 +112,7 @@ Z punktu widzenia porównania architektur można zauważyć, że dla każdego j�
 
 \section{Wyniki skalowania horyzontalnego}
 
-W testach skalowania horyzontalnego analizowano trzy warianty wdrożenia: 1, 2 oraz 4 instancje. W przypadku monolitu oznaczało to uruchomienie wielu kopii całej aplikacji, natomiast w przypadku architektury mikroserwisowej zwiększano liczbę replik każdego serwisu. Wyniki przepustowości prezentują się następująco na poniżych wykresach.~\ref{fig:horizontal-python, fig:horizontal-java, fig:horizontal-java}
+W testach skalowania horyzontalnego analizowano trzy warianty wdrożenia: 1, 2 oraz 4 instancje. W przypadku monolitu oznaczało to uruchomienie wielu kopii całej aplikacji, natomiast w przypadku architektury mikroserwisowej zwiększano liczbę replik każdego serwisu. Wyniki przepustowości przedstawiono na wykresach~\ref{fig:horizontal-python}, \ref{fig:horizontal-javascript} oraz~\ref{fig:horizontal-java}.
 
 \begin{figure}[H]
     \centering
@@ -181,9 +178,9 @@ Tabela~\ref{tab:horizontal-scaling-results} przedstawia zestawienie maksymalnych
             \textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{1 inst.} & \textbf{2 inst.} & \textbf{4 inst.} & \textbf{2/1} & \textbf{4/1} & \textbf{4/2} \\
             &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[\%]} & \textbf{[\%]} \\
             \hline
-            1 & Python & monolityczna & - & 79 & 150,4 & 303,2 & 90,4\% & 283,8\% & 101,6\% \\
-            2 & JavaScript & monolityczna & - & 1017,4 & 1385 & 2318,8 & 36,1\% & 127,9\% & 67,4\% \\
-            3 & Java & monolityczna & - & 1817,2 & 3390 & 6344,4 & 86,6\% & 249,1\% & 87,2\% \\
+            1 & Python & monolityczna & lokalna & 79 & 150,4 & 303,2 & 90,4\% & 283,8\% & 101,6\% \\
+            2 & JavaScript & monolityczna & lokalna & 1017,4 & 1385 & 2318,8 & 36,1\% & 127,9\% & 67,4\% \\
+            3 & Java & monolityczna & lokalna & 1817,2 & 3390 & 6344,4 & 86,6\% & 249,1\% & 87,2\% \\
             4 & Python & mikroserwisowa & gRPC & 46,6 & 58,6 & 79,6 & 25,8\% & 70,8\% & 35,8\% \\
             5 & JavaScript & mikroserwisowa & gRPC & 559,2 & 920 & 1925,6 & 64,5\% & 244,3\% & 109,3\% \\
             6 & Java & mikroserwisowa & gRPC & 1355,8 & 2292,4 & 5007,8 & 69,1\% & 269,4\% & 118,5\% \\
@@ -238,9 +235,9 @@ Tabela~\ref{tab:horizontal-vs-vertical-results} przedstawia zestawienie wyników
             \textbf{Lp.} & \textbf{Język} & \textbf{Architektura} & \textbf{Komunikacja} & \textbf{H 2$\times$} & \textbf{V 2$\times$} & \textbf{V/H 2$\times$} & \textbf{H 4$\times$} & \textbf{V 4$\times$} & \textbf{V/H 4$\times$} \\
             &  &  &  & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} & \textbf{[req/s]} & \textbf{[req/s]} & \textbf{[\%]} \\
             \hline
-            1 & Python & monolityczna & - & 150,4 & 145,6 & -3,2\% & 303,2 & 216,4 & -28,6\% \\
-            2 & JavaScript & monolityczna & - & 1385 & 1096,8 & -20,8\% & 2318,8 & 1173,4 & -49,4\% \\
-            3 & Java & monolityczna & - & 3390 & 3630,6 & 7,1\% & 6344,4 & 7275 & 14,7\% \\
+            1 & Python & monolityczna & lokalna & 150,4 & 145,6 & -3,2\% & 303,2 & 216,4 & -28,6\% \\
+            2 & JavaScript & monolityczna & lokalna & 1385 & 1096,8 & -20,8\% & 2318,8 & 1173,4 & -49,4\% \\
+            3 & Java & monolityczna & lokalna & 3390 & 3630,6 & 7,1\% & 6344,4 & 7275 & 14,7\% \\
             4 & Python & mikroserwisowa & gRPC & 58,6 & 55,8 & -4,8\% & 79,6 & 63,6 & -20,1\% \\
             5 & JavaScript & mikroserwisowa & gRPC & 920 & 699,2 & -24,0\% & 1925,6 & 946,4 & -50,9\% \\
             6 & Java & mikroserwisowa & gRPC & 2292,4 & 2523,6 & 10,1\% & 5007,8 & 4835,8 & -3,4\% \\
@@ -281,7 +278,14 @@ Zestawienie to pokazuje, że koszt pojedynczej instancji rośnie niemal liniowo 
 
 Jednocześnie w analizowanych wariantach skalowania horyzontalnego koszt zasobów pozostaje bardzo zbliżony do kosztu odpowiadającego mu skalowania wertykalnego. Przykładowo dwie instancje \texttt{c2d-standard-2} kosztują łącznie tyle samo co jedna instancja \texttt{c2d-standard-4}, natomiast cztery instancje \texttt{c2d-standard-2} odpowiadają kosztowo jednej instancji \texttt{c2d-standard-8}. Z tego względu w badanym środowisku różnica pomiędzy skalowaniem wertykalnym i horyzontalnym nie wynikała przede wszystkim z samej ceny vCPU i pamięci, lecz raczej z kosztów pośrednich związanych z uruchamianiem większej liczby komponentów, komunikacją sieciową oraz złożonością operacyjną środowiska.
 
-Istotnym uzupełnieniem analizy kosztowej jest zestawienie kosztu z osiąganą wydajnością. W przeprowadzonych eksperymentach architektura mikroserwisowa w większości przypadków osiągała niższą przepustowość niż odpowiadający jej monolit przy tym samym poziomie zasobów. Oznacza to, że chcąc doprowadzić wariant mikroserwisowy do wydajności osiąganej przez monolit, należałoby zwiększyć liczbę wykorzystywanych zasobów, a tym samym również koszt infrastruktury. W tabeli~\ref{tab:cost-to-match-monolith} przedstawiono szacowany mnożnik kosztu mikroserwisów potrzebny do osiągnięcia przepustowości monolitu dla najwyższych badanych konfiguracji. Obliczenia te wykonano przy założeniu proporcjonalnego skalowania kosztu względem wymaganej dodatkowej przepustowości.
+Istotnym uzupełnieniem analizy kosztowej jest zestawienie kosztu z osiąganą wydajnością. W przeprowadzonych eksperymentach architektura mikroserwisowa w większości przypadków osiągała niższą przepustowość niż odpowiadający jej monolit przy tym samym poziomie zasobów. Oznacza to, że chcąc doprowadzić wariant mikroserwisowy do wydajności osiąganej przez monolit, należałoby zwiększyć liczbę wykorzystywanych zasobów, a tym samym również koszt infrastruktury. W tabeli~\ref{tab:cost-to-match-monolith} przedstawiono szacowany mnożnik kosztu mikroserwisów potrzebny do osiągnięcia przepustowości monolitu dla najwyższych badanych konfiguracji.
+
+Wartości te wyznaczono przy założeniu proporcjonalnego skalowania kosztu względem wymaganej dodatkowej przepustowości, zgodnie ze wzorem:
+\begin{equation}
+    K_{eq} = K_{micro} \cdot \frac{P_{monolit}}{P_{mikroserwisy}}
+\end{equation}
+
+gdzie $K_{eq}$ oznacza szacowany koszt infrastruktury potrzebny do osiągnięcia przepustowości monolitu, $K_{micro}$ oznacza koszt bazowego wariantu mikroserwisowego, $P_{monolit}$ oznacza przepustowość uzyskaną przez monolit, natomiast $P_{mikroserwisy}$ oznacza przepustowość odpowiadającego mu wariantu mikroserwisowego. Przyjęty model ma charakter estymacyjny i nie stanowi dokładnego kosztu produkcyjnego, lecz pozwala w przejrzysty sposób zobrazować ekonomiczne konsekwencje różnic wydajnościowych pomiędzy badanymi architekturami.
 
 \begin{table}[H]
     \centering
@@ -290,15 +294,15 @@ Istotnym uzupełnieniem analizy kosztowej jest zestawienie kosztu z osiąganą w
     \renewcommand{\arraystretch}{1.15}
     \begin{tabular}{|l|l|c|c|c|}
         \hline
-        \textbf{Język} & \textbf{Wariant} & \textbf{Mnożnik kosztu mikroserwisów} & \textbf{Koszt [USD/h]} & \textbf{Wzrost} \\
+        \textbf{Język} & \textbf{Wariant} & \makecell{\textbf{Mnożnik kosztu} \\ \textbf{mikroserwisów}} & \textbf{Koszt [USD/h]} & \textbf{Wzrost} \\
         \hline
-        Python & Ver. (\texttt{std-8}) & 3.40$\times$ & 1.236 & +240.3\% \\
-        JavaScript & Ver. (\texttt{std-8}) & 1.24$\times$ & 0.450 & +24.0\% \\
-        Java & Ver. (\texttt{std-8}) & 1.50$\times$ & 0.546 & +50.4\% \\
+        Python & Vertical (\texttt{std-8}) & 3.40$\times$ & 1.236 & +240.3\% \\
+        JavaScript & Vertical (\texttt{std-8}) & 1.24$\times$ & 0.450 & +24.0\% \\
+        Java & Vertical (\texttt{std-8}) & 1.50$\times$ & 0.546 & +50.4\% \\
         \hline
-        Python & Hor. (4 inst.) & 3.81$\times$ & 1.383 & +280.9\% \\
-        JavaScript & Hor. (4 inst.) & 1.20$\times$ & 0.437 & +20.4\% \\
-        Java & Hor. (4 inst.) & 1.27$\times$ & 0.460 & +26.7\% \\
+        Python & Horizontal (4 inst.) & 3.81$\times$ & 1.383 & +280.9\% \\
+        JavaScript & Horizontal (4 inst.) & 1.20$\times$ & 0.437 & +20.4\% \\
+        Java & Horizontal (4 inst.) & 1.27$\times$ & 0.460 & +26.7\% \\
         \hline
     \end{tabular}
 \end{table}

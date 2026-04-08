@@ -1,6 +1,6 @@
 \chapter{Implementacja aplikacji benchmarkowej}
 \label{chap:implementation}
-Celem niniejszego rozdziału jest przedstawienie metodyki badań eksperymentalnych wykorzystanej do porównania architektury monolitycznej oraz architektury mikroserwisowej w środowisku chmurowym. Przyjęta metodologia została opracowana w taki sposób, aby umożliwić możliwie obiektywne porównanie obu podejść w kontrolowanych warunkach wdrożeniowych i testowych. Szczególny nacisk położono na powtarzalność procesu, automatyzację przygotowania środowiska oraz rozdzielenie infrastruktury aplikacyjnej od infrastruktury generującej obciążenie.
+Celem niniejszego rozdziału jest przedstawienie implementacji badanych wariantów systemu służącego do porównania architektury monolitycznej i mikroserwisowej w środowisku chmurowym. Szczególny nacisk położono na powtarzalność pomiarów, automatyzację przygotowania środowiska oraz rozdzielenie infrastruktury aplikacyjnej od infrastruktury generującej obciążenie.
 
 Zastosowanie środowiska chmurowego było uzasadnione dwoma względami. Po pierwsze, pozwala ono odwzorować warunki zbliżone do rzeczywistych wdrożeń nowoczesnych systemów serwerowych. Po drugie, umożliwia wygodne przeprowadzanie eksperymentów związanych zarówno ze skalowaniem wertykalnym, jak i horyzontalnym, przy zachowaniu porównywalnego sposobu uruchamiania wszystkich badanych implementacji. W opisywanym badaniu wykorzystano Google Cloud Platform~\cite{gcpcomputedocs}, a proces tworzenia i niszczenia zasobów został zautomatyzowany.
 
@@ -17,8 +17,7 @@ W celu zwiększenia wartości porównawczej eksperymentu każdą z wersji archit
     \item Python z wykorzystaniem frameworka Flask.
 \end{itemize}
 
-W rezultacie przygotowano sześć implementacji aplikacji: trzy monolity oraz trzy warianty mikroserwisowe. Pozwala to analizować nie tylko wpływ samego stylu architektonicznego, ale również sprawdzić, czy obserwowane zależności są spójne pomiędzy różnymi ekosystemami programistycznymi.
-
+W rezultacie przygotowano sześć implementacji aplikacji: trzy monolity oraz trzy warianty mikroserwisowe. Dzięki temu możliwe było porównanie obu architektur w trzech różnych technologiach.
 
 \subsection{Model wejścia i wyjścia systemu}
 
@@ -74,11 +73,11 @@ W ostatnim etapie system pobiera metadane dla znalezionych identyfikatorów obra
 
 \subsection{Wariant monolityczny}
 
-Wariant monolityczny został zaimplementowany jako pojedyncza aplikacja uruchamiana w jednym procesie. W tej wersji wszystkie etapy przetwarzania obrazu, tj. obsługa żądania HTTP, ekstrakcja cech, wyszukiwanie podobieństwa oraz pobieranie metadanych, realizowane są lokalnie wewnątrz jednego artefaktu wdrożeniowego.
+Wariant monolityczny został zaimplementowany jako pojedyncza aplikacja uruchamiana w jednym procesie. W tej wersji obsługa żądania HTTP, ekstrakcja cech, wyszukiwanie podobieństwa oraz pobieranie metadanych realizowane są w obrębie jednego artefaktu wdrożeniowego.
 
-W implementacji monolitycznej, aplikacja udostępnia punkt końcowy \texttt{/images/search}, a podczas uruchamiania ładuje obrazy, indeks cech oraz metadane do struktur pamięciowych. Przepływ wykonania obejmuje kolejno: odczyt parametrów wejściowych, wybór obrazu referencyjnego, ekstrakcję cech, porównanie z indeksem oraz mapowanie wyników do odpowiedzi zwracanej klientowi. Taki model działania został zastosowany w każdej z implementacji.
+Aplikacja udostępnia punkt końcowy \texttt{/images/search}, a podczas uruchamiania ładuje obrazy, indeks cech oraz metadane do struktur pamięciowych. Przepływ wykonania obejmuje odczyt parametrów wejściowych, wybór obrazu referencyjnego, ekstrakcję cech, porównanie z indeksem oraz mapowanie wyników do odpowiedzi zwracanej klientowi.
 
-Takie podejście upraszcza strukturę systemu. Komunikacja pomiędzy poszczególnymi częściami logiki odbywa się przez lokalne wywołania funkcji lub metod, bez konieczności użycia protokołów sieciowych. Oznacza to niższy narzut komunikacyjny, prostszy model wdrożenia oraz mniejszą liczbę komponentów operacyjnych. Z drugiej strony cały system stanowi jeden artefakt, który w przypadku skalowania poziomego musi być replikowany jako całość.
+Takie podejście upraszcza strukturę systemu i ogranicza narzut komunikacyjny, ponieważ współpraca pomiędzy poszczególnymi elementami logiki odbywa się przez lokalne wywołania funkcji lub metod. Oznacza to prostszy model wdrożenia oraz mniejszą liczbę komponentów operacyjnych. Z drugiej strony cały system stanowi jeden artefakt, który w przypadku skalowania poziomego musi być replikowany jako całość.
 
 Sekwencję realizacji żądania w tym wariancie pokazano na rysunku~\ref{fig:seq-monolith}. Diagram ten przedstawia klienta komunikującego się z pojedynczą aplikacją HTTP, w której kolejne operacje \textit{extractFeatures}, \textit{findSimilar} oraz \textit{getMetadata} wykonywane są lokalnie, bez dodatkowych wywołań sieciowych pomiędzy osobnymi usługami.
 
@@ -163,11 +162,11 @@ Podczas uruchamiania aplikacji dane te są ładowane do pamięci operacyjnej. Ta
 
 \section{Automatyzacja budowy, wdrożenia i konfiguracji}
 
-Jednym z warunków wiarygodności eksperymentu była pełna lub możliwie szeroka automatyzacja procesu przygotowania środowiska. W badaniu wykorzystano zestaw narzędzi umożliwiających opis infrastruktury jako kodu, budowanie obrazów kontenerowych, wdrażanie aplikacji do chmury oraz uruchamianie kolejnych serii testów bez konieczności ręcznej rekonfiguracji środowiska.
+Jednym z warunków wiarygodności eksperymentu była automatyzacja przygotowania środowiska. W badaniu wykorzystano narzędzia umożliwiające opis infrastruktury jako kodu - IaaS, budowanie obrazów kontenerowych, wdrażanie aplikacji do chmury oraz uruchamianie kolejnych serii testów bez ręcznej rekonfiguracji środowiska.
 
 \subsection{Konteneryzacja aplikacji}
 
-Wszystkie badane implementacje zostały przygotowane w postaci obrazów kontenerowych. Konteneryzacja oznacza pakowanie kodu aplikacji wraz z niezbędnymi bibliotekami i zależnościami w odizolowaną jednostkę uruchomieniową, którą można przenosić pomiędzy środowiskami infrastrukturalnymi. Proces ten bywa również opisywany jako forma wirtualizacji na poziomie systemu operacyjnego~\cite{main_konteneryzacja}. Konteneryzacja miała kluczowe znaczenie z metodologicznego punktu widzenia, ponieważ pozwalała uruchamiać implementacje w różnych językach programowania w spójny sposób, niezależnie od tego, czy były to aplikacje Java, JavaScript czy Python.
+Wszystkie badane implementacje zostały przygotowane w postaci obrazów kontenerowych. Konteneryzacja oznacza pakowanie kodu aplikacji wraz z bibliotekami i zależnościami w odizolowaną jednostkę uruchomieniową, którą można przenosić pomiędzy środowiskami infrastrukturalnymi~\cite{main_konteneryzacja}. W badaniu miało to istotne znaczenie, ponieważ pozwalało uruchamiać implementacje w różnych językach programowania w spójny sposób, niezależnie od tego, czy były to aplikacje Java, JavaScript czy Python.
 
 W wariancie monolitycznym pojedynczy obraz kontenera zawierał kompletną aplikację. W wariancie mikroserwisowym przygotowano osobne obrazy dla każdej z usług. Takie podejście umożliwiało zarówno niezależne wdrażanie komponentów, jak i ich późniejsze skalowanie w poziomie.
 
@@ -229,7 +228,7 @@ Przedstawiona konfiguracja pokazuje deklaratywne utworzenie sieci VPC bez automa
 
 \subsection{GitHub Actions}
 
-Automatyzacja procesu budowy i wdrażania została dodana poprzez GitHub Actions~\cite{githubactionsdocs}. Workflow czyli pliki zawierające kroki egzekucji skryptów, przygotowane w repozytorium umożliwiały między innymi budowanie obrazów kontenerowych, inicjalizację lub aktualizację środowiska chmurowego, uruchamianie testów oraz usuwanie zasobów po zakończeniu pomiarów. W praktyce oznaczało to, że większość procesu eksperymentalnego mogła być uruchamiana w sposób kontrolowany i powtarzalny bez ręcznej ingerencji w konfigurację chmury.
+Automatyzację procesu budowy i wdrażania zrealizowano z wykorzystaniem GitHub Actions~\cite{githubactionsdocs}. Workflow przygotowane w repozytorium umożliwiały m.in. budowanie obrazów kontenerowych, inicjalizację lub aktualizację środowiska chmurowego, uruchamianie testów oraz usuwanie zasobów po zakończeniu pomiarów.
 
 Przykładowy fragment workflow odpowiedzialnego za uruchomienie benchmarku dla wskazanej implementacji przedstawiono w listingu~\ref{lst:github-actions-benchmark}. Job ten uruchamiał się w środowisku \texttt{ubuntu}, a następnie za pomocą połączenia SSH inicjował skrypt benchmarkowy na zdalnej maszynie pełniącej rolę generatora obciążenia.
 
@@ -274,7 +273,7 @@ Takie podejście pozwalało na zdalne i powtarzalne inicjowanie pomiarów bez ko
 
 \subsection{Organizacja środowiska badawczego}
 
-Środowisko badawcze zostało uruchomione w infrastrukturze Google Cloud Platform~\cite{gcpcomputedocs}. Z punktu widzenia metodyki eksperymentu kluczowe znaczenie miało zachowanie możliwie porównywalnych warunków uruchomieniowych oraz wyraźne oddzielenie systemu badanego od komponentu odpowiedzialnego za generowanie obciążenia. W tym celu środowisko podzielono na dwie logiczne strefy: podsieć aplikacyjną oraz podsieć testową. W pierwszej uruchamiano badaną aplikację, natomiast w drugiej znajdowała się maszyna odpowiedzialna za generowanie ruchu z wykorzystaniem narzędzia Apache JMeter~\cite{jmeterdocs}. Taki podział pozwalał ograniczyć wpływ generatora obciążenia na zasoby testowanej aplikacji i zwiększał wiarygodność pomiarów. Jednocześnie zastosowanie infrastruktury chmurowej umożliwiało zachowanie powtarzalności wdrożeń oraz wygodne przygotowywanie kolejnych scenariuszy skalowania pionowego i poziomego. Dzięki połączeniu narzędzi Docker, Docker Swarm, Terraform oraz GitHub Actions możliwe było zautomatyzowane odtworzenie środowiska dla różnych wariantów eksperymentu.
+Środowisko badawcze zostało uruchomione w infrastrukturze Google Cloud Platform~\cite{gcpcomputedocs}. Zostało ono podzielone na dwie logiczne strefy: podsieć aplikacyjną oraz podsieć testową. W pierwszej uruchamiano badaną aplikację, natomiast w drugiej znajdowała się maszyna odpowiedzialna za generowanie ruchu z wykorzystaniem narzędzia Apache JMeter~\cite{jmeterdocs}. Taki podział pozwalał ograniczyć wpływ generatora obciążenia na zasoby testowanej aplikacji i zwiększał wiarygodność pomiarów.
 
 \subsection{Wdrożenie wariantu monolitycznego}
 

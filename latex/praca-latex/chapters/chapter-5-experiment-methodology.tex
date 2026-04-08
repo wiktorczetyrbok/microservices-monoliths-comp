@@ -1,7 +1,7 @@
 \chapter{Metodyka badań eksperymentalnych}
 \section{Strategia testowania wydajnościowego}
 
-Celem testów wydajnościowych było porównanie zachowania wszystkich badanych implementacji w warunkach kontrolowanego, stopniowo zwiększanego obciążenia. Przyjęta strategia testowania została opracowana w taki sposób, aby zapewnić możliwie wysoką porównywalność wyników pomiędzy wariantem monolitycznym i mikroserwisowym oraz pomiędzy różnymi stosami technologicznymi. W szczególności wykorzystano ten sam scenariusz żądań, te same parametry wejściowe aplikacji oraz jednolity sposób uruchamiania kolejnych serii pomiarowych.
+Celem testów wydajnościowych było porównanie zachowania wszystkich badanych implementacji w warunkach kontrolowanego, stopniowo zwiększanego obciążenia. Strategię testowania opracowano tak, aby zapewnić porównywalność wyników pomiędzy wariantem monolitycznym i mikroserwisowym oraz pomiędzy różnymi stosami technologicznymi. W tym celu wykorzystano ten sam scenariusz żądań, te same parametry wejściowe aplikacji oraz jednolity sposób uruchamiania kolejnych serii pomiarowych.
 
 Testy były wykonywane automatycznie w wielu iteracjach, dla rosnącej liczby równoległych użytkowników. Dzięki temu możliwa była obserwacja nie tylko pojedynczego punktu pracy systemu, lecz również zmiany jego zachowania wraz ze wzrostem intensywności ruchu. Takie podejście pozwala lepiej ocenić zarówno wydajność bazową, jak i granice skalowalności badanych wariantów.
 
@@ -15,7 +15,7 @@ Wyniki poszczególnych uruchomień były zapisywane oddzielnie dla każdej techn
 
 \subsection{Scenariusz testowy}
 
-Scenariusz testowy polegał na wielokrotnym wywoływaniu tego samego punktu końcowego HTTP aplikacji, wcześniej wspominanego \texttt{/images/search} ~\ref{chap:implementation}. Dla każdego żądania wykorzystywano te same parametry wejściowe w zapytaniu testowym. Pozwalało to wyeliminować wpływ zmienności danych wejściowych na wyniki i skoncentrować analizę na kosztach obliczeniowych oraz komunikacyjnych wynikających z przyjętej architektury.
+Scenariusz testowy polegał na wielokrotnym wywoływaniu tego samego punktu końcowego HTTP aplikacji, tj. \texttt{/images/search}, opisanego w rozdziale~\ref{chap:implementation}. Dla każdego żądania wykorzystywano te same parametry wejściowe w zapytaniu testowym. Pozwalało to wyeliminować wpływ zmienności danych wejściowych na wyniki i skoncentrować analizę na kosztach obliczeniowych oraz komunikacyjnych wynikających z przyjętej architektury.
 
 W przypadku badanej aplikacji żądanie kierowane było do warstwy wejściowej systemu, która inicjowała pełny przepływ przetwarzania. W monolicie oznaczało to wykonanie całej logiki w jednym procesie aplikacyjnym. W mikroserwisach identyczne żądanie uruchamiało komunikację pomiędzy usługami \textit{Gateway}, \textit{Search}, \textit{Feature}, \textit{Similarity} oraz \textit{Metadata}, przy czym klient zewnętrzny nadal komunikował się z systemem wyłącznie przez HTTP.
 
@@ -69,7 +69,7 @@ Testy skalowania wertykalnego polegały na uruchamianiu tej samej implementacji 
 
 Takie podejście pozwalało odpowiedzieć na pytanie, w jakim stopniu wzrost zasobów pojedynczej maszyny przekłada się na wzrost przepustowości. Dodatkowo umożliwiało wskazanie momentu, w którym dalsze zwiększanie zasobów przestawało dawać proporcjonalne korzyści wydajnościowe.
 
-Dla zachowania rzetelności wyników każdą serię testów wykonywano wielokrotnie. Ograniczało to wpływ chwilowych anomalii po stronie chmury, zakłóceń sieciowych lub krótkotrwałych wahań wydajności środowiska uruchomieniowego.
+Dla zachowania rzetelności wyników każdą serię testów wykonywano wielokrotnie. Ograniczało to wpływ chwilowych anomalii środowiskowych, gwałtownych skoków oraz spadków badanych metryk i zwiększało wiarygodność wyników.
 
 \section{Procedura testów skalowania horyzontalnego}
 
@@ -83,6 +83,6 @@ W przypadku tego eksperymentu uwagę trzeba zwrócić na horyzontalne skalowanie
 
 Surowe dane z testów zostały następnie poddane przetwarzaniu automatycznemu. Celem tego etapu było wyodrębnienie z danych generowanych przez JMeter takich miar, które najlepiej opisują zachowanie systemu pod obciążeniem i umożliwiają porównanie pomiędzy wariantami. W analizie uwzględniono zarówno miary centralne, jak i odporne na obserwacje skrajne.
 
-Podstawową miarą wydajności była przepustowość, rozumiana jako liczba poprawnie obsłużonych żądań na sekundę. Miara ta pozwalała określić maksymalną zdolność systemu do przetwarzania ruchu w danej konfiguracji. Drugą kluczową miarą była latencja, pokazująca średni czas odpowiedzi aplikacji od rozpoczynającego zapytania użytkownika.
+Podstawową miarą wydajności była przepustowość, rozumiana jako liczba poprawnie obsłużonych żądań na sekundę. Miara ta pozwalała określić maksymalną zdolność systemu do przetwarzania ruchu w danej konfiguracji. Drugą kluczową miarą była latencja, opisująca czas upływający od wysłania żądania do rozpoczęcia odpowiedzi systemu.
 
-W celu ograniczenia wpływu fazy rozgrzewania środowiska na końcowe wyniki uwzględniano etap stabilizacji. Pozwalało to zmniejszyć znaczenie zjawisk takich jak cold start procesu, czyli powolniejsza praca aplikacji na samym początku jej cyklu życia. Wpływają na to inicjalne ładowanie danych do pamięci lub rozgrzewanie maszyny wirtualnej języka programowania. Dodatkowo odrzucano skrajne obserwacje, które mogły wynikać z przypadkowych zaburzeń środowiska i nie odzwierciedlały typowego zachowania badanego systemu. Tak przygotowane dane stanowiły podstawę do budowy wykresów oraz tabel porównawczych przedstawionych w dalszej części pracy za pomocą skyptów implementowanych w Pythonie.
+W celu ograniczenia wpływu fazy rozgrzewania środowiska na końcowe wyniki uwzględniano etap stabilizacji. Pozwalało to zmniejszyć znaczenie zjawisk takich jak cold start procesu, czyli powolniejsza praca aplikacji na samym początku jej cyklu życia. Wpływają na to inicjalne ładowanie danych do pamięci lub rozgrzewanie środowsika uruchomieniowego. Dodatkowo odrzucano skrajne obserwacje, które mogły wynikać z przypadkowych zaburzeń środowiska i nie odzwierciedlały typowego zachowania badanego systemu. Tak przygotowane dane stanowiły podstawę do budowy wykresów oraz tabel porównawczych przedstawionych w dalszej części pracy za pomocą skyptów implementowanych w Pythonie.
