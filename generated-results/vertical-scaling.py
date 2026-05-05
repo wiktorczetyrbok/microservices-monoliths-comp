@@ -88,10 +88,17 @@ plt.rcParams.update({
 
 for impl, impl_df in agg.groupby("implementation"):
 
+    plot_title = (
+        impl
+        .replace("-grpc-images", "")
+        .replace("-images", "")
+    )
+
     plt.figure(figsize=(9, 5))
     ax = plt.gca()
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
+
     for machine, mach_df in impl_df.groupby("machine"):
         mach_df = mach_df.sort_values("users")
 
@@ -104,7 +111,6 @@ for impl, impl_df in agg.groupby("implementation"):
             color=COLORS.get(machine)
         )
 
-        # maksimum
         idx = mach_df["throughput"].idxmax()
         x = mach_df.loc[idx, "users"]
         y = mach_df.loc[idx, "throughput"]
@@ -119,7 +125,8 @@ for impl, impl_df in agg.groupby("implementation"):
             fontsize=10,
             fontweight="bold"
         )
-    plt.title(impl, pad=20)
+
+    plt.title(plot_title, pad=20)
 
     plt.xlabel("Liczba użytkowników")
     plt.ylabel("Przepustowość [req/s]")
@@ -128,5 +135,6 @@ for impl, impl_df in agg.groupby("implementation"):
     plt.legend(title="Typ maszyny", loc="lower right")
 
     plt.tight_layout(rect=[0, 0, 1, 0.97])
-    #plt.show()
-    plt.savefig(OUT_DIR / f"{impl}_vertical_scaling.svg", format="svg")
+
+    plt.savefig(OUT_DIR / f"{impl}_vertical_scaling.pdf", format="pdf")
+    plt.close()

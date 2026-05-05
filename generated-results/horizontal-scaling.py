@@ -88,6 +88,12 @@ plt.rcParams.update({
 
 for impl, impl_df in agg.groupby("implementation"):
 
+    plot_title = (
+        impl
+        .replace("-grpc-images", "")
+        .replace("-images", "")
+    )
+
     plt.figure(figsize=(9, 5))
     ax = plt.gca()
     ax.spines['top'].set_visible(False)
@@ -105,7 +111,6 @@ for impl, impl_df in agg.groupby("implementation"):
             color=COLORS.get(instance)
         )
 
-        # zaznaczenie maksimum
         idx = inst_df["throughput"].idxmax()
         x = inst_df.loc[idx, "users"]
         y = inst_df.loc[idx, "throughput"]
@@ -120,7 +125,8 @@ for impl, impl_df in agg.groupby("implementation"):
             fontsize=10,
             fontweight="bold"
         )
-    plt.title(impl, pad=20)
+
+    plt.title(plot_title, pad=20)
     plt.xlabel("Liczba użytkowników")
     plt.ylabel("Przepustowość [req/s]")
     plt.ylim(bottom=0)
@@ -128,5 +134,6 @@ for impl, impl_df in agg.groupby("implementation"):
     plt.legend(title="Instancje", loc="lower right")
 
     plt.tight_layout(rect=[0, 0, 1, 0.97])
-    #plt.show()
-    plt.savefig(OUT_DIR / f"{impl}_horizontal_scaling.svg", format="svg")
+
+    plt.savefig(OUT_DIR / f"{impl}_horizontal_scaling.pdf", format="pdf")
+    plt.close()
