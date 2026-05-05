@@ -1,1 +1,154 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" data-diagram-type="DESCRIPTION" preserveAspectRatio="none" version="1.1" viewBox="0 0 510 820" zoomAndPan="magnify"><title>Deployment diagram - Benchmark environment (Monolith)</title><defs><filter height="300%" id="fv20y641fcvtf" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4" dy="4" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><g class="title" data-source-line="1"><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="462.2871" x="17.1507" y="22.9951">Deployment diagram - Benchmark environment (Monolith)</text></g><!--cluster Google Cloud Platform--><g class="cluster" data-entity="Google Cloud Platform" data-source-line="23" data-uid="ent0002" id="cluster_Google Cloud Platform"><path d="M48.2128,70.077 C65.4717,46.9435 84.4816,48.6272 96.2782,75.3437 C109.4082,48.756 134.9698,49.141 152.4153,70.2662 C167.914,45.4246 188.6145,49.3436 200.084,74.1359 C214.1433,49.2274 234.4501,43.2969 252.7261,69.82 C269.8722,49.3235 289.4504,45.9249 304.7921,71.8441 C324.6438,50.6194 340.7732,48.02 357.1363,75.5867 C368.1688,50.5676 390.2292,52.7416 403.7941,72.9757 C422.9583,51.6347 443.54,49.8646 459.3886,76.7943 C460.7851,76.0175 462.0499,76.5839 461.8968,78.3331 C487.8678,91.2101 488.6147,113.8559 463.9369,128.7811 C492.8443,142.8893 490.1214,168.2951 463.3152,181.7493 C484.3985,194.8402 488.979,210.483 467.6242,227.5653 C492.8915,241.0587 487.5282,262.6695 467.5899,276.131 C498.2143,288.018 496.5014,312.6802 473.289,330.2379 C494.8399,342.7996 500.1339,365.0301 476.7859,380.7031 C495.2967,392.8285 492.6118,411.8351 474.9455,422.3622 C503.5885,438.4177 503.2624,466.2212 471.8945,479.0467 C491.0373,492.9471 493.4641,512.115 468.721,522.8349 C492.332,541.9902 495.875,562.544 465.6749,578.7687 C490.1113,592.3457 486.5373,610.5286 465.3482,623.7745 C486.5062,636.0435 491.9,653.6045 469.5895,669.8728 C496.7672,690.0069 492.7119,708.3898 468.1631,727.2376 C484.9247,749.8491 481.2082,767.3021 452.3886,774.7943 C455.462,771.8722 458.0888,772.7995 458.8592,776.9126 C445.648,801.0114 426.4589,803.4648 406.8811,784.6184 C388.2097,808.0374 368.3281,813.3169 351.8224,782.4229 C340.4354,802.1124 318.8392,803.844 305.7713,784.401 C290.2423,806.8335 265.3936,811.5976 250.0053,784.2434 C237.2474,807.4612 214.4017,808.5724 200.5708,785.3866 C184.3088,811.4342 161.5232,806.6072 148.6829,781.8894 C135.6293,809.9885 109.116,805.9926 95.3595,782.6176 C68.0106,805.6752 47.5417,803.1269 34.3886,767.7943 C39.2756,766.4631 41.0505,768.5441 40.7422,773.2563 C13.5908,760.019 17.7663,736.6775 39.9287,722.6475 C16.0475,710.6277 15.6461,689.3445 37.5769,675.0604 C15.2136,663.2046 11.8217,640.2061 32.9421,624.3741 C6,609.5014 13.0684,584.3351 36.3153,572.7412 C14.1313,560.4492 19.5677,539.1418 39.0915,529.5294 C16.5701,515.8865 18.4719,493.7824 39.235,480.2657 C7.7793,461.7151 11.6457,444.5242 37.0691,423.7921 C16.1839,412.6616 11.998,392.8121 35.4435,380.0347 C11.7461,363.4884 9.9995,341.0515 38.8252,327.913 C18.1743,314.0424 18.7416,295.9385 37.6569,281.0808 C12.3519,265.8801 15.6618,241.1123 41.1591,229.351 C14.6887,214.2164 15.0145,198.7942 37.0671,179.6635 C16.7797,162.3716 20.6413,146.62 42.768,134.7064 C11.4778,113.8656 8.5939,91.997 41.3886,69.7943 C43.7003,66.4954 46.1582,67.1694 48.2128,70.077" fill="none" filter="url(#fv20y641fcvtf)" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="177.8711" x="157.953" y="87.7894">Google Cloud Platform</text></g><!--cluster VPC Network\n(terraform: google_compute_network)--><g class="cluster" data-entity="VPC Network.n.terraform. google_compute_network." data-source-line="25" data-uid="ent0003" id="cluster_VPC Network.n.terraform. google_compute_network."><rect fill="#FFFFFF" filter="url(#fv20y641fcvtf)" height="654" rx="6" ry="6" style="stroke:#90A4AE;stroke-width:1;" width="393" x="50.3886" y="104.7943"/><path d="M361.4774,104.7943 L361.4774,130.3881 L351.4774,140.3881 L50.3886,140.3881" fill="none" style="stroke:#90A4AE;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="102.915" x="152.4755" y="118.7894">VPC Network</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="301.0889" x="53.3886" y="135.0863">(terraform: google_compute_network)</text></g><!--cluster Application Subnet\n(terraform: google_compute_subnetwork)--><g class="cluster" data-entity="Application Subnet.n.terraform. google_compute_subnetwork." data-source-line="27" data-uid="ent0004" id="cluster_Application Subnet.n.terraform. google_compute_subnetwork."><rect fill="#FFFFFF" filter="url(#fv20y641fcvtf)" height="306" rx="6" ry="6" style="stroke:#90A4AE;stroke-width:1;" width="345" x="74.3886" y="428.7943"/><path d="M413.7987,428.7943 L413.7987,454.3881 L403.7987,464.3881 L74.3886,464.3881" fill="none" style="stroke:#90A4AE;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="150.3975" x="166.8949" y="442.7894">Application Subnet</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="329.4102" x="77.3886" y="459.0863">(terraform: google_compute_subnetwork)</text></g><!--cluster App VM\n(google_compute_instance)--><g class="cluster" data-entity="App VM.n.google_compute_instance." data-source-line="29" data-uid="ent0005" id="cluster_App VM.n.google_compute_instance."><polygon fill="#F5F7FA" filter="url(#fv20y641fcvtf)" points="100.3886,497.7943,110.3886,487.7943,392.3886,487.7943,392.3886,700.7943,382.3886,710.7943,100.3886,710.7943,100.3886,497.7943" style="stroke:#37474F;stroke-width:1;"/><line style="stroke:#37474F;stroke-width:1;" x1="382.3886" x2="392.3886" y1="497.7943" y2="487.7943"/><line style="stroke:#37474F;stroke-width:1;" x1="100.3886" x2="382.3886" y1="497.7943" y2="497.7943"/><line style="stroke:#37474F;stroke-width:1;" x1="382.3886" x2="382.3886" y1="497.7943" y2="710.7943"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="60.5186" x="212.1293" y="513.7894">App VM</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="216.0498" x="134.3637" y="530.0863">(google_compute_instance)</text></g><!--cluster Docker Runtime--><g class="cluster" data-entity="Docker Runtime" data-source-line="31" data-uid="ent0006" id="cluster_Docker Runtime"><polygon fill="#E1F5FE" filter="url(#fv20y641fcvtf)" points="143.3886,561.7943,153.3886,551.7943,349.3886,551.7943,349.3886,676.7943,339.3886,686.7943,143.3886,686.7943,143.3886,561.7943" style="stroke:#37474F;stroke-width:1;"/><line style="stroke:#37474F;stroke-width:1;" x1="339.3886" x2="349.3886" y1="561.7943" y2="551.7943"/><line style="stroke:#37474F;stroke-width:1;" x1="143.3886" x2="339.3886" y1="561.7943" y2="561.7943"/><line style="stroke:#37474F;stroke-width:1;" x1="339.3886" x2="339.3886" y1="561.7943" y2="686.7943"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="126.4102" x="179.1835" y="577.7894">Docker Runtime</text></g><!--cluster Load Testing Subnet\n(terraform: google_compute_subnetwork)--><g class="cluster" data-entity="Load Testing Subnet.n.terraform. google_compute_subnetwork." data-source-line="38" data-uid="ent0008" id="cluster_Load Testing Subnet.n.terraform. google_compute_subnetwork."><rect fill="#FFFFFF" filter="url(#fv20y641fcvtf)" height="201" rx="6" ry="6" style="stroke:#90A4AE;stroke-width:1;" width="345" x="74.3886" y="163.7943"/><path d="M413.7987,163.7943 L413.7987,189.3881 L403.7987,199.3881 L74.3886,199.3881" fill="none" style="stroke:#90A4AE;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="162.8389" x="160.6742" y="177.7894">Load Testing Subnet</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="329.4102" x="77.3886" y="194.0863">(terraform: google_compute_subnetwork)</text></g><!--cluster Load Generator VM\n(google_compute_instance)--><g class="cluster" data-entity="Load Generator VM.n.google_compute_instance." data-source-line="40" data-uid="ent0009" id="cluster_Load Generator VM.n.google_compute_instance."><polygon fill="#F5F7FA" filter="url(#fv20y641fcvtf)" points="101.3886,232.7943,111.3886,222.7943,393.3886,222.7943,393.3886,330.7943,383.3886,340.7943,101.3886,340.7943,101.3886,232.7943" style="stroke:#37474F;stroke-width:1;"/><line style="stroke:#37474F;stroke-width:1;" x1="383.3886" x2="393.3886" y1="232.7943" y2="222.7943"/><line style="stroke:#37474F;stroke-width:1;" x1="101.3886" x2="383.3886" y1="232.7943" y2="232.7943"/><line style="stroke:#37474F;stroke-width:1;" x1="383.3886" x2="383.3886" y1="232.7943" y2="340.7943"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="152.5371" x="167.12" y="248.7894">Load Generator VM</text><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="216.0498" x="135.3637" y="265.0863">(google_compute_instance)</text></g><!--entity App--><g class="entity" data-entity="App" data-source-line="33" data-uid="ent0007" id="entity_App"><rect fill="#E3F2FD" filter="url(#fv20y641fcvtf)" height="78.8906" rx="6" ry="6" style="stroke:#1E88E5;stroke-width:0.5;" width="173.3076" x="159.8886" y="591.7943"/><rect fill="#E3F2FD" height="10" style="stroke:#1E88E5;stroke-width:0.5;" width="15" x="313.1962" y="596.7943"/><rect fill="#E3F2FD" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="311.1962" y="598.7943"/><rect fill="#E3F2FD" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="311.1962" y="602.7943"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120.1074" x="174.8886" y="624.7894">Monolithic Image</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="131.0791" x="174.8886" y="641.0863">Search Application</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133.3076" x="174.8886" y="657.3832">(Docker Container)</text></g><!--entity JMeter--><g class="entity" data-entity="JMeter" data-source-line="42" data-uid="ent0010" id="entity_JMeter"><rect fill="#C8E6C9" filter="url(#fv20y641fcvtf)" height="46.2969" rx="6" ry="6" style="stroke:#1E88E5;stroke-width:0.5;" width="141.3564" x="175.8886" y="278.7943"/><rect fill="#C8E6C9" height="10" style="stroke:#1E88E5;stroke-width:0.5;" width="15" x="297.245" y="283.7943"/><rect fill="#C8E6C9" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="295.245" y="285.7943"/><rect fill="#C8E6C9" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="295.245" y="289.7943"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101.3564" x="190.8886" y="311.7894">Apache JMeter</text></g><!--link JMeter to App--><g class="link" data-entity-1="JMeter" data-entity-2="App" data-source-line="48" data-uid="lnk11" id="link_JMeter_App"><path d="M246.3886,325.0443 C246.3886,379.9743 246.3886,516.5143 246.3886,585.6143" fill="none" id="JMeter-to-App" style="stroke:#181818;stroke-width:1;"/><polygon fill="#181818" points="246.3886,591.6143,250.3886,582.6143,246.3886,586.6143,242.3886,582.6143,246.3886,591.6143" style="stroke:#181818;stroke-width:1;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33.4966" x="262.5722" y="393.8612">HTTP</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63.8638" x="247.3886" y="408.994">port 5000</text></g><!--SRC=[fP9DQzj048Rl_XM3SaaE1ZknQoU7WY9BQKjTJ6roCeJDQYqjacR4QXKJYlzxPcKdh4LR2XNeSzxtqNnPRKi52rMNz5efj91gaHbHmH3k5Sgy4gO0XI_Q47RnooKXbThcLuD1KsYiXLCtBzb2SxpHX6lxoiYTA1lbAPw5B393BQOHbMHWdslhnvjSfBJNc84rhH_eF98CAWFZQ_-dIAc2NmE0-nxx8facioHq4JAfCgUlDxF9R98C3Zv3KbKJki9-2uflakjaqGUDu_aydfw3TdpvKpRTqOVSZi9963k8BAbD8NWWohXnKVUsAeNTaQa2HhBpI0yULn7yK7PFfjZYfLN622UwWwppFhbgMgkUyAYvEha__65TbreAorE2TVlCihzYcavoJe9ZsnqA7fTixtaqDbQWLBxZtRCWMV0KVxPeULa2Rk-O9nNxGl0c4holcfRmjHAPsk9Q2IDpyEhW34xOYD0ApMl2lnQDqtnG3mF_VZZhoNSIAMnKOztk_MTJEjQ3uXo4vHd_Ut-yeiDQo5p1jwNY7BfAZezm4StZJz5jhnHtSa4dpN3usHKET_1birbjiIPZOJeQZTu0]--></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css"
+     data-diagram-type="DESCRIPTION" preserveAspectRatio="none" version="1.1" viewBox="0 0 510 820"
+     zoomAndPan="magnify">
+    <title>Deployment diagram - Benchmark environment (Monolith)</title>
+    <defs>
+        <filter height="300%" id="fv20y641fcvtf" width="300%" x="-1" y="-1">
+            <feGaussianBlur result="blurOut" stdDeviation="2"/>
+            <feColorMatrix in="blurOut" result="blurOut2" type="matrix"
+                           values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/>
+            <feOffset dx="4" dy="4" in="blurOut2" result="blurOut3"/>
+            <feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/>
+        </filter>
+    </defs>
+    <g>
+        <!--cluster Google Cloud Platform-->
+        <g class="cluster" data-entity="Google Cloud Platform" data-source-line="23" data-uid="ent0002"
+           id="cluster_Google Cloud Platform">
+            <path d="M48.2128,70.077 C65.4717,46.9435 84.4816,48.6272 96.2782,75.3437 C109.4082,48.756 134.9698,49.141 152.4153,70.2662 C167.914,45.4246 188.6145,49.3436 200.084,74.1359 C214.1433,49.2274 234.4501,43.2969 252.7261,69.82 C269.8722,49.3235 289.4504,45.9249 304.7921,71.8441 C324.6438,50.6194 340.7732,48.02 357.1363,75.5867 C368.1688,50.5676 390.2292,52.7416 403.7941,72.9757 C422.9583,51.6347 443.54,49.8646 459.3886,76.7943 C460.7851,76.0175 462.0499,76.5839 461.8968,78.3331 C487.8678,91.2101 488.6147,113.8559 463.9369,128.7811 C492.8443,142.8893 490.1214,168.2951 463.3152,181.7493 C484.3985,194.8402 488.979,210.483 467.6242,227.5653 C492.8915,241.0587 487.5282,262.6695 467.5899,276.131 C498.2143,288.018 496.5014,312.6802 473.289,330.2379 C494.8399,342.7996 500.1339,365.0301 476.7859,380.7031 C495.2967,392.8285 492.6118,411.8351 474.9455,422.3622 C503.5885,438.4177 503.2624,466.2212 471.8945,479.0467 C491.0373,492.9471 493.4641,512.115 468.721,522.8349 C492.332,541.9902 495.875,562.544 465.6749,578.7687 C490.1113,592.3457 486.5373,610.5286 465.3482,623.7745 C486.5062,636.0435 491.9,653.6045 469.5895,669.8728 C496.7672,690.0069 492.7119,708.3898 468.1631,727.2376 C484.9247,749.8491 481.2082,767.3021 452.3886,774.7943 C455.462,771.8722 458.0888,772.7995 458.8592,776.9126 C445.648,801.0114 426.4589,803.4648 406.8811,784.6184 C388.2097,808.0374 368.3281,813.3169 351.8224,782.4229 C340.4354,802.1124 318.8392,803.844 305.7713,784.401 C290.2423,806.8335 265.3936,811.5976 250.0053,784.2434 C237.2474,807.4612 214.4017,808.5724 200.5708,785.3866 C184.3088,811.4342 161.5232,806.6072 148.6829,781.8894 C135.6293,809.9885 109.116,805.9926 95.3595,782.6176 C68.0106,805.6752 47.5417,803.1269 34.3886,767.7943 C39.2756,766.4631 41.0505,768.5441 40.7422,773.2563 C13.5908,760.019 17.7663,736.6775 39.9287,722.6475 C16.0475,710.6277 15.6461,689.3445 37.5769,675.0604 C15.2136,663.2046 11.8217,640.2061 32.9421,624.3741 C6,609.5014 13.0684,584.3351 36.3153,572.7412 C14.1313,560.4492 19.5677,539.1418 39.0915,529.5294 C16.5701,515.8865 18.4719,493.7824 39.235,480.2657 C7.7793,461.7151 11.6457,444.5242 37.0691,423.7921 C16.1839,412.6616 11.998,392.8121 35.4435,380.0347 C11.7461,363.4884 9.9995,341.0515 38.8252,327.913 C18.1743,314.0424 18.7416,295.9385 37.6569,281.0808 C12.3519,265.8801 15.6618,241.1123 41.1591,229.351 C14.6887,214.2164 15.0145,198.7942 37.0671,179.6635 C16.7797,162.3716 20.6413,146.62 42.768,134.7064 C11.4778,113.8656 8.5939,91.997 41.3886,69.7943 C43.7003,66.4954 46.1582,67.1694 48.2128,70.077"
+                  fill="none" filter="url(#fv20y641fcvtf)" style="stroke:#181818;stroke-width:1;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="177.8711" x="157.953" y="87.7894">Google Cloud Platform
+            </text>
+        </g><!--cluster VPC Network\n(terraform: google_compute_network)-->
+        <g class="cluster" data-entity="VPC Network.n.terraform. google_compute_network." data-source-line="25"
+           data-uid="ent0003" id="cluster_VPC Network.n.terraform. google_compute_network.">
+            <rect fill="#FFFFFF" filter="url(#fv20y641fcvtf)" height="654" rx="6" ry="6"
+                  style="stroke:#90A4AE;stroke-width:1;" width="393" x="50.3886" y="104.7943"/>
+            <path d="M361.4774,104.7943 L361.4774,130.3881 L351.4774,140.3881 L50.3886,140.3881" fill="none"
+                  style="stroke:#90A4AE;stroke-width:1;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="102.915" x="152.4755" y="118.7894">VPC Network
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="301.0889" x="53.3886" y="135.0863">(terraform: google_compute_network)
+            </text>
+        </g><!--cluster Application Subnet\n(terraform: google_compute_subnetwork)-->
+        <g class="cluster" data-entity="Application Subnet.n.terraform. google_compute_subnetwork."
+           data-source-line="27" data-uid="ent0004"
+           id="cluster_Application Subnet.n.terraform. google_compute_subnetwork.">
+            <rect fill="#FFFFFF" filter="url(#fv20y641fcvtf)" height="306" rx="6" ry="6"
+                  style="stroke:#90A4AE;stroke-width:1;" width="345" x="74.3886" y="428.7943"/>
+            <path d="M413.7987,428.7943 L413.7987,454.3881 L403.7987,464.3881 L74.3886,464.3881" fill="none"
+                  style="stroke:#90A4AE;stroke-width:1;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="150.3975" x="166.8949" y="442.7894">Application Subnet
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="329.4102" x="77.3886" y="459.0863">(terraform: google_compute_subnetwork)
+            </text>
+        </g><!--cluster App VM\n(google_compute_instance)-->
+        <g class="cluster" data-entity="App VM.n.google_compute_instance." data-source-line="29" data-uid="ent0005"
+           id="cluster_App VM.n.google_compute_instance.">
+            <polygon fill="#F5F7FA" filter="url(#fv20y641fcvtf)"
+                     points="100.3886,497.7943,110.3886,487.7943,392.3886,487.7943,392.3886,700.7943,382.3886,710.7943,100.3886,710.7943,100.3886,497.7943"
+                     style="stroke:#37474F;stroke-width:1;"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="382.3886" x2="392.3886" y1="497.7943" y2="487.7943"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="100.3886" x2="382.3886" y1="497.7943" y2="497.7943"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="382.3886" x2="382.3886" y1="497.7943" y2="710.7943"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="60.5186" x="212.1293" y="513.7894">App VM
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="216.0498" x="134.3637" y="530.0863">(google_compute_instance)
+            </text>
+        </g><!--cluster Docker Runtime-->
+        <g class="cluster" data-entity="Docker Runtime" data-source-line="31" data-uid="ent0006"
+           id="cluster_Docker Runtime">
+            <polygon fill="#E1F5FE" filter="url(#fv20y641fcvtf)"
+                     points="143.3886,561.7943,153.3886,551.7943,349.3886,551.7943,349.3886,676.7943,339.3886,686.7943,143.3886,686.7943,143.3886,561.7943"
+                     style="stroke:#37474F;stroke-width:1;"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="339.3886" x2="349.3886" y1="561.7943" y2="551.7943"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="143.3886" x2="339.3886" y1="561.7943" y2="561.7943"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="339.3886" x2="339.3886" y1="561.7943" y2="686.7943"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="126.4102" x="179.1835" y="577.7894">Docker Runtime
+            </text>
+        </g><!--cluster Load Testing Subnet\n(terraform: google_compute_subnetwork)-->
+        <g class="cluster" data-entity="Load Testing Subnet.n.terraform. google_compute_subnetwork."
+           data-source-line="38" data-uid="ent0008"
+           id="cluster_Load Testing Subnet.n.terraform. google_compute_subnetwork.">
+            <rect fill="#FFFFFF" filter="url(#fv20y641fcvtf)" height="201" rx="6" ry="6"
+                  style="stroke:#90A4AE;stroke-width:1;" width="345" x="74.3886" y="163.7943"/>
+            <path d="M413.7987,163.7943 L413.7987,189.3881 L403.7987,199.3881 L74.3886,199.3881" fill="none"
+                  style="stroke:#90A4AE;stroke-width:1;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="162.8389" x="160.6742" y="177.7894">Load Testing Subnet
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="329.4102" x="77.3886" y="194.0863">(terraform: google_compute_subnetwork)
+            </text>
+        </g><!--cluster Load Generator VM\n(google_compute_instance)-->
+        <g class="cluster" data-entity="Load Generator VM.n.google_compute_instance." data-source-line="40"
+           data-uid="ent0009" id="cluster_Load Generator VM.n.google_compute_instance.">
+            <polygon fill="#F5F7FA" filter="url(#fv20y641fcvtf)"
+                     points="101.3886,232.7943,111.3886,222.7943,393.3886,222.7943,393.3886,330.7943,383.3886,340.7943,101.3886,340.7943,101.3886,232.7943"
+                     style="stroke:#37474F;stroke-width:1;"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="383.3886" x2="393.3886" y1="232.7943" y2="222.7943"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="101.3886" x2="383.3886" y1="232.7943" y2="232.7943"/>
+            <line style="stroke:#37474F;stroke-width:1;" x1="383.3886" x2="383.3886" y1="232.7943" y2="340.7943"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="152.5371" x="167.12" y="248.7894">Load Generator VM
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing"
+                  textLength="216.0498" x="135.3637" y="265.0863">(google_compute_instance)
+            </text>
+        </g><!--entity App-->
+        <g class="entity" data-entity="App" data-source-line="33" data-uid="ent0007" id="entity_App">
+            <rect fill="#E3F2FD" filter="url(#fv20y641fcvtf)" height="78.8906" rx="6" ry="6"
+                  style="stroke:#1E88E5;stroke-width:0.5;" width="173.3076" x="159.8886" y="591.7943"/>
+            <rect fill="#E3F2FD" height="10" style="stroke:#1E88E5;stroke-width:0.5;" width="15" x="313.1962"
+                  y="596.7943"/>
+            <rect fill="#E3F2FD" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="311.1962"
+                  y="598.7943"/>
+            <rect fill="#E3F2FD" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="311.1962"
+                  y="602.7943"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="120.1074"
+                  x="174.8886" y="624.7894">Monolithic Image
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="131.0791"
+                  x="174.8886" y="641.0863">Search Application
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="133.3076"
+                  x="174.8886" y="657.3832">(Docker Container)
+            </text>
+        </g><!--entity JMeter-->
+        <g class="entity" data-entity="JMeter" data-source-line="42" data-uid="ent0010" id="entity_JMeter">
+            <rect fill="#C8E6C9" filter="url(#fv20y641fcvtf)" height="46.2969" rx="6" ry="6"
+                  style="stroke:#1E88E5;stroke-width:0.5;" width="141.3564" x="175.8886" y="278.7943"/>
+            <rect fill="#C8E6C9" height="10" style="stroke:#1E88E5;stroke-width:0.5;" width="15" x="297.245"
+                  y="283.7943"/>
+            <rect fill="#C8E6C9" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="295.245"
+                  y="285.7943"/>
+            <rect fill="#C8E6C9" height="2" style="stroke:#1E88E5;stroke-width:0.5;" width="4" x="295.245"
+                  y="289.7943"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="101.3564"
+                  x="190.8886" y="311.7894">Apache JMeter
+            </text>
+        </g><!--link JMeter to App-->
+        <g class="link" data-entity-1="JMeter" data-entity-2="App" data-source-line="48" data-uid="lnk11"
+           id="link_JMeter_App">
+            <path d="M246.3886,325.0443 C246.3886,379.9743 246.3886,516.5143 246.3886,585.6143" fill="none"
+                  id="JMeter-to-App" style="stroke:#181818;stroke-width:1;"/>
+            <polygon fill="#181818"
+                     points="246.3886,591.6143,250.3886,582.6143,246.3886,586.6143,242.3886,582.6143,246.3886,591.6143"
+                     style="stroke:#181818;stroke-width:1;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="33.4966"
+                  x="262.5722" y="393.8612">HTTP
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="63.8638"
+                  x="247.3886" y="408.994">port 5000
+            </text>
+        </g><!--SRC=[fP9DQzj048Rl_XM3SaaE1ZknQoU7WY9BQKjTJ6roCeJDQYqjacR4QXKJYlzxPcKdh4LR2XNeSzxtqNnPRKi52rMNz5efj91gaHbHmH3k5Sgy4gO0XI_Q47RnooKXbThcLuD1KsYiXLCtBzb2SxpHX6lxoiYTA1lbAPw5B393BQOHbMHWdslhnvjSfBJNc84rhH_eF98CAWFZQ_-dIAc2NmE0-nxx8facioHq4JAfCgUlDxF9R98C3Zv3KbKJki9-2uflakjaqGUDu_aydfw3TdpvKpRTqOVSZi9963k8BAbD8NWWohXnKVUsAeNTaQa2HhBpI0yULn7yK7PFfjZYfLN622UwWwppFhbgMgkUyAYvEha__65TbreAorE2TVlCihzYcavoJe9ZsnqA7fTixtaqDbQWLBxZtRCWMV0KVxPeULa2Rk-O9nNxGl0c4holcfRmjHAPsk9Q2IDpyEhW34xOYD0ApMl2lnQDqtnG3mF_VZZhoNSIAMnKOztk_MTJEjQ3uXo4vHd_Ut-yeiDQo5p1jwNY7BfAZezm4StZJz5jhnHtSa4dpN3usHKET_1birbjiIPZOJeQZTu0]-->
+    </g>
+</svg>
