@@ -1,4 +1,5 @@
 \chapter{Metodyka badań eksperymentalnych}
+\label{chapter:experiment_methodology}
 \section{Strategia testowania wydajnościowego}
 
 Celem testów wydajnościowych było porównanie zachowania wszystkich badanych implementacji w warunkach kontrolowanego, stopniowo zwiększanego obciążenia. Strategię testowania opracowano tak, aby zapewnić porównywalność wyników pomiędzy wariantem monolitycznym i mikroserwisowym oraz pomiędzy różnymi stosami technologicznymi. W tym celu wykorzystano ten sam scenariusz żądań, te same parametry wejściowe aplikacji oraz jednolity sposób uruchamiania kolejnych serii pomiarowych.
@@ -23,9 +24,9 @@ Każda seria testowa była wykonywana w trzech iteracjach. W ramach pojedynczej 
 
 \subsection{Zakres pomiaru}
 
-W eksperymencie rejestrowano metryki takie jak czas odpowiedzi, latencja, przepustowość, status code, timestamp zapytania. Czas odpowiedzi i latencja pozwalają ocenić szybkość reakcji systemu z punktu widzenia klienta, natomiast przepustowość pokazuje, ile żądań system potrafi obsłużyć w jednostce czasu. Rejestracja liczby błędnych odpowiedzi była z kolei istotna dla identyfikacji punktów przeciążenia, w których system przestawał obsługiwać ruch w sposób stabilny. Łączne wykorzystanie tych metryk umożliwia bardziej wiarygodną interpretację wyników niż analiza pojedynczego wskaźnika.
+W eksperymencie rejestrowano metryki takie jak czas odpowiedzi, latencja, przepustowość. Czas odpowiedzi i latencja pozwalają ocenić szybkość reakcji systemu z punktu widzenia klienta, natomiast przepustowość pokazuje, ile żądań system potrafi obsłużyć w jednostce czasu. Łączne wykorzystanie tych metryk umożliwia bardziej wiarygodną interpretację wyników niż analiza pojedynczego wskaźnika.
 
-Dodatkowo istotne było obserwowanie, przy jakim poziomie obciążenia zaczynają pojawiać się oznaki degradacji działania systemu, takie jak wyraźny wzrost czasu odpowiedzi, spadek przepustowości lub zwiększona liczba błędów. W kontekście porównania architektury monolitycznej i mikroserwisowej właśnie ten moment ma szczególne znaczenie, ponieważ pozwala ocenić praktyczne granice skalowalności obu podejść w tych samych warunkach eksperymentalnych.
+Dodatkowo istotne było obserwowanie, przy jakim poziomie obciążenia zaczynają pojawiać się oznaki degradacji działania systemu, takie jak wyraźny wzrost czasu odpowiedzi, spadek przepustowości. W kontekście porównania architektury monolitycznej i mikroserwisowej właśnie ten moment ma szczególne znaczenie, ponieważ pozwala ocenić praktyczne granice skalowalności obu podejść w tych samych warunkach eksperymentalnych.
 
 \section{Konfiguracje maszyn i warianty eksperymentu}
 
@@ -79,9 +80,7 @@ W przypadku architektury mikroserwisowej taka procedura odzwierciedla klasyczny 
 
 W przypadku tego eksperymentu uwagę trzeba zwrócić na horyzontalne skalowanie monolitu. W klasycznych systemach monolitycznych jest ono często mniej naturalne niż w mikroserwisach, jednak w badanej aplikacji było możliwe. Wynikało to z faktu, że aplikacja operowała na danych ładowanych do pamięci i nie wymagała synchronizacji stanu zapisywanego do zewnętrznej bazy transakcyjnej. Dzięki temu możliwe było uruchomienie wielu replik monolitu i rozdzielanie ruchu pomiędzy nimi bez konieczności rozwiązywania problemów związanych z rozproszonym zapisem danych. Było to bardzo ważne, ponieważ umożliwiło zestawienie skalowania pionowego i poziomego również dla wariantu monolitycznego, a nie wyłącznie dla mikroserwisów.
 
-\section{Przetwarzanie i analiza danych}
-
-Surowe dane z testów zostały następnie poddane przetwarzaniu automatycznemu. Celem tego etapu było wyodrębnienie z danych generowanych przez JMeter takich miar, które najlepiej opisują zachowanie systemu pod obciążeniem i umożliwiają porównanie pomiędzy wariantami. W analizie uwzględniono zarówno miary centralne, jak i odporne na obserwacje skrajne.
+Surowe dane z testów zostały następnie poddane przetwarzaniu. Celem tego etapu było wyodrębnienie z danych generowanych przez JMeter takich miar, które najlepiej opisują zachowanie systemu pod obciążeniem i umożliwiają porównanie pomiędzy wariantami. W analizie uwzględniono zarówno miary centralne, jak i odporne na obserwacje skrajne.
 
 Podstawową miarą wydajności była przepustowość, rozumiana jako liczba poprawnie obsłużonych żądań na sekundę. Miara ta pozwalała określić maksymalną zdolność systemu do przetwarzania ruchu w danej konfiguracji. Drugą kluczową miarą była latencja, opisująca czas upływający od wysłania żądania do rozpoczęcia odpowiedzi systemu.
 

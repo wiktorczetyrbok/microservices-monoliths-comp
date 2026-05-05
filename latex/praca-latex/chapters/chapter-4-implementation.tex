@@ -1,8 +1,9 @@
 \chapter{Implementacja aplikacji benchmarkowej}
-\label{chap:implementation}
+\label{chapter:implementation}
+
 Celem niniejszego rozdziału jest przedstawienie implementacji badanych wariantów systemu służącego do porównania architektury monolitycznej i mikroserwisowej w środowisku chmurowym. Szczególny nacisk położono na powtarzalność pomiarów, automatyzację przygotowania środowiska oraz rozdzielenie infrastruktury aplikacyjnej od infrastruktury generującej obciążenie.
 
-Zastosowanie środowiska chmurowego było uzasadnione dwoma względami. Po pierwsze, pozwala ono odwzorować warunki zbliżone do rzeczywistych wdrożeń nowoczesnych systemów serwerowych. Po drugie, umożliwia wygodne przeprowadzanie eksperymentów związanych zarówno ze skalowaniem wertykalnym, jak i horyzontalnym, przy zachowaniu porównywalnego sposobu uruchamiania wszystkich badanych implementacji. W opisywanym badaniu wykorzystano Google Cloud Platform~\cite{gcpcomputedocs}, a proces tworzenia i niszczenia zasobów został zautomatyzowany.
+Zastosowanie środowiska chmurowego było uzasadnione dwoma względami. Po pierwsze, pozwala ono odwzorować warunki zbliżone do rzeczywistych wdrożeń nowoczesnych systemów serwerowych. Po drugie, umożliwia wygodne przeprowadzanie eksperymentów związanych zarówno ze skalowaniem wertykalnym, jak i horyzontalnym, przy zachowaniu porównywalnego sposobu uruchamiania wszystkich badanych implementacji. W opisywanym badaniu wykorzystano Google Cloud Platform~\cite{gcpcomputedocs}, a proces tworzenia i zwalniania zasobów został zautomatyzowany.
 
 \section{Opis aplikacji oraz zaimplementowane wersje}
 
