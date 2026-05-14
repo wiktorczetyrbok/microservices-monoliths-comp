@@ -59,7 +59,7 @@ Z punktu widzenia eksperymentu istotne jest to, że wszystkie implementacje zwra
 
 \subsection{Logika przetwarzania obrazu}
 
-Proces biznesowy realizowany przez aplikację składa się z kilku kolejnych etapów. Najpierw wybierany jest obraz referencyjny, który w wariancie testowym pobierany jest z wcześniej załadowanego zbioru obrazów. Następnie z obrazu wyznaczany jest wektor cech. W przedstawionej implementacji cechy są obliczane na podstawie uproszczonego przetwarzania obrazu, obejmującego:
+Proces biznesowy realizowany przez aplikację składa się z kilku kolejnych etapów. Najpierw wybierany jest obraz referencyjny, który w wariancie testowym stanowi pierwszy obraz dostępny w załadowanym zbiorze. Pełni on rolę przykładowego wejścia dla dalszego procesu ekstrakcji cech i wyszukiwania podobnych obrazów. Następnie z obrazu wyznaczany jest wektor cech. W przedstawionej implementacji cechy są obliczane na podstawie uproszczonego przetwarzania obrazu, obejmującego:
 \begin{itemize}
     \item konwersję bufora obrazu do tablicy wartości pikseli,
     \item normalizację do skali szarości,
