@@ -95,12 +95,14 @@ Wariant mikroserwisowy został zbudowany jako system złożony z pięciu współ
 
 Architektura mikroserwisowa obejmuje następujące komponenty:
 \begin{itemize}
-    \item \textbf{Gateway} -- warstwa wejściowa udostępniająca interfejs HTTP dla klienta zewnętrznego,
-    \item \textbf{Search} -- usługa orkiestrująca proces wyszukiwania,
+    \item \textbf{Gateway} -- warstwa wejściowa udostępniająca interfejs HTTP dla klienta zewnętrznego, odpowiedzialna za translację żądania HTTP na wywołania gRPC oraz złożenie końcowej odpowiedzi API,
+    \item \textbf{Search} -- usługa koordynująca właściwą, algorytmiczną część procesu wyszukiwania obrazów podobnych,
     \item \textbf{Feature} -- usługa odpowiedzialna za ekstrakcję wektora cech z obrazu referencyjnego,
     \item \textbf{Similarity} -- usługa porównująca wektor zapytania z indeksem cech i zwracająca listę identyfikatorów obrazów spełniających próg podobieństwa,
-    \item \textbf{Metadata} -- usługa pobierająca metadane obrazów dla identyfikatorów zwróconych przez usługę \textit{Similarity}.
+    \item \textbf{Metadata} -- usługa odpowiedzialna za odczyt danych opisowych obrazów, takich jak nazwa oraz tagi, na podstawie ich identyfikatorów.
 \end{itemize}
+
+Przyjęta dekompozycja mikroserwisowa wynikała z potrzeby rozdzielenia etapów przetwarzania o różnym charakterze oraz wyraźnego odwzorowania kosztów architektury rozproszonej. Alternatywnie usługi \textit{Similarity} i \textit{Metadata} mogłyby zostać połączone w jedną usługę zwracającą od razu pełne obiekty wynikowe, jednak ograniczyłoby to separację części obliczeniowej od części odpowiedzialnej za dane opisowe. W przyjętym wariancie \textit{Similarity} operuje na wektorach cech, progu podobieństwa oraz indeksie cech, natomiast \textit{Metadata} odpowiada za odczyt danych potrzebnych do zbudowania odpowiedzi końcowej. Rola usługi \textit{Gateway} została ograniczona do obsługi granicy systemu: przyjęcia żądania HTTP, przekazania parametrów do usługi \textit{Search}, pobrania metadanych dla zwróconych identyfikatorów oraz złożenia odpowiedzi publicznego API. Właściwa logika wyszukiwania pozostaje po stronie usługi \textit{Search}, dlatego \textit{Gateway} pełni funkcję warstwy wejściowej i kompozycyjnej, a nie orkiestratora domenowego.
 
 W celu zachowania jednoznacznego kontraktu między usługami wykorzystano pliki definicji Protocol Buffers. Przykładowy kontrakt usługi \textit{Search} przedstawiono w listingu~\ref{lst:search-proto}. Definiuje on metodę \texttt{Search}, która przyjmuje dwa podstawowe parametry sterujące procesem wyszukiwania, tj. rozmiar jądra oraz próg podobieństwa, a w odpowiedzi zwraca listę identyfikatorów obrazów.
 
@@ -130,12 +132,12 @@ message SearchResponse {
 Przepływ przetwarzania w tym wariancie przebiega następująco:
 \begin{enumerate}
     \item klient wysyła żądanie HTTP do usługi \textit{Gateway},
-    \item \textit{Gateway} przekazuje żądanie do usługi \textit{Search} z wykorzystaniem gRPC,
+    \item \textit{Gateway} przekazuje parametry wyszukiwania do usługi \textit{Search} z wykorzystaniem gRPC,
     \item \textit{Search} wywołuje usługę \textit{Feature}, która oblicza wektor cech obrazu referencyjnego,
     \item \textit{Search} przekazuje otrzymany wektor do usługi \textit{Similarity},
-    \item \textit{Similarity} porównuje wektor z indeksem i zwraca listę identyfikatorów obrazów,
-    \item \textit{Search} przekazuje identyfikatory do \textit{Gateway},
-    \item \textit{Gateway} wywołuje usługę \textit{Metadata}, która pobiera metadane dla wskazanych obrazów,
+    \item \textit{Similarity} porównuje wektor z indeksem cech i zwraca listę identyfikatorów obrazów spełniających próg podobieństwa,
+    \item \textit{Search} zwraca do \textit{Gateway} wynik właściwego procesu wyszukiwania, czyli listę identyfikatorów obrazów,
+    \item \textit{Gateway} wywołuje usługę \textit{Metadata}, aby pobrać dane opisowe dla wskazanych identyfikatorów,
     \item \textit{Gateway} buduje końcową odpowiedź JSON i zwraca ją klientowi.
 \end{enumerate}
 

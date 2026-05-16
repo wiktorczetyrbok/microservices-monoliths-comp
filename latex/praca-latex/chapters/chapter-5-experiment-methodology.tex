@@ -34,7 +34,49 @@ W celu przeprowadzenia testów przygotowano kilka konfiguracji zasobów obliczen
 
 Z perspektywy metodyki eksperymentu istotne było, aby generator ruchu nie stał się wąskim gardłem pomiaru. Z tego względu maszyna uruchamiająca Apache JMeter została skonfigurowana jako relatywnie silna instancja \texttt{c4-standard-8}. Taki dobór zasobów miał zapewnić odpowiednią liczbę rdzeni procesora oraz wystarczającą ilość pamięci operacyjnej, dzięki czemu JMeter mógł generować dużą liczbę żądań bez istotnego ryzyka, że ograniczenia samego generatora wpłyną na wyniki testów. Innymi słowy, celem było takie przygotowanie środowiska, aby mierzonym ograniczeniem była przede wszystkim badana aplikacja, a nie narzędzie testowe.
 
-W praktyce oznaczało to utrzymywanie stałej, wydajnej konfiguracji maszyny testowej po stronie generatora obciążenia, podczas gdy konfiguracje instancji aplikacyjnych mogły być zmieniane w zależności od scenariusza badawczego. Takie podejście zwiększało wiarygodność wyników i ułatwiało interpretację różnic pomiędzy wariantem monolitycznym i mikroserwisowym.
+W praktyce oznaczało to utrzymywanie stałej, wydajnej konfiguracji maszyny testowej po stronie generatora obciążenia, podczas gdy konfiguracje instancji aplikacyjnych mogły być zmieniane w zależności od scenariusza badawczego. Takie podejście zwiększało wiarygodność wyników i ułatwiało interpretację różnic pomiędzy wariantem monolitycznym i mikroserwisowym. Konfiguracje maszyn wykorzystane w dwóch wariantach eksperymentu przedstawiono w tabeli~\ref{tab:machine-configurations}.
+
+\begin{table}[H]
+    \centering
+    \caption{Konfiguracje maszyn wykorzystane w eksperymentach}
+    \label{tab:machine-configurations}
+    \small
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{|l|l|l|l|c|}
+        \hline
+        \textbf{Eksperyment} &
+        \textbf{Architektura} &
+        \textbf{Technologia} &
+        \textbf{Maszyna aplikacyjna} &
+        \textbf{Liczba instancji} \\ \hline
+
+        \makecell[l]{Skalowanie\\wertykalne} &
+        \makecell[l]{Monolit,\\mikroserwisy} &
+        \makecell[l]{Java,\\JavaScript,\\Python} &
+        \makecell[l]{\texttt{c2d-standard-2}\\2 vCPU / 8 GB RAM} &
+        1 \\ \hline
+
+        \makecell[l]{Skalowanie\\wertykalne} &
+        \makecell[l]{Monolit,\\mikroserwisy} &
+        \makecell[l]{Java,\\JavaScript,\\Python} &
+        \makecell[l]{\texttt{c2d-standard-4}\\4 vCPU / 16 GB RAM} &
+        1 \\ \hline
+
+        \makecell[l]{Skalowanie\\wertykalne} &
+        \makecell[l]{Monolit,\\mikroserwisy} &
+        \makecell[l]{Java,\\JavaScript,\\Python} &
+        \makecell[l]{\texttt{c2d-standard-8}\\8 vCPU / 32 GB RAM} &
+        1 \\ \hline
+
+        \makecell[l]{Skalowanie\\horyzontalne} &
+        \makecell[l]{Monolit,\\mikroserwisy} &
+        \makecell[l]{Java,\\JavaScript,\\Python} &
+        \makecell[l]{\texttt{c2d-standard-2}\\2 vCPU / 8 GB RAM} &
+        1, 2, 4 \\ \hline
+    \end{tabular}
+\end{table}
+
+W eksperymencie skalowania wertykalnego zmienną niezależną był typ maszyny aplikacyjnej, natomiast liczba instancji pozostawała stała. W eksperymencie skalowania horyzontalnego typ maszyny aplikacyjnej był stały i wynosił \texttt{c2d-standard-2}, a zmienną niezależną była liczba pracujących instancji. Dla monolitu oznaczało to replikację całej aplikacji, natomiast dla wariantu mikroserwisowego replikację usług wchodzących w skład systemu.
 
 Przykładowy fragment konfiguracji Terraform definiującej maszynę generatora obciążenia przedstawiono w listingu~\ref{lst:terraform-load-runner}. Konfiguracja ta obejmuje zarówno definicję instancji obliczeniowej, jak i przypisanego do niej wewnętrznego adresu IP w podsieci testowej.
 
