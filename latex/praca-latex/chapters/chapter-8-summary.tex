@@ -1,5 +1,6 @@
 \chapter{Podsumowanie i wnioski}
 \label{chapter:summary}
+
 \section{Odpowiedzi na pytania badawcze}
 
 Głównym celem niniejszej pracy było udzielenie odpowiedzi na pytanie badawcze: \textit{w jaki sposób wybór pomiędzy architekturą monolityczną a architekturą opartą na mikroserwisach wpływa na wydajność, skalowalność oraz koszty utrzymania aplikacji wdrożonej w środowisku chmurowym?}
@@ -26,15 +27,15 @@ Uzyskane wyniki potwierdzają również, że narzut komunikacyjny pozostaje jedn
 
 Wyniki latencji potwierdziły obserwacje wynikające z analizy przepustowości. Rozwiązania osiągające wyższą przepustowość charakteryzowały się jednocześnie niższą i wolniej rosnącą latencją. Najkorzystniejszy profil ponownie uzyskano dla Javy, natomiast najmniej korzystny dla Pythona, szczególnie w wariancie mikroserwisowym. Oznacza to, że wpływ architektury i technologii był widoczny nie tylko w maksymalnej liczbie obsługiwanych żądań, lecz także w czasie oczekiwania użytkownika na odpowiedź.
 
-W obszarze wydajności kluczowy wniosek jest następujący, architektura mikroserwisowa nie gwarantuje automatycznej poprawy parametrów działania systemu. W badanych warunkach to architektura monolityczna okazała się rozwiązaniem korzystniejszym wydajnościowo, natomiast potencjalne przewagi mikroserwisów wynikały nie z samej szybkości działania, lecz z większej elastyczności organizacji systemu.
+W obszarze wydajności kluczowy wniosek jest następujący: architektura mikroserwisowa nie gwarantuje automatycznej poprawy parametrów działania systemu. W badanych warunkach to architektura monolityczna okazała się rozwiązaniem korzystniejszym wydajnościowo, natomiast potencjalne przewagi mikroserwisów wynikały nie z samej szybkości działania, lecz z większej elastyczności organizacji systemu.
 
 \section{Najważniejsze wnioski dotyczące skalowalności}
 
 Druga grupa wniosków odnosi się do skalowalności badanych wariantów. Wyniki pokazały, że nie istnieje jeden uniwersalnie najlepszy mechanizm zwiększania zasobów. Skuteczność skalowania zależała zarówno od architektury, jak i od języka programowania.
 
-Najlepsze rezultaty skalowania wertykalnego uzyskano dla implementacji w języku Java. Zarówno monolit, jak i mikroserwisy w tej technologii bardzo dobrze reagowały na zwiększanie parametrów pojedynczej maszyny, co potwierdza, że środowisko JVM efektywnie wykorzystuje dodatkowe rdzenie i pamięć operacyjną. W przypadku JavaScriptu sytuacja była odmienna. Skalowanie wertykalne dawało tam znacznie słabsze efekty, szczególnie w wariancie monolitycznym, co można wiązać z jednowątkowym modelem wykonania Node.js. Python także osiągał ograniczone korzyści ze skalowania pionowego, zwłaszcza w wariancie mikroserwisowym.
+Najlepsze rezultaty skalowania wertykalnego uzyskano dla implementacji w języku Java. Szczególnie dobrze reagował wariant monolityczny, co potwierdza, że środowisko JVM efektywnie wykorzystywało dodatkowe rdzenie i pamięć operacyjną. Wariant mikroserwisowy w Javie również osiągał wysokie wartości przepustowości, jednak przy konfiguracji 4$\times$ nieznacznie korzystniejsze okazało się skalowanie horyzontalne.
 
-Skalowanie horyzontalne okazało się szczególnie korzystne dla JavaScriptu i Pythona. W tych technologiach zwiększanie liczby instancji przynosiło lepsze efekty niż wzmacnianie pojedynczego węzła. W Javie sytuacja była bardziej zróżnicowana: monolit lepiej reagował na skalowanie wertykalne, natomiast w mikroserwisach różnice pomiędzy skalowaniem pionowym i poziomym były niewielkie.
+W przypadku JavaScriptu skalowanie wertykalne także przynosiło wyraźny wzrost przepustowości, jednak w badanych wariantach lepsze wyniki dawało skalowanie horyzontalne. Podobną zależność zaobserwowano dla Pythona, szczególnie w wariancie monolitycznym. Wersja mikroserwisowa w Pythonie osiągała natomiast ograniczone przyrosty niezależnie od sposobu skalowania.
 
 Kluczowy wniosek dotyczący skalowalności jest taki, że nie można jej oceniać wyłącznie na poziomie architektury. O rzeczywistej skuteczności skalowania współdecydują także właściwości środowiska uruchomieniowego, model wykonania aplikacji oraz sposób implementacji.
 
@@ -42,7 +43,7 @@ Kluczowy wniosek dotyczący skalowalności jest taki, że nie można jej ocenia�
 
 Trzecia grupa wniosków dotyczy kosztów utrzymania systemu w środowisku chmurowym. Przeprowadzona analiza wykazała, że sam koszt zasobów infrastrukturalnych rośnie w sposób przewidywalny zarówno przy skalowaniu wertykalnym, jak i horyzontalnym, jednak nie oznacza to jeszcze, że oba podejścia są równie opłacalne.
 
-W badanych warunkach architektura mikroserwisowa przy tym samym poziomie zasobów z reguły nie osiągała przepustowości monolitu. Oznacza to, że aby doprowadzić mikroserwisy do wydajności osiąganej przez monolit, należałoby zwiększyć liczbę wykorzystywanych zasobów, a tym samym ponieść wyższy koszt infrastrukturalny. Zależność ta była szczególnie wyraźna w Pythonie, gdzie kosztowe wyrównanie wydajności wymagałoby wielokrotnego zwiększenia nakładów. Dla JavaScriptu i Javy różnice były mniejsze, ale nadal zauważalne.
+W badanych warunkach architektura mikroserwisowa przy tym samym poziomie zasobów osiągała niższą przepustowość niż odpowiadający jej monolit. Oznacza to, że aby doprowadzić mikroserwisy do wydajności osiąganej przez monolit, należałoby zwiększyć liczbę wykorzystywanych zasobów, a tym samym ponieść wyższy koszt infrastrukturalny. Zależność ta była szczególnie wyraźna w Pythonie, gdzie kosztowe wyrównanie wydajności wymagałoby wielokrotnego zwiększenia nakładów. Dla JavaScriptu i Javy różnice były mniejsze, ale nadal zauważalne.
 
 Jednocześnie koszt nie powinien być rozumiany wyłącznie jako cena maszyn wirtualnych. W przypadku architektury mikroserwisowej znaczenie mają również koszty pośrednie, takie jak utrzymanie większej liczby komponentów, monitorowanie komunikacji między usługami, zarządzanie wdrożeniami oraz większa złożoność operacyjna środowiska. Z tego względu mikroserwisy nie mogą być uznane za rozwiązanie automatycznie bardziej opłacalne kosztowo.
 
@@ -66,4 +67,4 @@ Szczególnie interesującym kierunkiem dalszych badań byłoby sprawdzenie, jak 
 
 Warto również rozszerzyć analizę kosztów o dodatkowe elementy, takie jak koszt utrzymania operacyjnego, złożoność monitorowania, czas wdrożeń, niezawodność oraz odporność na awarie częściowe. Szczególnie interesujące może być także porównanie badanych architektur w różnych środowiskach chmurowych lub przy użyciu innych narzędzi orkiestracyjnych.
 
-Dalsze badania mogłyby również objąć analizę wpływu innych czynników technologicznych, takich jak wybór języka programowania, model komunikacji między usługami czy zastosowanie różnych mechanizmów przechowywania danych. Pozwoliłoby to jeszcze pełniej zrozumieć, od czego w praktyce zależy opłacalność i skuteczność danego stylu architektonicznego.
+Dalsze badania mogłyby objąć analizę czynników technologicznych, takich jak model skalowania poszczególnych usług i komponentów systemu, sposób dekompozycji aplikacji, dobór mechanizmów przechowywania danych, konfiguracja środowiska kontenerowego, wykorzystanie pamięci podręcznej oraz strategia równoważenia obciążenia. Pozwoliłoby to pełniej określić, które elementy projektu systemu i środowiska uruchomieniowego w największym stopniu wpływają na opłacalność oraz skuteczność danego stylu architektonicznego.

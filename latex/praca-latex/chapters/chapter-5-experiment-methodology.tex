@@ -2,21 +2,19 @@
 \label{chapter:experiment_methodology}
 \section{Strategia testowania wydajnościowego}
 
-Celem testów wydajnościowych było porównanie zachowania wszystkich badanych implementacji w warunkach kontrolowanego, stopniowo zwiększanego obciążenia. Strategię testowania opracowano tak, aby zapewnić porównywalność wyników pomiędzy wariantem monolitycznym i mikroserwisowym oraz pomiędzy różnymi stosami technologicznymi. W tym celu wykorzystano ten sam scenariusz żądań, te same parametry wejściowe aplikacji oraz jednolity sposób uruchamiania kolejnych serii pomiarowych.
+Celem testów wydajnościowych było porównanie zachowania badanych implementacji w warunkach kontrolowanego, stopniowo zwiększanego obciążenia. Strategię testowania opracowano tak, aby zachować porównywalność wyników pomiędzy wariantem monolitycznym i mikroserwisowym oraz pomiędzy różnymi stosami technologicznymi. W tym celu wykorzystano ten sam scenariusz żądań, te same parametry wejściowe aplikacji oraz jednolity sposób uruchamiania serii pomiarowych.
 
-Testy były wykonywane automatycznie w wielu iteracjach, dla rosnącej liczby równoległych użytkowników. Dzięki temu możliwa była obserwacja nie tylko pojedynczego punktu pracy systemu, lecz również zmiany jego zachowania wraz ze wzrostem intensywności ruchu. Takie podejście pozwala lepiej ocenić zarówno wydajność bazową, jak i granice skalowalności badanych wariantów.
+Testy wykonywano automatycznie w wielu iteracjach dla rosnącej liczby równoległych użytkowników. Pozwoliło to obserwować nie tylko pojedynczy punkt pracy systemu, lecz także zmianę jego zachowania wraz ze wzrostem intensywności ruchu.
 
 \subsection{Narzędzie generujące obciążenie}
 
-Do generowania obciążenia wykorzystano Apache JMeter~\cite{jmeterdocs}. Narzędzie to umożliwia definiowanie scenariuszy testowych, sterowanie liczbą współbieżnych użytkowników, uruchamianie testów w trybie nieinteraktywnym oraz zapisywanie surowych wyników pomiarów w postaci plików CSV, które mogą być następnie analizowane automatycznie. W badaniu przygotowano jeden spójny scenariusz testowy wykorzystywany dla wszystkich implementacji, tak aby zachować porównywalność warunków wejściowych.
+Do generowania obciążenia wykorzystano Apache JMeter~\cite{jmeterdocs}. Narzędzie umożliwia definiowanie scenariuszy testowych, sterowanie liczbą współbieżnych użytkowników, uruchamianie testów w trybie nieinteraktywnym oraz zapisywanie wyników pomiarów do plików CSV. W badaniu przygotowano jeden scenariusz testowy wykorzystywany dla wszystkich implementacji.
 
-JMeter był uruchamiany na osobnej maszynie wirtualnej, oddzielonej od aplikacji zarówno logicznie, jak i infrastrukturalnie. Taki układ minimalizował ryzyko, że generator obciążenia będzie konkurował z testowaną aplikacją o te same zasoby procesora lub pamięci operacyjnej. Dodatkowo dla procesu JMeter zwiększano dostępną pamięć JVM, tak aby w trakcie intensywnych serii testowych sam generator nie stawał się wąskim gardłem eksperymentu.
-
-Wyniki poszczególnych uruchomień były zapisywane oddzielnie dla każdej technologii, wariantu architektonicznego, iteracji oraz poziomu obciążenia. Takie uporządkowanie danych ułatwiało późniejszą analizę zbiorczą, porównanie wyników pomiędzy seriami testowymi oraz przygotowanie wykresów i zestawień statystycznych.
+JMeter uruchamiano na osobnej maszynie wirtualnej, oddzielonej od aplikacji logicznie i infrastrukturalnie. Ograniczało to ryzyko, że generator obciążenia będzie konkurował z badaną aplikacją o zasoby procesora lub pamięci. Wyniki zapisywano oddzielnie dla każdej technologii, wariantu architektonicznego, iteracji oraz poziomu obciążenia.
 
 \subsection{Scenariusz testowy}
 
-Scenariusz testowy polegał na wielokrotnym wywoływaniu tego samego punktu końcowego HTTP aplikacji, tj. \texttt{/images/search}, opisanego w rozdziale~\ref{chap:implementation}. Dla każdego żądania wykorzystywano te same parametry wejściowe w zapytaniu testowym. Pozwalało to wyeliminować wpływ zmienności danych wejściowych na wyniki i skoncentrować analizę na kosztach obliczeniowych oraz komunikacyjnych wynikających z przyjętej architektury.
+Scenariusz testowy polegał na wielokrotnym wywoływaniu tego samego punktu końcowego HTTP aplikacji, tj. \texttt{/images/search}, opisanego w rozdziale~\ref{chapter:implementation}. Dla każdego żądania wykorzystywano te same parametry wejściowe w zapytaniu testowym. Pozwalało to wyeliminować wpływ zmienności danych wejściowych na wyniki i skoncentrować analizę na kosztach obliczeniowych oraz komunikacyjnych wynikających z przyjętej architektury.
 
 W przypadku badanej aplikacji żądanie kierowane było do warstwy wejściowej systemu, która inicjowała pełny przepływ przetwarzania. W monolicie oznaczało to wykonanie całej logiki w jednym procesie aplikacyjnym. W mikroserwisach identyczne żądanie uruchamiało komunikację pomiędzy usługami \textit{Gateway}, \textit{Search}, \textit{Feature}, \textit{Similarity} oraz \textit{Metadata}, przy czym klient zewnętrzny nadal komunikował się z systemem wyłącznie przez HTTP.
 
@@ -24,15 +22,15 @@ Każda seria testowa była wykonywana w trzech iteracjach. W ramach pojedynczej 
 
 \subsection{Zakres pomiaru}
 
-W eksperymencie rejestrowano metryki takie jak czas odpowiedzi, latencja, przepustowość. Czas odpowiedzi i latencja pozwalają ocenić szybkość reakcji systemu z punktu widzenia klienta, natomiast przepustowość pokazuje, ile żądań system potrafi obsłużyć w jednostce czasu. Łączne wykorzystanie tych metryk umożliwia bardziej wiarygodną interpretację wyników niż analiza pojedynczego wskaźnika.
+W eksperymencie rejestrowano przede wszystkim czas odpowiedzi oraz przepustowość. Czas odpowiedzi pozwala ocenić szybkość reakcji systemu z punktu widzenia klienta, natomiast przepustowość pokazuje, ile żądań system potrafi obsłużyć w jednostce czasu. Łączne wykorzystanie tych metryk umożliwia bardziej wiarygodną interpretację wyników niż analiza pojedynczego wskaźnika.
 
-Dodatkowo istotne było obserwowanie, przy jakim poziomie obciążenia zaczynają pojawiać się oznaki degradacji działania systemu, takie jak wyraźny wzrost czasu odpowiedzi, spadek przepustowości. W kontekście porównania architektury monolitycznej i mikroserwisowej właśnie ten moment ma szczególne znaczenie, ponieważ pozwala ocenić praktyczne granice skalowalności obu podejść w tych samych warunkach eksperymentalnych.
+Dodatkowo obserwowano, przy jakim poziomie obciążenia pojawiają się oznaki degradacji działania systemu, takie jak wyraźny wzrost czasu odpowiedzi lub spadek przepustowości. W kontekście porównania architektury monolitycznej i mikroserwisowej moment ten pozwala ocenić praktyczne granice skalowalności obu podejść.
 
 \section{Konfiguracje maszyn i warianty eksperymentu}
 
-W celu przeprowadzenia testów przygotowano kilka konfiguracji zasobów obliczeniowych. Maszyny uruchamiające aplikację były dobierane zależnie od analizowanego wariantu eksperymentu, tak aby możliwe było badanie zarówno wpływu zwiększania zasobów pojedynczej instancji, jak i wpływu skalowania poziomego poprzez zwiększanie liczby replik usług. Odmiennie potraktowano natomiast maszynę odpowiedzialną za generowanie obciążenia.
+W celu przeprowadzenia testów przygotowano kilka konfiguracji zasobów obliczeniowych. Maszyny aplikacyjne dobierano zależnie od wariantu eksperymentu, tak aby możliwe było zbadanie wpływu skalowania wertykalnego i horyzontalnego.
 
-Z perspektywy metodyki eksperymentu istotne było, aby generator ruchu nie stał się wąskim gardłem pomiaru. Z tego względu maszyna uruchamiająca Apache JMeter została skonfigurowana jako relatywnie silna instancja \texttt{c4-standard-8}. Taki dobór zasobów miał zapewnić odpowiednią liczbę rdzeni procesora oraz wystarczającą ilość pamięci operacyjnej, dzięki czemu JMeter mógł generować dużą liczbę żądań bez istotnego ryzyka, że ograniczenia samego generatora wpłyną na wyniki testów. Innymi słowy, celem było takie przygotowanie środowiska, aby mierzonym ograniczeniem była przede wszystkim badana aplikacja, a nie narzędzie testowe.
+Generator obciążenia uruchamiano na osobnej instancji \texttt{c4-standard-8}. Jej zadaniem było zapewnienie odpowiedniej mocy obliczeniowej dla Apache JMeter, tak aby ograniczeniem pomiaru była przede wszystkim badana aplikacja, a nie narzędzie testowe. Konfiguracje maszyn wykorzystane w eksperymencie przedstawiono w tabeli~\ref{tab:machine-configurations}.
 
 W praktyce oznaczało to utrzymywanie stałej, wydajnej konfiguracji maszyny testowej po stronie generatora obciążenia, podczas gdy konfiguracje instancji aplikacyjnych mogły być zmieniane w zależności od scenariusza badawczego. Takie podejście zwiększało wiarygodność wyników i ułatwiało interpretację różnic pomiędzy wariantem monolitycznym i mikroserwisowym. Konfiguracje maszyn wykorzystane w dwóch wariantach eksperymentu przedstawiono w tabeli~\ref{tab:machine-configurations}.
 
@@ -108,11 +106,9 @@ Przedstawiona konfiguracja pokazuje, że maszyna odpowiedzialna za uruchamianie 
 
 \section{Procedura testów skalowania wertykalnego}
 
-Testy skalowania wertykalnego polegały na uruchamianiu tej samej implementacji aplikacji na kolejnych typach maszyn o rosnącej liczbie rdzeni i pamięci operacyjnej. Dla każdej konfiguracji zasobów wykonywano serię testów obciążeniowych z różną liczbą równoległych użytkowników, a następnie zapisywano wyniki w postaci plików surowych do dalszej analizy.
+Testy skalowania wertykalnego polegały na uruchamianiu tej samej implementacji aplikacji na kolejnych typach maszyn o rosnącej liczbie rdzeni i pamięci operacyjnej. Dla każdej konfiguracji wykonywano serię testów obciążeniowych z różną liczbą równoległych użytkowników, a wyniki zapisywano do dalszej analizy.
 
-Takie podejście pozwalało odpowiedzieć na pytanie, w jakim stopniu wzrost zasobów pojedynczej maszyny przekłada się na wzrost przepustowości. Dodatkowo umożliwiało wskazanie momentu, w którym dalsze zwiększanie zasobów przestawało dawać proporcjonalne korzyści wydajnościowe.
-
-Dla zachowania rzetelności wyników każdą serię testów wykonywano wielokrotnie. Ograniczało to wpływ chwilowych anomalii środowiskowych, gwałtownych skoków oraz spadków badanych metryk i zwiększało wiarygodność wyników.
+Takie podejście pozwalało ocenić, w jakim stopniu wzrost zasobów pojedynczej maszyny przekłada się na wzrost przepustowości oraz wskazać moment, w którym dalsze zwiększanie zasobów przestaje dawać proporcjonalne korzyści. Dla ograniczenia wpływu chwilowych anomalii każdą serię wykonywano wielokrotnie.
 
 \section{Procedura testów skalowania horyzontalnego}
 
@@ -122,8 +118,10 @@ W przypadku architektury mikroserwisowej taka procedura odzwierciedla klasyczny 
 
 W przypadku tego eksperymentu uwagę trzeba zwrócić na horyzontalne skalowanie monolitu. W klasycznych systemach monolitycznych jest ono często mniej naturalne niż w mikroserwisach, jednak w badanej aplikacji było możliwe. Wynikało to z faktu, że aplikacja operowała na danych ładowanych do pamięci i nie wymagała synchronizacji stanu zapisywanego do zewnętrznej bazy transakcyjnej. Dzięki temu możliwe było uruchomienie wielu replik monolitu i rozdzielanie ruchu pomiędzy nimi bez konieczności rozwiązywania problemów związanych z rozproszonym zapisem danych. Było to bardzo ważne, ponieważ umożliwiło zestawienie skalowania pionowego i poziomego również dla wariantu monolitycznego, a nie wyłącznie dla mikroserwisów.
 
-Surowe dane z testów zostały następnie poddane przetwarzaniu. Celem tego etapu było wyodrębnienie z danych generowanych przez JMeter takich miar, które najlepiej opisują zachowanie systemu pod obciążeniem i umożliwiają porównanie pomiędzy wariantami. W analizie uwzględniono zarówno miary centralne, jak i odporne na obserwacje skrajne.
+\section{Przetwarzanie i analiza wyników}
 
-Podstawową miarą wydajności była przepustowość, rozumiana jako liczba poprawnie obsłużonych żądań na sekundę. Miara ta pozwalała określić maksymalną zdolność systemu do przetwarzania ruchu w danej konfiguracji. Drugą kluczową miarą była latencja, opisująca czas upływający od wysłania żądania do rozpoczęcia odpowiedzi systemu.
+Surowe dane z testów zostały poddane przetwarzaniu w celu wyodrębnienia miar opisujących zachowanie systemu pod obciążeniem. Podstawową miarą wydajności była przepustowość, rozumiana jako liczba poprawnie obsłużonych żądań na sekundę. Drugą kluczową miarą był czas odpowiedzi, opisujący czas oczekiwania klienta na odpowiedź systemu.
 
-W celu ograniczenia wpływu fazy rozgrzewania środowiska na końcowe wyniki uwzględniano etap stabilizacji. Pozwalało to zmniejszyć znaczenie zjawisk takich jak cold start procesu, czyli powolniejsza praca aplikacji na samym początku jej cyklu życia. Wpływają na to inicjalne ładowanie danych do pamięci lub rozgrzewanie środowsika uruchomieniowego. Dodatkowo odrzucano skrajne obserwacje, które mogły wynikać z przypadkowych zaburzeń środowiska i nie odzwierciedlały typowego zachowania badanego systemu. Tak przygotowane dane stanowiły podstawę do budowy wykresów oraz tabel porównawczych przedstawionych w dalszej części pracy za pomocą skyptów implementowanych w Pythonie.
+W celu ograniczenia wpływu fazy rozgrzewania środowiska uwzględniano etap stabilizacji. Pozwalało to zmniejszyć znaczenie zjawisk takich jak cold start procesu, inicjalne ładowanie danych do pamięci lub rozgrzewanie środowiska uruchomieniowego. Dodatkowo odrzucano skrajne obserwacje, które mogły wynikać z przypadkowych zaburzeń środowiska i nie odzwierciedlały typowego zachowania badanego systemu.
+
+Tak przygotowane dane stanowiły podstawę do budowy wykresów oraz tabel porównawczych przedstawionych w dalszej części pracy. Analizę i wizualizację wyników wykonano za pomocą skryptów przygotowanych w języku Python.
