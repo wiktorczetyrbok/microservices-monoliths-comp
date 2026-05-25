@@ -5,13 +5,11 @@
 
 Zagrożenia wewnętrzne odnoszą się do czynników, które mogły wpłynąć na wyniki w obrębie samego eksperymentu i zaburzyć relację pomiędzy badaną przyczyną a obserwowanym skutkiem. W kontekście niniejszej pracy głównym zagrożeniem tego typu jest możliwość, że różnice pomiędzy wariantem monolitycznym i mikroserwisowym wynikały nie tylko z odmiennego stylu architektonicznego, lecz także z różnic implementacyjnych, konfiguracyjnych lub środowiskowych.
 
-Mimo założenia, że oba warianty realizowały ten sam proces biznesowy, każda implementacja mogła zawierać inne decyzje projektowe, optymalizacje lub uproszczenia wpływające na wyniki pomiarów. Ryzyko to ograniczano przez zachowanie możliwie dużej spójności funkcjonalnej oraz porównywalnego zakresu logiki wykonywanej w obu wariantach.
-
-Do zagrożeń wewnętrznych należy również możliwość wystąpienia błędów pomiarowych. Dotyczy to zarówno konfiguracji narzędzi testowych, jak i sposobu gromadzenia oraz interpretacji metryk. W celu ograniczenia tego ryzyka stosowano jednolitą procedurę eksperymentalną oraz tę samą metodę pomiaru dla wszystkich badanych wariantów.
+Mimo założenia, że wszystkie warianty systemu realizowały ten sam proces biznesowy, implementacje przygotowane w różnych językach programowania mogły różnić się szczegółami projektowymi, zastosowanymi optymalizacjami lub uproszczeniami, co potencjalnie mogło wpływać na wyniki pomiarów. Ryzyko to ograniczano przez implementowanie tego samego zakresu operacji biznesowych, zachowanie analogicznej kolejności przetwarzania danych oraz stosowanie porównywalnych zasad komunikacji między komponentami w każdym wariancie.
 
 \section{Zagrożenia zewnętrzne}
 
-Zagrożenia zewnętrzne dotyczą możliwości uogólnienia uzyskanych wyników poza warunki, w których przeprowadzono badanie. Podstawowym ograniczeniem tego rodzaju jest fakt, że analiza została wykonana na jednej konkretnej aplikacji oraz w określonym środowisku chmurowym. Oznacza to, że wyniki nie muszą być bezpośrednio przenoszalne na wszystkie klasy systemów informatycznych.
+Zagrożenia zewnętrzne dotyczą możliwości uogólnienia uzyskanych wyników poza warunki, w których przeprowadzono badanie. Podstawowym ograniczeniem tego rodzaju jest fakt, że analiza została wykonana na jednej konkretnej aplikacji, jednym scenariuszu przetwarzania oraz w określonym środowisku chmurowym. Oznacza to, że wyniki nie muszą być bezpośrednio przenoszalne na wszystkie klasy systemów informatycznych.
 
 Inne aplikacje mogą różnić się charakterem logiki biznesowej, stopniem złożoności, profilem obciążenia, intensywnością komunikacji między komponentami oraz wymaganiami niefunkcjonalnymi. W rezultacie przewaga jednego stylu architektonicznego zaobserwowana w niniejszym badaniu nie musi występować w identycznej postaci w innym kontekście.
 
@@ -26,9 +24,3 @@ Zagrożenia konstrukcyjne dotyczą zgodności przyjętych miar i procedur z rzec
 Drugim ograniczeniem jest przyjęcie jednego punktu końcowego aplikacji jako reprezentatywnego dla całości systemu. Takie założenie było uzasadnione potrzebą zachowania spójności eksperymentu i porównywalności wyników, jednak zawęża perspektywę badawczą. Nie można wykluczyć, że inne operacje realizowane w systemie charakteryzowałyby się odmiennym profilem wydajnościowym i inną podatnością na skalowanie.
 
 Do zagrożeń konstrukcyjnych należy zaliczyć również sposób ujęcia kosztów. W analizie kosztowej uwzględniono przede wszystkim bezpośredni koszt zasobów infrastrukturalnych, co pozwoliło na przejrzyste zestawienie wariantów eksperymentalnych. Takie podejście nie obejmuje jednak pełnego kosztu utrzymania systemu, zwłaszcza w przypadku architektury mikroserwisowej, dla której istotne mogą być także koszty monitorowania, wdrażania, utrzymania pipeline'ów CI/CD, diagnostyki oraz zarządzania większą liczbą współpracujących komponentów. Oznacza to, że przedstawiona analiza kosztów powinna być interpretowana jako uproszczony model porównawczy, a nie pełna ekonomiczna ocena całego cyklu życia systemu.
-
-\section{Zagrożenia związane z trafnością wnioskowania}
-
-Zagrożenia związane z trafnością wnioskowania dotyczą ryzyka wyciągania zbyt szerokich wniosków na podstawie ograniczonego zestawu danych. Nawet jeśli jedna z architektur osiąga lepsze wyniki w określonym scenariuszu, nie oznacza to automatycznie jej ogólnej przewagi we wszystkich warunkach pracy.
-
-W celu ograniczenia tego zagrożenia wnioski formułowane w niniejszej pracy odnoszono bezpośrednio do przeprowadzonych eksperymentów, zastosowanej konfiguracji środowiska oraz przyjętego zakresu pomiaru. Takie podejście pozwala zachować ostrożność metodologiczną i ogranicza ryzyko nadmiernego uogólniania rezultatów.

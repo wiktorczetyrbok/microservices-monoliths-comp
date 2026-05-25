@@ -1,9 +1,9 @@
-\chapter{Systematyczny przegląd literatury}
+\chapter{Przegląd literatury}
 \label{chapter:slr}
 
 \section{Cel i zakres przeglądu}
 
-Częściowy systematyczny przegląd literatury przeprowadzono w celu uporządkowania aktualnego stanu wiedzy dotyczącego porównania architektury monolitycznej i mikroserwisowej w środowiskach chmurowych. Analizie poddano publikacje dotyczące wpływu stylu architektonicznego na wydajność, skalowalność oraz koszty utrzymania systemów, z uwzględnieniem czynników kontekstowych, takich jak konteneryzacja, orkiestracja, obserwowalność i model komunikacji między usługami.
+Przegląd literatury przeprowadzono w celu uporządkowania aktualnego stanu wiedzy dotyczącego porównania architektury monolitycznej i mikroserwisowej w środowiskach chmurowych. Analizie poddano publikacje dotyczące wpływu stylu architektonicznego na wydajność, skalowalność oraz koszty utrzymania systemów, z uwzględnieniem czynników kontekstowych, takich jak konteneryzacja, orkiestracja, obserwowalność i model komunikacji między usługami.
 
 Przegląd literatury pełni w opisywanej pracy podwójną funkcję. Po pierwsze, pozwala określić, jakie podejścia badawcze dominują w dotychczasowych opracowaniach i jakie metryki są najczęściej wykorzystywane do oceny obu architektur. Po drugie, umożliwia identyfikację luk badawczych uzasadniających przeprowadzenie własnego eksperymentu porównawczego.
 
@@ -109,7 +109,7 @@ Do dalszej analizy kwalifikowano publikacje, które spełniały co najmniej jedn
     \item porównywały architekturę mikroserwisową i monolityczną bezpośrednio lub zawierały dane umożliwiające takie porównanie,
     \item dotyczyły systemów uruchamianych w środowiskach chmurowych lub kontenerowych,
     \item raportowały wyniki odnoszące się do wydajności, skalowalności, utrzymywalności, kosztów lub operacyjności,
-    \item miały charakter eksperymentalny, benchmarkingowy lub zawierały systematyczną analizę literatury istotną dla przyjętego problemu badawczego.
+    \item miały charakter eksperymentalny, benchmarkingowy lub zawierały analizę literatury istotną dla przyjętego problemu badawczego.
 \end{itemize}
 
 \subsection{Kryteria wyłączenia}
@@ -132,7 +132,7 @@ Kolejne etapy zawężania zbioru publikacji przedstawiono w tabeli~\ref{tab:slr-
 
 \begin{table}[htbp]
     \centering
-    \caption{Etapy selekcji publikacji w systematycznym przeglądzie literatury}
+    \caption{Etapy selekcji publikacji w przeglądzie literatury}
     \label{tab:slr-selection-steps}
     \begin{tabular}{|l|r|r|r|}
         \hline
@@ -261,6 +261,6 @@ Zidentyfikowane luki uzasadniają podejście przyjęte w niniejszej pracy. Poleg
 
 \section{Podsumowanie}
 
-Przeprowadzony częściowy systematyczny przegląd literatury potwierdził, że porównanie architektury monolitycznej i mikroserwisowej pozostaje aktualnym problemem badawczym. Analiza wykazała, że monolit może oferować niższy narzut komunikacyjny i większą prostotę operacyjną, natomiast mikroserwisy zapewniają większą elastyczność skalowania oraz lepszą modularność systemu. Ostateczna ocena obu podejść zależy jednak od kontekstu wdrożeniowego, charakterystyki aplikacji, sposobu dekompozycji oraz środowiska uruchomieniowego~\cite{blinowski2022monolithic,okroj2023differences,mangwani2023evaluation,berry2024migrating}.
+Przeprowadzony przegląd literatury potwierdził, że porównanie architektury monolitycznej i mikroserwisowej pozostaje aktualnym problemem badawczym. Analiza wykazała, że monolit może oferować niższy narzut komunikacyjny i większą prostotę operacyjną, natomiast mikroserwisy zapewniają większą elastyczność skalowania oraz lepszą modularność systemu. Ostateczna ocena obu podejść zależy jednak od kontekstu wdrożeniowego, charakterystyki aplikacji, sposobu dekompozycji oraz środowiska uruchomieniowego~\cite{blinowski2022monolithic,okroj2023differences,mangwani2023evaluation,berry2024migrating}.
 
 Wnioski z przeglądu stanowią podstawę do zaprojektowania własnego eksperymentu badawczego, w którym porównane zostaną funkcjonalnie równoważne warianty aplikacji monolitycznej i mikroserwisowej.

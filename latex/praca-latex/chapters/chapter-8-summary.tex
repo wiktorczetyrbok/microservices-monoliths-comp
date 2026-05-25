@@ -49,17 +49,11 @@ Jednocześnie koszt nie powinien być rozumiany wyłącznie jako cena maszyn wir
 
 Z perspektywy relacji kosztu do wydajności architektura monolityczna w badanym środowisku wypadała korzystniej. Mikroserwisy mogą być uzasadnione z innych powodów, takich jak elastyczność rozwoju systemu, niezależność wdrożeń czy możliwość selektywnego skalowania usług, jednak w analizowanym przypadku nie okazały się rozwiązaniem tańszym przy porównywalnym poziomie osiąganej przepustowości.
 
-\section{Ograniczenia pracy}
-
-Pomimo przyjęcia uporządkowanej metodyki badawczej niniejsza praca posiada pewne ograniczenia. Najważniejszym z nich jest fakt, że analiza została przeprowadzona na jednym określonym przypadku implementacyjnym i jednym scenariuszu przetwarzania. Ogranicza to możliwość pełnego uogólnienia wyników na wszystkie klasy systemów informatycznych i wszystkie możliwe typy obciążeń.
-
-Drugie ograniczenie dotyczy środowiska uruchomieniowego. Wyniki eksperymentu zostały uzyskane w określonej konfiguracji infrastruktury chmurowej, przy użyciu konkretnych typów maszyn oraz przy konkretnym modelu organizacji środowiska. Zmiana dostawcy chmury, rodzaju instancji, parametrów sieci lub modelu rozliczania mogłaby wpłynąć na otrzymane rezultaty.
-
-Ograniczeniem jest również zakres scenariuszy testowych, które obejmowały wybrany punkt końcowy aplikacji i określony model obciążenia. Inne scenariusze użycia, bardziej złożone przepływy komunikacji lub inne rozłożenie obciążenia pomiędzy komponentami mogłyby prowadzić do częściowo odmiennych obserwacji. Mimo to przyjęte podejście pozwoliło sformułować użyteczne i dobrze uzasadnione wnioski odnoszące się do badanego przypadku.
-
 \section{Możliwe kierunki dalszych badań}
 
 Przeprowadzone badania stanowią punkt wyjścia do dalszych analiz porównujących architekturę monolityczną i mikroserwisową. Jednym z naturalnych kierunków dalszych badań jest rozszerzenie eksperymentu na większą liczbę aplikacji o odmiennym charakterze biznesowym, co pozwoliłoby zwiększyć możliwość uogólnienia wyników.
+
+Aby ułatwić prowadzenie dalszych badań w tym obszarze, jednym z wkładów niniejszej pracy jest udostępnienie przygotowanych implementacji aplikacji benchmarkingowej oraz skryptów służących do deploymentu środowiska eksperymentalnego. Repozytorium projektu jest dostępne pod adresem:\url{https://github.com/wiktorczetyrbok/microservices-monoliths-comp}.
 
 Kolejnym kierunkiem może być analiza większej liczby scenariuszy obciążeniowych, obejmujących różne typy ruchu, zmienność intensywności żądań w czasie oraz bardziej złożone przepływy komunikacji pomiędzy usługami. Pozwoliłoby to lepiej ocenić zachowanie badanych architektur w warunkach bliższych rzeczywistym systemom produkcyjnym.
 
